@@ -41,11 +41,13 @@ export default class App extends PureComponent {
                 <BrowserRouter>
                     <Cockpit/>
                     <Main>
-                        <Route path="/" render={() =>(
+                        {/* <Route path="/(?!login|register)" render={() =>(
                             <Menu
                             clicked={this.toggleMenuHandler}/>
-                        )}/>
+                        )}/> */}
+                        <Route path={`/(wallets|transactions|)`} component={Menu}/>
                         <Route path="/login" component={Login}/>
+                        <Route path="/register" component={Register}/>
                         <Route path="/wallets" component={Wallets}/>
                         <Route path="/transactions" component={Transactions}/>
                     </Main>

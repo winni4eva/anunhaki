@@ -70114,8 +70114,6 @@ function (_PureComponent) {
   _createClass(App, [{
     key: "render",
     value: function render() {
-      var _this2 = this;
-
       var menu;
 
       if (!this.state.menu || this.state.menu === 'wallets') {
@@ -70128,15 +70126,14 @@ function (_PureComponent) {
       }
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Cockpit_Cockpit__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Main_Main__WEBPACK_IMPORTED_MODULE_6__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
-        path: "/",
-        render: function render() {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menu_Menu__WEBPACK_IMPORTED_MODULE_7__["default"], {
-            clicked: _this2.toggleMenuHandler
-          });
-        }
+        path: "/(wallets|transactions|)",
+        component: _Menu_Menu__WEBPACK_IMPORTED_MODULE_7__["default"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
         path: "/login",
         component: _Auth_Login__WEBPACK_IMPORTED_MODULE_4__["default"]
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+        path: "/register",
+        component: _Auth_Register__WEBPACK_IMPORTED_MODULE_5__["default"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
         path: "/wallets",
         component: _Menu_Items_Wallets__WEBPACK_IMPORTED_MODULE_8__["default"]
@@ -70234,36 +70231,44 @@ __webpack_require__.r(__webpack_exports__);
 
 var register = function register(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex justify-end w-full max-w-md my-6 clearfix"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Admin SignUp"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "mb-4"
+    className: "flex justify-end w-full my-6 clearfix"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Register"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "block sm:inline text-red-dark my-2",
+    "v-if": "this.error && this.error.message"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "mb-4 my-6"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     className: "block text-grey-darker text-sm font-bold mb-2",
-    "for": "username"
+    htmlFor: "email"
   }, "Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    "v-model": "register.email",
+    "v-model": "login.email",
     className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline",
-    id: "username",
-    type: "text",
+    id: "email",
+    type: "email",
     placeholder: "chloe@gmail.com"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "text-red-dark text-xs italic",
+    "v-if": "this.error && this.error.errors && this.error.errors.email && Array.isArray(this.error.errors.email)"
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "mb-6"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     className: "block text-grey-darker text-sm font-bold mb-2",
-    "for": "password"
+    htmlFor: "password"
   }, "Password"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    "v-model": "register.password",
+    "v-model": "login.password",
     className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline",
     id: "password",
     type: "password",
-    placeholder: "***",
-    required: true
+    placeholder: "***"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "text-red-dark text-xs italic",
+    "v-if": "this.error && this.error.errors && this.error.errors.password && Array.isArray(this.error.errors.password)"
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex items-center justify-between"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline",
+    className: "bg-blue hover:bg-blue-dark text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline",
     type: "button"
   }, "Sign Up"))));
 };
