@@ -1,13 +1,19 @@
-import React from './node_modules/react';
-import Person from './Person/Person';
+import React from 'react';
 
-const persons = (props) => props.persons.map((person, index) => { 
-              return <Person 
-                key={person.id} 
-                name={person.name} 
-                age={person.age} 
-                changed={(event) => props.changed(event, person.id)} 
-                clicked={() => props.clicked(index)}/>
-            })
+const wallets = (props) => { 
+              return (
+                <ul class="flex">
+                    <li class="flex-1 mr-2">
+                    <a class="text-center block border border-blue-500 rounded py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white" href="#">Active Item</a>
+                    </li>
+                    <li class="flex-1 mr-2">
+                    <a class="text-center block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4" href="#">Nav Item</a>
+                    </li>
+                    <li class="text-center flex-1">
+                    <a class="block py-2 px-4 text-gray-400 cursor-not-allowed" href="#">Disabled Item</a>
+                    </li>
+                </ul>
+              );
+            }
 
-export default persons;
+export default wallets;

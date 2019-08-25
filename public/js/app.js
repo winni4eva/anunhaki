@@ -66067,6 +66067,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _Cockpit_Cockpit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Cockpit/Cockpit */ "./resources/js/components/Cockpit/Cockpit.js");
+/* harmony import */ var _Wallets_Wallet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Wallets/Wallet */ "./resources/js/components/Wallets/Wallet.js");
+/* harmony import */ var _hoc_Aux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../hoc/Aux */ "./resources/js/hoc/Aux.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -66089,6 +66091,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
+
 var App =
 /*#__PURE__*/
 function (_PureComponent) {
@@ -66103,7 +66107,7 @@ function (_PureComponent) {
   _createClass(App, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Cockpit_Cockpit__WEBPACK_IMPORTED_MODULE_2__["default"], null);
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_hoc_Aux__WEBPACK_IMPORTED_MODULE_4__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Cockpit_Cockpit__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Wallets_Wallet__WEBPACK_IMPORTED_MODULE_3__["default"], null));
     }
   }]);
 
@@ -66190,6 +66194,65 @@ var cockpit = function cockpit(props) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (cockpit);
+
+/***/ }),
+
+/***/ "./resources/js/components/Wallets/Wallet.js":
+/*!***************************************************!*\
+  !*** ./resources/js/components/Wallets/Wallet.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var wallets = function wallets(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    "class": "flex"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    "class": "flex-1 mr-2"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    "class": "text-center block border border-blue-500 rounded py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white",
+    href: "#"
+  }, "Active Item")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    "class": "flex-1 mr-2"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    "class": "text-center block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4",
+    href: "#"
+  }, "Nav Item")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    "class": "text-center flex-1"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    "class": "block py-2 px-4 text-gray-400 cursor-not-allowed",
+    href: "#"
+  }, "Disabled Item")));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (wallets);
+
+/***/ }),
+
+/***/ "./resources/js/hoc/Aux.js":
+/*!*********************************!*\
+  !*** ./resources/js/hoc/Aux.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/*
+    This is a higher order component used to wrap components 
+    with more than one root node
+*/
+var aux = function aux(props) {
+  return props.children;
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (aux);
 
 /***/ }),
 
