@@ -66139,6 +66139,11 @@ function (_PureComponent) {
       });
     });
 
+    _defineProperty(_assertThisInitialized(_this), "walletSelectHandler", function (event) {
+      event.preventDefault();
+      console.log(event.target.value);
+    });
+
     return _this;
   }
 
@@ -66149,7 +66154,10 @@ function (_PureComponent) {
       var menu;
 
       if (!this.state.menu || this.state.menu === 'wallets') {
-        menu = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menu_Items_Wallets__WEBPACK_IMPORTED_MODULE_4__["default"], null);
+        menu = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menu_Items_Wallets__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          wallets: this.state.wallets,
+          walletSelected: this.walletSelectHandler
+        });
       } else if (this.state.menu === 'transactions') {
         menu = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menu_Items_Transactions__WEBPACK_IMPORTED_MODULE_5__["default"], null);
       }
@@ -66205,7 +66213,7 @@ var cockpit = function cockpit(props) {
   //   classes.push('blueText');
   // }
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
-    className: "flex items-center justify-between flex-wrap bg-grey-lighter p-6 shadow-lg mb-12"
+    className: "flex items-center justify-between flex-wrap bg-grey-lighter p-6 shadow-lg mb-6"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex items-center flex-no-shrink text-grey-darkest mr-6"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -66283,11 +66291,27 @@ var wallets = function wallets(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex mb-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "w-1/3 bg-gray-400 h-12"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "w-1/3 bg-gray-500 h-12"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "w-1/3 bg-gray-400 h-12"
+    className: "w-1/2 bg-gray-400 h-64 p-4"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "inline-block relative w-64"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    onChange: props.walletSelected,
+    className: "block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "-- Select Wallet --"), props.wallets.map(function (e, key) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: e.value
+    }, e.name);
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    className: "fill-current h-4 w-4",
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 20 20"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+  }))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-1/2 bg-gray-500 h-64"
   }));
 };
 
@@ -66310,7 +66334,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var menu = function menu(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-    className: "flex"
+    className: "flex mb-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "flex-1 mr-2"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {

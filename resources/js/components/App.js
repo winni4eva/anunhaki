@@ -21,12 +21,17 @@ export default class App extends PureComponent {
         this.setState({menu: event.target.textContent.toLowerCase()});
     }
 
+    walletSelectHandler = (event) => {
+        event.preventDefault();
+        console.log(event.target.value);
+    }
+
     //style = {backgroundImage: "background-image: url('/img/card-left.jpg')"};
 
     render() {
         let menu;
         if (!this.state.menu || this.state.menu === 'wallets') {
-            menu = <Wallets/>;
+            menu = <Wallets wallets={this.state.wallets} walletSelected={this.walletSelectHandler}/>;
         } else if (this.state.menu === 'transactions') {
             menu = <Transactions/>;
         }
@@ -35,7 +40,6 @@ export default class App extends PureComponent {
                 <Cockpit/>
                 <Menu
                     clicked={this.toggleMenuHandler}/> 
-
                 {menu}
             </Aux>
         );

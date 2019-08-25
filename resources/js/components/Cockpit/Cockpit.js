@@ -28,7 +28,7 @@ const cockpit = (props) => {
     // }
 
     return (
-        <nav className="flex items-center justify-between flex-wrap bg-grey-lighter p-6 shadow-lg mb-12">
+        <nav className="flex items-center justify-between flex-wrap bg-grey-lighter p-6 shadow-lg mb-6">
             
             <div className="flex items-center flex-no-shrink text-grey-darkest mr-6">
                 <span className="font-semibold text-xl tracking-tight hover:text-red-900 cursor-pointer">QHCoin</span>
