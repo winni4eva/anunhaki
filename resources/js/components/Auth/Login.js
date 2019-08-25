@@ -40,11 +40,9 @@ const login = (props) => {
                         </div>
                         
                         <div className="flex items-center justify-between">
-                            <button 
-                                className="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
-                                type="button">
-                                Sign In
-                            </button>
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+                            Sign In
+                        </button>
                         </div>
                     </form>
                 </div>

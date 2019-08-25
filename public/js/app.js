@@ -70024,13 +70024,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _Cockpit_Cockpit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Cockpit/Cockpit */ "./resources/js/components/Cockpit/Cockpit.js");
-/* harmony import */ var _Auth_Login__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Auth/Login */ "./resources/js/components/Auth/Login.js");
-/* harmony import */ var _Auth_Register__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Auth/Register */ "./resources/js/components/Auth/Register.js");
-/* harmony import */ var _Main_Main__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Main/Main */ "./resources/js/components/Main/Main.js");
-/* harmony import */ var _Menu_Menu__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Menu/Menu */ "./resources/js/components/Menu/Menu.js");
-/* harmony import */ var _Menu_Items_Wallets__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Menu/Items/Wallets */ "./resources/js/components/Menu/Items/Wallets.js");
-/* harmony import */ var _Menu_Items_Transactions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Menu/Items/Transactions */ "./resources/js/components/Menu/Items/Transactions.js");
-/* harmony import */ var _hoc_Aux__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../hoc/Aux */ "./resources/js/hoc/Aux.js");
+/* harmony import */ var _Main_Main__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Main/Main */ "./resources/js/components/Main/Main.js");
+/* harmony import */ var _Routes_Routes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Routes/Routes */ "./resources/js/components/Routes/Routes.js");
+/* harmony import */ var _hoc_Aux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../hoc/Aux */ "./resources/js/hoc/Aux.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -70050,10 +70046,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-
 
 
 
@@ -70114,33 +70106,7 @@ function (_PureComponent) {
   _createClass(App, [{
     key: "render",
     value: function render() {
-      var menu;
-
-      if (!this.state.menu || this.state.menu === 'wallets') {
-        menu = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menu_Items_Wallets__WEBPACK_IMPORTED_MODULE_8__["default"], {
-          wallets: this.state.wallets,
-          walletSelected: this.walletSelectHandler
-        });
-      } else if (this.state.menu === 'transactions') {
-        menu = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menu_Items_Transactions__WEBPACK_IMPORTED_MODULE_9__["default"], null);
-      }
-
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Cockpit_Cockpit__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Main_Main__WEBPACK_IMPORTED_MODULE_6__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
-        path: "/(wallets|transactions|)",
-        component: _Menu_Menu__WEBPACK_IMPORTED_MODULE_7__["default"]
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
-        path: "/login",
-        component: _Auth_Login__WEBPACK_IMPORTED_MODULE_4__["default"]
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
-        path: "/register",
-        component: _Auth_Register__WEBPACK_IMPORTED_MODULE_5__["default"]
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
-        path: "/wallets",
-        component: _Menu_Items_Wallets__WEBPACK_IMPORTED_MODULE_8__["default"]
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
-        path: "/transactions",
-        component: _Menu_Items_Transactions__WEBPACK_IMPORTED_MODULE_9__["default"]
-      })));
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Cockpit_Cockpit__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Main_Main__WEBPACK_IMPORTED_MODULE_4__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Routes_Routes__WEBPACK_IMPORTED_MODULE_5__["default"], null)));
     }
   }]);
 
@@ -70207,8 +70173,7 @@ var login = function login(props) {
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex items-center justify-between"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline",
-    type: "button"
+    className: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
   }, "Sign In"))));
 };
 
@@ -70268,9 +70233,8 @@ var register = function register(props) {
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex items-center justify-between"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "bg-blue hover:bg-blue-dark text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline",
-    type: "button"
-  }, "Sign Up"))));
+    className: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+  }, "Register"))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (register);
@@ -70293,32 +70257,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var cockpit = function cockpit(props) {
-  // const style = {
-  //     backgroundColor: 'green',
-  //     color: 'white',
-  //     font: 'inherit',
-  //     border: '1px solid blue',
-  //     padding: '8px',
-  //     cursor: 'pointer', 
-  //   };
-  // if(props.showPersons) {
-  //     style.backgroundColor = 'red';
-  // }
-  // const classes = [];
-  // if(props.persons.length === 1) {
-  //   classes.push('redText');
-  // }
-  // if(props.persons.length > 1) {
-  //   classes.push('bold');
-  //   classes.push('blueText');
-  // }
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
     className: "flex items-center justify-between flex-wrap bg-grey-lighter p-6 shadow-lg mb-6"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex items-center flex-no-shrink text-grey-darkest mr-6"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/",
+    className: "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "font-semibold text-xl tracking-tight hover:text-red-900 cursor-pointer"
-  }, "QHCoin")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "QHCoin"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "block lg:hidden"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "flex items-center px-3 py-2 border rounded text-teal-lighter border-teal-light hover:text-white hover:border-white"
@@ -70477,16 +70425,66 @@ var menu = function menu(props) {
     className: "flex-1 mr-2"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/wallets",
-    className: "text-center block border border-teal-500 rounded py-2 px-4 bg-teal-500 hover:bg-teal-200 text-white"
+    className: "text-center block border border-white-500 rounded py-2 px-4 bg-gray-700 hover:bg-gray-500 text-white"
   }, "Wallets")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "flex-1 mr-2"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/transactions",
-    className: "text-center block border border-teal-500 rounded py-2 px-4 bg-teal-500 hover:bg-teal-200 text-white"
+    className: "text-center block border border-white-500 rounded py-2 px-4 bg-gray-700 hover:bg-gray-500 text-white"
   }, "Transactions")));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (menu);
+
+/***/ }),
+
+/***/ "./resources/js/components/Routes/Routes.js":
+/*!**************************************************!*\
+  !*** ./resources/js/components/Routes/Routes.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _hoc_Aux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../hoc/Aux */ "./resources/js/hoc/Aux.js");
+/* harmony import */ var _Menu_Menu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Menu/Menu */ "./resources/js/components/Menu/Menu.js");
+/* harmony import */ var _Menu_Items_Wallets__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Menu/Items/Wallets */ "./resources/js/components/Menu/Items/Wallets.js");
+/* harmony import */ var _Menu_Items_Transactions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Menu/Items/Transactions */ "./resources/js/components/Menu/Items/Transactions.js");
+/* harmony import */ var _Auth_Login__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Auth/Login */ "./resources/js/components/Auth/Login.js");
+/* harmony import */ var _Auth_Register__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Auth/Register */ "./resources/js/components/Auth/Register.js");
+
+
+
+
+
+
+
+
+
+var routes = function routes(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_hoc_Aux__WEBPACK_IMPORTED_MODULE_2__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+    path: "/(wallets|transactions|)",
+    component: _Menu_Menu__WEBPACK_IMPORTED_MODULE_3__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+    path: "/login",
+    component: _Auth_Login__WEBPACK_IMPORTED_MODULE_6__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+    path: "/register",
+    component: _Auth_Register__WEBPACK_IMPORTED_MODULE_7__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+    path: "/wallets",
+    component: _Menu_Items_Wallets__WEBPACK_IMPORTED_MODULE_4__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+    path: "/transactions",
+    component: _Menu_Items_Transactions__WEBPACK_IMPORTED_MODULE_5__["default"]
+  }));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (routes);
 
 /***/ }),
 

@@ -2,12 +2,8 @@ import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Cockpit from './Cockpit/Cockpit';
-import Login from './Auth/Login';
-import Register from './Auth/Register';
 import Main from './Main/Main';
-import Menu from './Menu/Menu';
-import Wallets from './Menu/Items/Wallets';
-import Transactions from './Menu/Items/Transactions';
+import Routes from './Routes/Routes';
 import Aux from '../hoc/Aux';
 
 export default class App extends PureComponent {
@@ -31,25 +27,11 @@ export default class App extends PureComponent {
     }
 
     render() {
-        let menu;
-        if (!this.state.menu || this.state.menu === 'wallets') {
-            menu = <Wallets wallets={this.state.wallets} walletSelected={this.walletSelectHandler}/>;
-        } else if (this.state.menu === 'transactions') {
-            menu = <Transactions/>;
-        }
         return (
                 <BrowserRouter>
                     <Cockpit/>
                     <Main>
-                        {/* <Route path="/(?!login|register)" render={() =>(
-                            <Menu
-                            clicked={this.toggleMenuHandler}/>
-                        )}/> */}
-                        <Route path={`/(wallets|transactions|)`} component={Menu}/>
-                        <Route path="/login" component={Login}/>
-                        <Route path="/register" component={Register}/>
-                        <Route path="/wallets" component={Wallets}/>
-                        <Route path="/transactions" component={Transactions}/>
+                        <Routes/>
                     </Main>
                 </BrowserRouter>
         );
