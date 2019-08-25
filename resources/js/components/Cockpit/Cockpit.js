@@ -28,12 +28,10 @@ const cockpit = (props) => {
     // }
 
     return (
-        <nav className="flex items-center justify-between flex-wrap bg-grey-lighter p-6 shadow-lg">
+        <nav className="flex items-center justify-between flex-wrap bg-grey-lighter p-6 shadow-lg mb-12">
             
             <div className="flex items-center flex-no-shrink text-grey-darkest mr-6">
-                <router-link to="/articles" className="no-underline text-blue">
-                    <span className="font-semibold text-xl tracking-tight hover:text-red-900">QHCoin</span>
-                </router-link>
+                <span className="font-semibold text-xl tracking-tight hover:text-red-900 cursor-pointer">QHCoin</span>
             </div>
             
             <div className="block lg:hidden">
@@ -46,21 +44,17 @@ const cockpit = (props) => {
                 <div className="text-sm lg:flex-grow">
                 </div>
                 <div>
-                    <router-link to="/register">
-                        <a className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4">
-                            WALLETS
-                        </a>
-                    </router-link>
-                    <router-link to="/register">
-                        <a className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4">
-                            SIGNUP
-                        </a>
-                    </router-link>
-                    <router-link to="/register">
-                        <a className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4">
-                            LOGIN
-                        </a>
-                    </router-link>
+                    <a className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
+                        WALLETS
+                    </a>
+                    
+                    <a className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
+                        SIGNUP
+                    </a>
+            
+                    <a className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
+                        LOGIN
+                    </a>
                 </div>
             </div>
         </nav>

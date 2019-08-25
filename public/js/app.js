@@ -66067,7 +66067,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _Cockpit_Cockpit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Cockpit/Cockpit */ "./resources/js/components/Cockpit/Cockpit.js");
-/* harmony import */ var _Wallets_Wallet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Wallets/Wallet */ "./resources/js/components/Wallets/Wallet.js");
+/* harmony import */ var _Menu_Menu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Menu/Menu */ "./resources/js/components/Menu/Menu.js");
 /* harmony import */ var _hoc_Aux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../hoc/Aux */ "./resources/js/hoc/Aux.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -66079,13 +66079,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
@@ -66099,15 +66101,54 @@ function (_PureComponent) {
   _inherits(App, _PureComponent);
 
   function App() {
+    var _getPrototypeOf2;
+
+    var _this;
+
     _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(App).apply(this, arguments));
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(App)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+    _defineProperty(_assertThisInitialized(_this), "state", {
+      wallets: [{
+        id: 'gsadqwu',
+        name: 'BTC'
+      }, {
+        id: 'sajhdsa',
+        name: 'LTC'
+      }, {
+        id: 'ahshkhasd',
+        name: 'BCH'
+      }],
+      menu: 'wallets'
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "toggleMenuHandler", function (event) {
+      event.preventDefault();
+
+      _this.setState({
+        menu: event.target.textContent.toLowerCase()
+      });
+    });
+
+    return _this;
   }
 
   _createClass(App, [{
     key: "render",
+    //style = {backgroundImage: "background-image: url('/img/card-left.jpg')"};
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_hoc_Aux__WEBPACK_IMPORTED_MODULE_4__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Cockpit_Cockpit__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Wallets_Wallet__WEBPACK_IMPORTED_MODULE_3__["default"], null));
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_hoc_Aux__WEBPACK_IMPORTED_MODULE_4__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Cockpit_Cockpit__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menu_Menu__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        clicked: this.toggleMenuHandler
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "flex mb-4"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "w-full bg-white-500 h-12"
+      })));
     }
   }]);
 
@@ -66156,15 +66197,12 @@ var cockpit = function cockpit(props) {
   //   classes.push('blueText');
   // }
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
-    className: "flex items-center justify-between flex-wrap bg-grey-lighter p-6 shadow-lg"
+    className: "flex items-center justify-between flex-wrap bg-grey-lighter p-6 shadow-lg mb-12"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex items-center flex-no-shrink text-grey-darkest mr-6"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("router-link", {
-    to: "/articles",
-    className: "no-underline text-blue"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "font-semibold text-xl tracking-tight hover:text-red-900"
-  }, "QHCoin"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "font-semibold text-xl tracking-tight hover:text-red-900 cursor-pointer"
+  }, "QHCoin")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "block lg:hidden"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "flex items-center px-3 py-2 border rounded text-teal-lighter border-teal-light hover:text-white hover:border-white"
@@ -66178,29 +66216,23 @@ var cockpit = function cockpit(props) {
     className: "w-full block flex-grow lg:flex lg:items-center lg:w-auto"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "text-sm lg:flex-grow"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("router-link", {
-    to: "/register"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    className: "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4"
-  }, "WALLETS")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("router-link", {
-    to: "/register"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    className: "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4"
-  }, "SIGNUP")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("router-link", {
-    to: "/register"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    className: "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4"
-  }, "LOGIN")))));
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    className: "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer"
+  }, "WALLETS"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    className: "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer"
+  }, "SIGNUP"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    className: "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer"
+  }, "LOGIN"))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (cockpit);
 
 /***/ }),
 
-/***/ "./resources/js/components/Wallets/Wallet.js":
-/*!***************************************************!*\
-  !*** ./resources/js/components/Wallets/Wallet.js ***!
-  \***************************************************/
+/***/ "./resources/js/components/Menu/Menu.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/Menu/Menu.js ***!
+  \**********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -66210,28 +66242,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 
-var wallets = function wallets(props) {
+var menu = function menu(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-    "class": "flex"
+    className: "flex"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    "class": "flex-1 mr-2"
+    className: "flex-1 mr-2"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    "class": "text-center block border border-blue-500 rounded py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white",
+    onClick: props.clicked,
+    className: "text-center block border border-teal-500 rounded py-2 px-4 bg-teal-500 hover:bg-teal-200 text-white",
     href: "#"
-  }, "Active Item")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    "class": "flex-1 mr-2"
+  }, "menu")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: "flex-1 mr-2"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    "class": "text-center block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4",
+    onClick: props.clicked,
+    className: "text-center block border border-teal-500 rounded py-2 px-4 bg-teal-500 hover:bg-teal-200 text-white",
     href: "#"
-  }, "Nav Item")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    "class": "text-center flex-1"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    "class": "block py-2 px-4 text-gray-400 cursor-not-allowed",
-    href: "#"
-  }, "Disabled Item")));
+  }, "Transactions")));
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (wallets);
+/* harmony default export */ __webpack_exports__["default"] = (menu);
 
 /***/ }),
 
