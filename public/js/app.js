@@ -66066,6 +66066,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Cockpit_Cockpit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Cockpit/Cockpit */ "./resources/js/components/Cockpit/Cockpit.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -66087,10 +66088,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var App =
 /*#__PURE__*/
-function (_Component) {
-  _inherits(App, _Component);
+function (_PureComponent) {
+  _inherits(App, _PureComponent);
 
   function App() {
     _classCallCheck(this, App);
@@ -66101,30 +66103,93 @@ function (_Component) {
   _createClass(App, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row justify-content-center"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-8"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card-header"
-      }, "Example Component"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card-body"
-      }, "I'm an example component!")))));
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Cockpit_Cockpit__WEBPACK_IMPORTED_MODULE_2__["default"], null);
     }
   }]);
 
   return App;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+}(react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"]);
 
 
 
 if (document.getElementById('app')) {
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(App, null), document.getElementById('app'));
 }
+
+/***/ }),
+
+/***/ "./resources/js/components/Cockpit/Cockpit.js":
+/*!****************************************************!*\
+  !*** ./resources/js/components/Cockpit/Cockpit.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var cockpit = function cockpit(props) {
+  // const style = {
+  //     backgroundColor: 'green',
+  //     color: 'white',
+  //     font: 'inherit',
+  //     border: '1px solid blue',
+  //     padding: '8px',
+  //     cursor: 'pointer', 
+  //   };
+  // if(props.showPersons) {
+  //     style.backgroundColor = 'red';
+  // }
+  // const classes = [];
+  // if(props.persons.length === 1) {
+  //   classes.push('redText');
+  // }
+  // if(props.persons.length > 1) {
+  //   classes.push('bold');
+  //   classes.push('blueText');
+  // }
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+    className: "flex items-center justify-between flex-wrap bg-grey-lighter p-6 shadow-lg"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex items-center flex-no-shrink text-grey-darkest mr-6"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("router-link", {
+    to: "/articles",
+    className: "no-underline text-blue"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "font-semibold text-xl tracking-tight hover:text-red-900"
+  }, "QHCoin"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "block lg:hidden"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "flex items-center px-3 py-2 border rounded text-teal-lighter border-teal-light hover:text-white hover:border-white"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    className: "fill-current h-3 w-3",
+    viewBox: "0 0 20 20",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("title", null, "Menu"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"
+  })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-full block flex-grow lg:flex lg:items-center lg:w-auto"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "text-sm lg:flex-grow"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("router-link", {
+    to: "/register"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    className: "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4"
+  }, "WALLETS")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("router-link", {
+    to: "/register"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    className: "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4"
+  }, "SIGNUP")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("router-link", {
+    to: "/register"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    className: "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4"
+  }, "LOGIN")))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (cockpit);
 
 /***/ }),
 
