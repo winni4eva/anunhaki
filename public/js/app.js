@@ -70026,10 +70026,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Cockpit_Cockpit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Cockpit/Cockpit */ "./resources/js/components/Cockpit/Cockpit.js");
 /* harmony import */ var _Auth_Login__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Auth/Login */ "./resources/js/components/Auth/Login.js");
 /* harmony import */ var _Auth_Register__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Auth/Register */ "./resources/js/components/Auth/Register.js");
-/* harmony import */ var _Menu_Menu__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Menu/Menu */ "./resources/js/components/Menu/Menu.js");
-/* harmony import */ var _Menu_Items_Wallets__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Menu/Items/Wallets */ "./resources/js/components/Menu/Items/Wallets.js");
-/* harmony import */ var _Menu_Items_Transactions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Menu/Items/Transactions */ "./resources/js/components/Menu/Items/Transactions.js");
-/* harmony import */ var _hoc_Aux__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../hoc/Aux */ "./resources/js/hoc/Aux.js");
+/* harmony import */ var _Main_Main__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Main/Main */ "./resources/js/components/Main/Main.js");
+/* harmony import */ var _Menu_Menu__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Menu/Menu */ "./resources/js/components/Menu/Menu.js");
+/* harmony import */ var _Menu_Items_Wallets__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Menu/Items/Wallets */ "./resources/js/components/Menu/Items/Wallets.js");
+/* harmony import */ var _Menu_Items_Transactions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Menu/Items/Transactions */ "./resources/js/components/Menu/Items/Transactions.js");
+/* harmony import */ var _hoc_Aux__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../hoc/Aux */ "./resources/js/hoc/Aux.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -70049,6 +70050,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -70112,20 +70114,36 @@ function (_PureComponent) {
   _createClass(App, [{
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var menu;
 
       if (!this.state.menu || this.state.menu === 'wallets') {
-        menu = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menu_Items_Wallets__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        menu = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menu_Items_Wallets__WEBPACK_IMPORTED_MODULE_8__["default"], {
           wallets: this.state.wallets,
           walletSelected: this.walletSelectHandler
         });
       } else if (this.state.menu === 'transactions') {
-        menu = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menu_Items_Transactions__WEBPACK_IMPORTED_MODULE_8__["default"], null);
+        menu = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menu_Items_Transactions__WEBPACK_IMPORTED_MODULE_9__["default"], null);
       }
 
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Cockpit_Cockpit__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menu_Menu__WEBPACK_IMPORTED_MODULE_6__["default"], {
-        clicked: this.toggleMenuHandler
-      }), menu);
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Cockpit_Cockpit__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Main_Main__WEBPACK_IMPORTED_MODULE_6__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+        path: "/",
+        render: function render() {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menu_Menu__WEBPACK_IMPORTED_MODULE_7__["default"], {
+            clicked: _this2.toggleMenuHandler
+          });
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+        path: "/login",
+        component: _Auth_Login__WEBPACK_IMPORTED_MODULE_4__["default"]
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+        path: "/wallets",
+        component: _Menu_Items_Wallets__WEBPACK_IMPORTED_MODULE_8__["default"]
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+        path: "/transactions",
+        component: _Menu_Items_Transactions__WEBPACK_IMPORTED_MODULE_9__["default"]
+      })));
     }
   }]);
 
@@ -70155,44 +70173,44 @@ __webpack_require__.r(__webpack_exports__);
 
 var login = function login(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    "class": "flex justify-end w-full my-6 clearfix"
+    className: "flex justify-end w-full my-6 clearfix"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    "class": "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24"
+    className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "SignIn"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    "class": "block sm:inline text-red-dark my-2",
+    className: "block sm:inline text-red-dark my-2",
     "v-if": "this.error && this.error.message"
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    "class": "mb-4 my-6"
+    className: "mb-4 my-6"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    "class": "block text-grey-darker text-sm font-bold mb-2",
-    "for": "email"
+    className: "block text-grey-darker text-sm font-bold mb-2",
+    htmlFor: "email"
   }, "Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     "v-model": "login.email",
-    "class": "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline",
+    className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline",
     id: "email",
     type: "email",
     placeholder: "chloe@gmail.com"
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    "class": "text-red-dark text-xs italic",
+    className: "text-red-dark text-xs italic",
     "v-if": "this.error && this.error.errors && this.error.errors.email && Array.isArray(this.error.errors.email)"
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    "class": "mb-6"
+    className: "mb-6"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    "class": "block text-grey-darker text-sm font-bold mb-2",
-    "for": "password"
+    className: "block text-grey-darker text-sm font-bold mb-2",
+    htmlFor: "password"
   }, "Password"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     "v-model": "login.password",
-    "class": "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline",
+    className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline",
     id: "password",
     type: "password",
     placeholder: "***"
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    "class": "text-red-dark text-xs italic",
+    className: "text-red-dark text-xs italic",
     "v-if": "this.error && this.error.errors && this.error.errors.password && Array.isArray(this.error.errors.password)"
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    "class": "flex items-center justify-between"
+    className: "flex items-center justify-between"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    "class": "bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline",
+    className: "bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline",
     type: "button"
   }, "Sign In"))));
 };
@@ -70216,36 +70234,36 @@ __webpack_require__.r(__webpack_exports__);
 
 var register = function register(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    "class": "flex justify-end w-full max-w-md my-6 clearfix"
+    className: "flex justify-end w-full max-w-md my-6 clearfix"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Admin SignUp"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    "class": "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+    className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    "class": "mb-4"
+    className: "mb-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    "class": "block text-grey-darker text-sm font-bold mb-2",
+    className: "block text-grey-darker text-sm font-bold mb-2",
     "for": "username"
   }, "Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     "v-model": "register.email",
-    "class": "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline",
+    className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline",
     id: "username",
     type: "text",
     placeholder: "chloe@gmail.com"
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    "class": "mb-6"
+    className: "mb-6"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    "class": "block text-grey-darker text-sm font-bold mb-2",
+    className: "block text-grey-darker text-sm font-bold mb-2",
     "for": "password"
   }, "Password"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     "v-model": "register.password",
-    "class": "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline",
+    className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline",
     id: "password",
     type: "password",
     placeholder: "***",
     required: true
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    "class": "flex items-center justify-between"
+    className: "flex items-center justify-between"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    "class": "bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline",
+    className: "bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline",
     type: "button"
   }, "Sign Up"))));
 };
@@ -70322,6 +70340,27 @@ var cockpit = function cockpit(props) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Main/Main.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/Main/Main.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var main = function main(props) {
+  return props.children;
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (main);
+
+/***/ }),
+
 /***/ "./resources/js/components/Menu/Items/Transactions.js":
 /*!************************************************************!*\
   !*** ./resources/js/components/Menu/Items/Transactions.js ***!
@@ -70377,12 +70416,7 @@ var wallets = function wallets(props) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     onChange: props.walletSelected,
     className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "-- All coins/tokens --"), props.wallets.map(function (e, key) {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      key: key,
-      value: e.value
-    }, e.name);
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "-- All coins/tokens --")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "bg-blue-500 w-1/4 float-left hover:bg-blue-700 text-white font-bold py-2 px-4 pull-right mt-4 rounded"
   }, "Create Wallet"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "text-left m-4",
@@ -70427,6 +70461,8 @@ var wallets = function wallets(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
 
 
 var menu = function menu(props) {
@@ -70434,16 +70470,14 @@ var menu = function menu(props) {
     className: "flex mb-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "flex-1 mr-2"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    onClick: props.clicked,
-    className: "text-center block border border-teal-500 rounded py-2 px-4 bg-teal-500 hover:bg-teal-200 text-white",
-    href: "#"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/wallets",
+    className: "text-center block border border-teal-500 rounded py-2 px-4 bg-teal-500 hover:bg-teal-200 text-white"
   }, "Wallets")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "flex-1 mr-2"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    onClick: props.clicked,
-    className: "text-center block border border-teal-500 rounded py-2 px-4 bg-teal-500 hover:bg-teal-200 text-white",
-    href: "#"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/transactions",
+    className: "text-center block border border-teal-500 rounded py-2 px-4 bg-teal-500 hover:bg-teal-200 text-white"
   }, "Transactions")));
 };
 

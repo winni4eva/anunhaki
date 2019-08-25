@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Cockpit from './Cockpit/Cockpit';
 import Login from './Auth/Login';
 import Register from './Auth/Register';
+import Main from './Main/Main';
 import Menu from './Menu/Menu';
 import Wallets from './Menu/Items/Wallets';
 import Transactions from './Menu/Items/Transactions';
@@ -39,9 +40,15 @@ export default class App extends PureComponent {
         return (
                 <BrowserRouter>
                     <Cockpit/>
-                    <Menu
-                        clicked={this.toggleMenuHandler}/> 
-                    {menu}
+                    <Main>
+                        <Route path="/" render={() =>(
+                            <Menu
+                            clicked={this.toggleMenuHandler}/>
+                        )}/>
+                        <Route path="/login" component={Login}/>
+                        <Route path="/wallets" component={Wallets}/>
+                        <Route path="/transactions" component={Transactions}/>
+                    </Main>
                 </BrowserRouter>
         );
     }
