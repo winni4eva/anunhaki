@@ -14,7 +14,7 @@ const wallets = (props) => {
                     })}
                 </select>
 
-                <button class="bg-blue-500 w-1/4 float-left hover:bg-blue-700 text-white font-bold py-2 px-4 pull-right mt-4 rounded">
+                <button className="bg-blue-500 w-1/4 float-left hover:bg-blue-700 text-white font-bold py-2 px-4 pull-right mt-4 rounded">
                     Create Wallet
                 </button>
 
@@ -22,7 +22,6 @@ const wallets = (props) => {
                     <thead>
                         <tr>
                             <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">My Wallets</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>

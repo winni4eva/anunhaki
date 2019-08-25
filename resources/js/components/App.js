@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Cockpit from './Cockpit/Cockpit';
+import Login from './Auth/Login';
+import Register from './Auth/Register';
 import Menu from './Menu/Menu';
 import Wallets from './Menu/Items/Wallets';
 import Transactions from './Menu/Items/Transactions';
@@ -34,12 +37,12 @@ export default class App extends PureComponent {
             menu = <Transactions/>;
         }
         return (
-            <Aux>
-                <Cockpit/>
-                <Menu
-                    clicked={this.toggleMenuHandler}/> 
-                {menu}
-            </Aux>
+                <BrowserRouter>
+                    <Cockpit/>
+                    <Menu
+                        clicked={this.toggleMenuHandler}/> 
+                    {menu}
+                </BrowserRouter>
         );
     }
 }

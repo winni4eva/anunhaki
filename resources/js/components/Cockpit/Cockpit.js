@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 
 const cockpit = (props) => {
@@ -44,17 +45,12 @@ const cockpit = (props) => {
                 <div className="text-sm lg:flex-grow">
                 </div>
                 <div>
-                    <a className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
-                        WALLETS
-                    </a>
-                    
-                    <a className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
-                        SIGNUP
-                    </a>
-            
-                    <a className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
+                    <Link to={`/register`} className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
+                        REGISTER
+                    </Link>
+                    <Link to={`/login`} className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
                         LOGIN
-                    </a>
+                    </Link>
                 </div>
             </div>
         </nav>
