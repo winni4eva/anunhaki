@@ -26,8 +26,6 @@ export default class App extends PureComponent {
         console.log(event.target.value);
     }
 
-    //style = {backgroundImage: "background-image: url('/img/card-left.jpg')"};
-
     render() {
         let menu;
         if (!this.state.menu || this.state.menu === 'wallets') {

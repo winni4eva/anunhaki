@@ -66149,7 +66149,6 @@ function (_PureComponent) {
 
   _createClass(App, [{
     key: "render",
-    //style = {backgroundImage: "background-image: url('/img/card-left.jpg')"};
     value: function render() {
       var menu;
 
@@ -66288,30 +66287,50 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var wallets = function wallets(props) {
+  var style = {
+    borderCollapse: "collapse"
+  };
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex mb-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "w-1/2 bg-gray-400 h-64 p-4"
+    className: "w-1/2 bg-white-400 h-auto p-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "inline-block relative w-64"
+    className: "inline-block relative w-full"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     onChange: props.walletSelected,
-    className: "block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "-- Select Wallet --"), props.wallets.map(function (e, key) {
+    className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "-- All coins/tokens --"), props.wallets.map(function (e, key) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: key,
       value: e.value
     }, e.name);
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-    className: "fill-current h-4 w-4",
-    xmlns: "http://www.w3.org/2000/svg",
-    viewBox: "0 0 20 20"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-    d: "M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
-  }))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "w-1/2 bg-gray-500 h-64"
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    "class": "bg-blue-500 w-1/4 float-left hover:bg-blue-700 text-white font-bold py-2 px-4 pull-right mt-4 rounded"
+  }, "Create Wallet"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+    className: "text-left m-4",
+    style: style
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
+  }, "My Wallets"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+    className: "hover:bg-blue-lightest"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    className: "py-4 px-6 border-b border-grey-light"
+  }, "Conversations"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    className: "py-4 px-6 border-b border-grey-light text-center"
+  }, "\u274C")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+    className: "hover:bg-blue-lightest"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    className: "py-4 px-6 border-b border-grey-light"
+  }, "Question-Buttons"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    className: "py-4 px-6 border-b border-grey-light text-center"
+  }, "\u274C")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+    className: "hover:bg-blue-lightest"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    className: "py-4 px-6 border-b border-grey-light"
+  }, "Image Attachment"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    className: "py-4 px-6 border-b border-grey-light text-center"
+  }, "\u2705 ")))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-1/2 bg-white-500 h-64"
   }));
 };
 
