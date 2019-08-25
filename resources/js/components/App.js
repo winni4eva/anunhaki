@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import Cockpit from './Cockpit/Cockpit';
 import Menu from './Menu/Menu';
+import Wallets from './Menu/Items/Wallets';
+import Transactions from './Menu/Items/Transactions';
 import Aux from '../hoc/Aux';
 
 export default class App extends PureComponent {
@@ -22,15 +24,19 @@ export default class App extends PureComponent {
     //style = {backgroundImage: "background-image: url('/img/card-left.jpg')"};
 
     render() {
+        let menu;
+        if (!this.state.menu || this.state.menu === 'wallets') {
+            menu = <Wallets/>;
+        } else if (this.state.menu === 'transactions') {
+            menu = <Transactions/>;
+        }
         return (
             <Aux>
                 <Cockpit/>
                 <Menu
                     clicked={this.toggleMenuHandler}/> 
 
-                <div className="flex mb-4">
-                    <div className="w-full bg-white-500 h-12"></div>
-                </div>
+                {menu}
             </Aux>
         );
     }

@@ -66068,7 +66068,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _Cockpit_Cockpit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Cockpit/Cockpit */ "./resources/js/components/Cockpit/Cockpit.js");
 /* harmony import */ var _Menu_Menu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Menu/Menu */ "./resources/js/components/Menu/Menu.js");
-/* harmony import */ var _hoc_Aux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../hoc/Aux */ "./resources/js/hoc/Aux.js");
+/* harmony import */ var _Menu_Items_Wallets__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Menu/Items/Wallets */ "./resources/js/components/Menu/Items/Wallets.js");
+/* harmony import */ var _Menu_Items_Transactions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Menu/Items/Transactions */ "./resources/js/components/Menu/Items/Transactions.js");
+/* harmony import */ var _hoc_Aux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../hoc/Aux */ "./resources/js/hoc/Aux.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -66088,6 +66090,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 
 
 
@@ -66142,13 +66146,17 @@ function (_PureComponent) {
     key: "render",
     //style = {backgroundImage: "background-image: url('/img/card-left.jpg')"};
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_hoc_Aux__WEBPACK_IMPORTED_MODULE_4__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Cockpit_Cockpit__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menu_Menu__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      var menu;
+
+      if (!this.state.menu || this.state.menu === 'wallets') {
+        menu = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menu_Items_Wallets__WEBPACK_IMPORTED_MODULE_4__["default"], null);
+      } else if (this.state.menu === 'transactions') {
+        menu = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menu_Items_Transactions__WEBPACK_IMPORTED_MODULE_5__["default"], null);
+      }
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_hoc_Aux__WEBPACK_IMPORTED_MODULE_6__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Cockpit_Cockpit__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Menu_Menu__WEBPACK_IMPORTED_MODULE_3__["default"], {
         clicked: this.toggleMenuHandler
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "flex mb-4"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "w-full bg-white-500 h-12"
-      })));
+      }), menu);
     }
   }]);
 
@@ -66229,6 +66237,64 @@ var cockpit = function cockpit(props) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Menu/Items/Transactions.js":
+/*!************************************************************!*\
+  !*** ./resources/js/components/Menu/Items/Transactions.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var transactions = function transactions(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex mb-4"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-1/3 bg-gray-400 h-12"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-1/3 bg-gray-500 h-12"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-1/3 bg-gray-400 h-12"
+  }));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (transactions);
+
+/***/ }),
+
+/***/ "./resources/js/components/Menu/Items/Wallets.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/Menu/Items/Wallets.js ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var wallets = function wallets(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex mb-4"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-1/3 bg-gray-400 h-12"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-1/3 bg-gray-500 h-12"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "w-1/3 bg-gray-400 h-12"
+  }));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (wallets);
+
+/***/ }),
+
 /***/ "./resources/js/components/Menu/Menu.js":
 /*!**********************************************!*\
   !*** ./resources/js/components/Menu/Menu.js ***!
@@ -66251,7 +66317,7 @@ var menu = function menu(props) {
     onClick: props.clicked,
     className: "text-center block border border-teal-500 rounded py-2 px-4 bg-teal-500 hover:bg-teal-200 text-white",
     href: "#"
-  }, "menu")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+  }, "Wallets")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "flex-1 mr-2"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     onClick: props.clicked,
