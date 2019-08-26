@@ -26,6 +26,11 @@ Route::group(
     }
 );
 
+Route::get('wallets', function(){
+    $wallets = ['BTC', 'LTC'];
+    return response()->json(compact('wallets'));
+});
+
 Route::group(
     ['middleware' => 'api'],
     function () {

@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 const wallets = (props) => { 
     const style = {borderCollapse: "collapse"};
 
@@ -7,9 +8,9 @@ const wallets = (props) => {
     <div className="flex mb-4">
         <div className="w-1/2 bg-white-400 h-auto p-4">
             <div className="inline-block relative w-full">
-                <select onChange={props.walletSelected} className="block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2">
+                <select className="block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2">
                     <option>-- All coins/tokens --</option>
-                    {/* {props.wallets.map((e, key) => {
+                    {/* {wallets.map((e, key) => {
                         return <option key={key} value={e.value}>{e.name}</option>;
                     })} */}
                 </select>
