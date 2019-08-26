@@ -72791,9 +72791,18 @@ var transactions = function transactions(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
 
-var wallets = function wallets(props) {
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    wallets: state.wallets
+  };
+};
+
+var Wallets = function Wallets(_ref) {
+  var wallets = _ref.wallets;
   var style = {
     borderCollapse: "collapse"
   };
@@ -72805,7 +72814,12 @@ var wallets = function wallets(props) {
     className: "inline-block relative w-full"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "-- All coins/tokens --")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "-- All coins/tokens --"), wallets.wallets.map(function (e, key) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: key,
+      value: e.value
+    }, e.name);
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "bg-blue-500 w-1/4 float-left hover:bg-blue-700 text-white font-bold py-2 px-4 pull-right mt-4 rounded"
   }, "Create Wallet"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "text-left m-4",
@@ -72835,7 +72849,8 @@ var wallets = function wallets(props) {
   }));
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (wallets);
+var Wallet = Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps)(Wallets);
+/* harmony default export */ __webpack_exports__["default"] = (Wallet);
 
 /***/ }),
 
@@ -72973,25 +72988,27 @@ var aux = function aux(props) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants/types */ "./resources/js/constants/types.js");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 var walletReducerDefaultState = [];
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : walletReducerDefaultState;
   var action = arguments.length > 1 ? arguments[1] : undefined;
-  console.log(state);
-  console.log(action);
 
+  //console.log(state);
+  //console.log(action);
   switch (action.type) {
     case _constants_types__WEBPACK_IMPORTED_MODULE_0__["GET_WALLETS"]:
-      return [].concat(_toConsumableArray(state), [action.payload]);
+      var newState = _objectSpread({}, state);
+
+      newState.wallets = action.payload;
+      console.log(newState);
+      return newState;
 
     case _constants_types__WEBPACK_IMPORTED_MODULE_0__["REMOVE_WALLET"]:
       return state;
