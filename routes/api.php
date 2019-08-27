@@ -13,9 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 Route::group(
     ['namespace' => 'Auth'], 
@@ -26,8 +26,15 @@ Route::group(
     }
 );
 
+Route::post('2fa', function(Request $request){
+    logger($request->all());
+    return response()->json(['Made It']);
+});
 Route::get('wallets', function(){
-    $wallets = ['BTC', 'LTC'];
+    $wallets = [
+        ['id'=>123,'name'=>'BTC'], 
+        ['id'=>345,'name'=>'LTC']
+    ];
     return response()->json(compact('wallets'));
 });
 
