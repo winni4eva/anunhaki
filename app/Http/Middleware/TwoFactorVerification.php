@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Aloha\Twilio\Twilio;
 use Carbon\Carbon;
-use App\Notifications\TwoFactorVerficationSmsNotification;
+use App\Notifications\TwoFactorVerficationNotification;
 
 class TwoFactorVerification
 {
@@ -26,12 +26,10 @@ class TwoFactorVerification
             return $next($request);
         } 
         
-        if($user->option_2fa == 'phone') {
-            $user->token_2fa = mt_rand(100000, 999999);
-            $user->save();
+        $user->token_2fa = mt_rand(100000, 999999);
+        $user->save();
 
-            $user->notify(new TwoFactorVerficationSmsNotification($user));
-        }
+        $user->notify(new TwoFactorVerficationNotification($user));
         // If you want to use email instead just 
         // send an email to the user here ..
         return redirect('/2fa');

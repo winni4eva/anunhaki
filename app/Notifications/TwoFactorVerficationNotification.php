@@ -5,10 +5,11 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
 
-class TwoFactorVerficationSmsNotification extends Notification
+class TwoFactorVerficationNotification extends Notification
 {
     use Queueable;
 
@@ -30,7 +31,7 @@ class TwoFactorVerficationSmsNotification extends Notification
      */
     public function via($notifiable)
     {
-        return [TwilioChannel::class];
+        return $notifiable->option_2fa == 'phone' ? [TwilioChannel::class] : ['mail'];
     }
 
     /**
@@ -38,6 +39,23 @@ class TwoFactorVerficationSmsNotification extends Notification
      *
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage())
+            ->subject('QHCoin - Two Factor Code')
+            ->greeting("Hi {$notifiable->first_name}")
+            ->level('info')
+            ->line("Your Two Factor Code: {$notifiable->token_2fa}")
+            ->line('Thank you for using our application!')
+            ->salutation('Best wishes');
+    }
+
+    /**
+     * Get the twilio representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return NotificationChannels\Twilio\TwilioSmsMessage
      */
     public function toTwilio($notifiable)
     {
