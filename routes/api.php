@@ -30,6 +30,7 @@ Route::post('2fa', function(Request $request){
     logger($request->all());
     return response()->json(['Made It']);
 });
+
 Route::get('wallets', function(){
     $wallets = [
         ['id'=>123,'name'=>'BTC'], 

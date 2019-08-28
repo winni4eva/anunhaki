@@ -72326,13 +72326,15 @@ module.exports = function(module) {
 /*!*******************************************!*\
   !*** ./resources/js/actions/endpoints.js ***!
   \*******************************************/
-/*! exports provided: getWalletsEndpoint */
+/*! exports provided: getWalletsEndpoint, loginEndpoint */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWalletsEndpoint", function() { return getWalletsEndpoint; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loginEndpoint", function() { return loginEndpoint; });
 var getWalletsEndpoint = "api/wallets";
+var loginEndpoint = 'api/login';
 
 /***/ }),
 
@@ -72570,52 +72572,95 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_request__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/request */ "./resources/js/actions/request.js");
+/* harmony import */ var _actions_endpoints__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/endpoints */ "./resources/js/actions/endpoints.js");
 
 
 
-var login = function login(props) {
+
+
+var login = function login(_ref) {
+  var props = _ref.props;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex justify-end w-full my-6 clearfix"
+    className: "flex justify-end w-full my-9 clearfix"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     onSubmit: onLoginSubmit,
     className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "SignIn"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "block sm:inline text-red-dark my-2",
-    "v-if": "this.error && this.error.message"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "block sm:inline text-red-dark my-2"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "block sm:inline text-red-dark my-2"
+  }, "Adam")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "mb-4 my-6"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     className: "block text-grey-darker text-sm font-bold mb-2",
     htmlFor: "email"
   }, "Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    "v-model": "login.email",
     className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline",
     id: "email",
+    name: "email",
     type: "email",
-    placeholder: "chloe@gmail.com"
+    placeholder: "chloe@gmail.com",
+    onChange: handleEmailChange
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "text-red-dark text-xs italic",
-    "v-if": "this.error && this.error.errors && this.error.errors.email && Array.isArray(this.error.errors.email)"
+    className: "text-red-dark text-xs italic"
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "mb-6"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     className: "block text-grey-darker text-sm font-bold mb-2",
     htmlFor: "password"
   }, "Password"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    "v-model": "login.password",
     className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline",
     id: "password",
+    name: "password",
     type: "password",
-    placeholder: "***"
+    placeholder: "****",
+    onChange: handlePasswordChange
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "text-red-dark text-xs italic",
-    "v-if": "this.error && this.error.errors && this.error.errors.password && Array.isArray(this.error.errors.password)"
+    className: "text-red-dark text-xs italic"
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex items-center justify-between"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "submit",
-    className: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+    id: "login-submit-button",
+    className: "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded"
   }, "Sign In"))));
+};
+
+var errors = undefined;
+
+var handleEmailChange = function handleEmailChange(e) {
+  var email = e.target.value;
+  var btn = document.querySelector('#login-submit-button');
+  var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  var validEmail = emailRegex.test(String(email).toLowerCase());
+
+  if (!validEmail || email.length === 0 || email.length < 4) {
+    if (elementContainsClass(btn, 'bg-blue-500') || elementContainsClass(btn, 'hover:bg-blue-700')) {
+      btn.classList.remove('bg-blue-500', 'hover:bg-blue-700');
+    }
+
+    btn.classList.add('bg-gray-500', 'hover:bg-gray-700');
+    btn.disabled = true;
+    return;
+  }
+
+  if (elementContainsClass(btn, 'bg-gray-500') || elementContainsClass(btn, 'hover:bg-gray-700')) {
+    btn.classList.remove('bg-gray-500', 'hover:bg-gray-700');
+  }
+
+  btn.disabled = false;
+  btn.classList.add('bg-blue-500', 'hover:bg-blue-700');
+  return;
+};
+
+var elementContainsClass = function elementContainsClass(e, cssClass) {
+  return e.classList.contains(cssClass);
+};
+
+var handlePasswordChange = function handlePasswordChange(e) {
+  console.log(e.target.value);
+  var password = e.target.value;
 };
 
 var onLoginSubmit = function onLoginSubmit(e) {
@@ -72636,28 +72681,23 @@ var onLoginSubmit = function onLoginSubmit(e) {
   // }
   //if(email.length > 0 && password.length > 0){
   //this.setState(() => ({isLoading: true}));
-  // const data = {
-  //     grant_type: "password",
-  //     client_id: "2",
-  //     client_secret: window.Laravel.client_secret,
-  //     username: email,
-  //     password: password,
-  //     scope: "*"
-  // };
-  // axios.post(loginAPI, data)
-  //     .then((response) => {
-  //         window.localStorage.setItem(ACCESS_TOKEN, response.data.access_token);
-  //         window.localStorage.setItem(REFRESH_TOKEN, response.data.refresh_token);
-  //         this.props.dispatch(loginUser());
-  //         this.loadCartService();
-  //     })
-  //     .catch((error) => (
-  //         this.setState(() => ({
-  //             invalidCredentials: true,
-  //             isLoading: false
-  //         }))
-  //     ));
-  //}
+
+  var data = {
+    email: email,
+    password: password
+  };
+  _actions_request__WEBPACK_IMPORTED_MODULE_2__["default"].post(_actions_endpoints__WEBPACK_IMPORTED_MODULE_3__["loginEndpoint"], data).then(function (response) {
+    console.log(response); // window.localStorage.setItem(ACCESS_TOKEN, response.data.access_token);
+    // window.localStorage.setItem(REFRESH_TOKEN, response.data.refresh_token);
+    //this.props.dispatch(loginUser());
+    //this.loadCartService();
+  })["catch"](function (error) {
+    console.log(error.response.data);
+    errors = error.response.data; // this.setState(() => ({
+    //     invalidCredentials: true,
+    //     isLoading: false
+    // }))
+  }); //}
 };
 
 var mapStateToProps = function mapStateToProps(state) {
