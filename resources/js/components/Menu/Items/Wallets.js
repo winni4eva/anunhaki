@@ -1,10 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
 
-const mapStateToProps = state => {
-  return { wallets: state.wallets };
-};
-
 const Wallets = ({wallets}) => { 
     const style = {borderCollapse: "collapse"};
 
@@ -50,6 +46,10 @@ const Wallets = ({wallets}) => {
     </div>
     );
 }
+
+const mapStateToProps = state => {
+    return { wallets: state.wallets };
+};
 
 const Wallet = connect(mapStateToProps)(Wallets);
 

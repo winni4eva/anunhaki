@@ -72569,12 +72569,15 @@ if (document.getElementById('app')) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
 
 
 var login = function login(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex justify-end w-full my-6 clearfix"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    onSubmit: onLoginSubmit,
     className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "SignIn"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "block sm:inline text-red-dark my-2",
@@ -72610,11 +72613,61 @@ var login = function login(props) {
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex items-center justify-between"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "submit",
     className: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
   }, "Sign In"))));
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (login);
+var onLoginSubmit = function onLoginSubmit(e) {
+  e.preventDefault();
+  console.log(e);
+  var email = e.target.email.value;
+  var password = e.target.password.value;
+  console.log(email);
+  console.log(password); // if(password.length === 0){
+  //     this.setState(() => ({passwordHelp: "Password cannot be empty"}));
+  // }else{
+  //     this.setState(() => ({passwordHelp: undefined}));
+  // }
+  // if(email.length === 0){
+  //     this.setState(() => ({usernameHelp: "Username cannot be empty"}));
+  // }else{
+  //     this.setState(() => ({usernameHelp: undefined}));
+  // }
+  //if(email.length > 0 && password.length > 0){
+  //this.setState(() => ({isLoading: true}));
+  // const data = {
+  //     grant_type: "password",
+  //     client_id: "2",
+  //     client_secret: window.Laravel.client_secret,
+  //     username: email,
+  //     password: password,
+  //     scope: "*"
+  // };
+  // axios.post(loginAPI, data)
+  //     .then((response) => {
+  //         window.localStorage.setItem(ACCESS_TOKEN, response.data.access_token);
+  //         window.localStorage.setItem(REFRESH_TOKEN, response.data.refresh_token);
+  //         this.props.dispatch(loginUser());
+  //         this.loadCartService();
+  //     })
+  //     .catch((error) => (
+  //         this.setState(() => ({
+  //             invalidCredentials: true,
+  //             isLoading: false
+  //         }))
+  //     ));
+  //}
+};
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    authentication: state.authentication
+  };
+};
+
+var Login = Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps)(login);
+/* harmony default export */ __webpack_exports__["default"] = (Login);
 
 /***/ }),
 
@@ -72795,12 +72848,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var mapStateToProps = function mapStateToProps(state) {
-  return {
-    wallets: state.wallets
-  };
-};
-
 var Wallets = function Wallets(_ref) {
   var wallets = _ref.wallets;
   var style = {
@@ -72847,6 +72894,12 @@ var Wallets = function Wallets(_ref) {
   }, "\u2705 ")))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-1/2 bg-white-500 h-64"
   }));
+};
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    wallets: state.wallets
+  };
 };
 
 var Wallet = Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps)(Wallets);
@@ -72943,7 +72996,7 @@ var routes = function routes(props) {
 /*!*****************************************!*\
   !*** ./resources/js/constants/types.js ***!
   \*****************************************/
-/*! exports provided: ACCESS_TOKEN, GET_WALLETS, REMOVE_WALLET */
+/*! exports provided: ACCESS_TOKEN, GET_WALLETS, REMOVE_WALLET, LOG_IN, LOG_OUT */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72951,9 +73004,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ACCESS_TOKEN", function() { return ACCESS_TOKEN; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_WALLETS", function() { return GET_WALLETS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_WALLET", function() { return REMOVE_WALLET; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOG_IN", function() { return LOG_IN; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOG_OUT", function() { return LOG_OUT; });
 var ACCESS_TOKEN = 'qh_access_token';
 var GET_WALLETS = 'GET_WALLETS';
 var REMOVE_WALLET = 'REMOVE_WALLET';
+var LOG_IN = 'LOGIN';
+var LOG_OUT = 'LOGOUT';
 
 /***/ }),
 
@@ -72975,6 +73032,48 @@ var aux = function aux(props) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (aux);
+
+/***/ }),
+
+/***/ "./resources/js/reducers/authentication.js":
+/*!*************************************************!*\
+  !*** ./resources/js/reducers/authentication.js ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants/types */ "./resources/js/constants/types.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var authenticationReducerDefaultState = {
+  isAuthenticated: false
+};
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : authenticationReducerDefaultState;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _constants_types__WEBPACK_IMPORTED_MODULE_0__["LOG_IN"]:
+      return _objectSpread({}, state, {
+        isAuthenticated: true
+      });
+
+    case _constants_types__WEBPACK_IMPORTED_MODULE_0__["LOG_OUT"]:
+      return _objectSpread({}, state, {
+        isAuthenticated: false
+      });
+
+    default:
+      return state;
+  }
+});
 
 /***/ }),
 
@@ -73031,13 +73130,14 @@ var walletReducerDefaultState = [];
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _reducers_wallets__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../reducers/wallets */ "./resources/js/reducers/wallets.js");
+/* harmony import */ var _reducers_authentication__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../reducers/authentication */ "./resources/js/reducers/authentication.js");
 
- //import authenticationReducer from '../reducers/authentication';
-//import thunk from 'redux-thunk';
+
+ //import thunk from 'redux-thunk';
 
 var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  wallets: _reducers_wallets__WEBPACK_IMPORTED_MODULE_1__["default"] //authentication: authenticationReducer,
-
+  wallets: _reducers_wallets__WEBPACK_IMPORTED_MODULE_1__["default"],
+  authentication: _reducers_authentication__WEBPACK_IMPORTED_MODULE_2__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(rootReducer);
