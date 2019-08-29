@@ -8,11 +8,7 @@ const login = ({props}) => {
                 <div className="flex justify-end w-full my-9 clearfix">
                     <form onSubmit={onLoginSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24">  
                         <h3>SignIn</h3>     
-                        <span className="block sm:inline text-red-dark my-2">
-                        <span className="block sm:inline text-red-dark my-2">
-                            Adam
-                        </span>
-                        </span>
+                        <span id="errorSpan" className="block sm:inline text-red-dark my-2"></span>
                         <div className="mb-4 my-6">
                             <label className="block text-grey-darker text-sm font-bold mb-2" htmlFor="email">
                                 Email
@@ -53,81 +49,103 @@ const login = ({props}) => {
                 </div>
               );
             }
-    let errors = undefined;
-    
+    const inputValidationState = {email: false, password: false};
+
     const handleEmailChange = e => {
         const email = e.target.value;
-        const btn = document.querySelector('#login-submit-button');
         const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         const validEmail = emailRegex.test(String(email).toLowerCase());
 
-        if (!validEmail || email.length === 0 || email.length < 4) {
-            if (elementContainsClass(btn, 'bg-blue-500') || elementContainsClass(btn, 'hover:bg-blue-700')) {
-                btn.classList.remove('bg-blue-500', 'hover:bg-blue-700');
-            }
-            btn.classList.add('bg-gray-500', 'hover:bg-gray-700');
-            btn.disabled = true;
+        if (!validEmail) {
+            inputValidationState['email']=false;
+            removeElementClass('bg-blue-500 hover:bg-blue-700');
+            toggleButton('bg-gray-500 hover:bg-gray-700', true);
+            displayErrorMessage('email must match chloe@mail.com');
             return;
         }
 
-        if (elementContainsClass(btn, 'bg-gray-500') || elementContainsClass(btn, 'hover:bg-gray-700')) {
-            btn.classList.remove('bg-gray-500', 'hover:bg-gray-700');
+        inputValidationState['email']=true;
+        if(checkInputValidationState()){
+            removeElementClass('bg-gray-500 hover:bg-gray-700');
+            toggleButton('bg-blue-500 hover:bg-blue-700', false);
+            displayErrorMessage(null);
+        }
+        return;
+    }
+
+    const handlePasswordChange = e => {
+        const password = e.target.value;
+        var passwRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+        const validatePassword = password.match(passwRegex);
+    
+        if(!validatePassword) { 
+            inputValidationState['password']=false;
+            removeElementClass('bg-blue-500 hover:bg-blue-700');
+            toggleButton('bg-gray-500 hover:bg-gray-700', true);
+            displayErrorMessage('password must be 6 to 20 characters <br/>must contain at least one numeric digit <br/>one uppercase and one lowercase letter');
+            return;
         }
         
-        btn.disabled = false;
-        btn.classList.add('bg-blue-500', 'hover:bg-blue-700');
+        inputValidationState['password']=true;
+        if(checkInputValidationState()){
+            removeElementClass('bg-gray-500 hover:bg-gray-700');
+            toggleButton('bg-blue-500 hover:bg-blue-700', false);
+            displayErrorMessage(null);
+        }
         return;
+    }
+
+    const checkInputValidationState = () => {
+        const isValid = Object.values(inputValidationState).filter(valid=> {
+            if(valid) return true;
+        });
+        if(isValid.length === 2) {
+            return true;
+        }
+        return false;
+    }
+
+    const toggleButton = (classes, disable = true) => {
+        const btn = document.querySelector('#login-submit-button');
+        classes.split(' ').map(css => btn.classList.add(css));
+        btn.disabled = disable;
     }
 
     const elementContainsClass = (e, cssClass) => {
         return e.classList.contains(cssClass);
     }
 
-    const handlePasswordChange = e => {
-        console.log(e.target.value);
-        const password = e.target.value;
+    const removeElementClass = (classes) => {
+        const btn = document.querySelector('#login-submit-button');
+        classes.split(' ').map(css => {
+            if(elementContainsClass(btn, css)) {
+                btn.classList.remove(css);
+            }
+        });
+    }
+
+    const displayErrorMessage = (message) => {
+        const errorSpan = document.querySelector('#errorSpan');
+        errorSpan.innerHTML = message;
     }
 
     const onLoginSubmit = e => {
         e.preventDefault();
-        console.log(e);
         const email = e.target.email.value;
         const password = e.target.password.value;
-        console.log(email);
-        console.log(password);
-        // if(password.length === 0){
-        //     this.setState(() => ({passwordHelp: "Password cannot be empty"}));
-        // }else{
-        //     this.setState(() => ({passwordHelp: undefined}));
-        // }
 
-        // if(email.length === 0){
-        //     this.setState(() => ({usernameHelp: "Username cannot be empty"}));
-        // }else{
-        //     this.setState(() => ({usernameHelp: undefined}));
-        // }
+        const data = {email, password};
 
-        //if(email.length > 0 && password.length > 0){
-            //this.setState(() => ({isLoading: true}));
-            const data = {email, password};
-
-            axios.post(loginEndpoint, data)
-                .then(response => {
-                    console.log(response)
-                    // window.localStorage.setItem(ACCESS_TOKEN, response.data.access_token);
-                    // window.localStorage.setItem(REFRESH_TOKEN, response.data.refresh_token);
-                    //this.props.dispatch(loginUser());
-                    //this.loadCartService();
-                })
-                .catch(error => {
-                    console.log(error.response.data);
-                    errors = error.response.data;
-                    // this.setState(() => ({
-                    //     invalidCredentials: true,
-                    //     isLoading: false
-                    // }))
-                });
-        //}
+        axios.post(loginEndpoint, data)
+            .then(response => {
+                console.log(response)
+                //this.props.dispatch(loginUser());
+                //this.loadCartService();
+            })
+            .catch(error => {
+                console.log(error.response.data);
+                errors = error.response.data;
+            });
     };
 
 const mapStateToProps = state => {

@@ -72587,10 +72587,9 @@ var login = function login(_ref) {
     onSubmit: onLoginSubmit,
     className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "SignIn"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    id: "errorSpan",
     className: "block sm:inline text-red-dark my-2"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "block sm:inline text-red-dark my-2"
-  }, "Adam")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "mb-4 my-6"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     className: "block text-grey-darker text-sm font-bold mb-2",
@@ -72627,77 +72626,113 @@ var login = function login(_ref) {
   }, "Sign In"))));
 };
 
-var errors = undefined;
+var inputValidationState = {
+  email: false,
+  password: false
+};
 
 var handleEmailChange = function handleEmailChange(e) {
   var email = e.target.value;
-  var btn = document.querySelector('#login-submit-button');
   var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   var validEmail = emailRegex.test(String(email).toLowerCase());
 
-  if (!validEmail || email.length === 0 || email.length < 4) {
-    if (elementContainsClass(btn, 'bg-blue-500') || elementContainsClass(btn, 'hover:bg-blue-700')) {
-      btn.classList.remove('bg-blue-500', 'hover:bg-blue-700');
-    }
-
-    btn.classList.add('bg-gray-500', 'hover:bg-gray-700');
-    btn.disabled = true;
+  if (!validEmail) {
+    inputValidationState['email'] = false;
+    removeElementClass('bg-blue-500 hover:bg-blue-700');
+    toggleButton('bg-gray-500 hover:bg-gray-700', true);
+    displayErrorMessage('email must match chloe@mail.com');
     return;
   }
 
-  if (elementContainsClass(btn, 'bg-gray-500') || elementContainsClass(btn, 'hover:bg-gray-700')) {
-    btn.classList.remove('bg-gray-500', 'hover:bg-gray-700');
+  inputValidationState['email'] = true;
+
+  if (checkInputValidationState()) {
+    removeElementClass('bg-gray-500 hover:bg-gray-700');
+    toggleButton('bg-blue-500 hover:bg-blue-700', false);
+    displayErrorMessage(null);
   }
 
-  btn.disabled = false;
-  btn.classList.add('bg-blue-500', 'hover:bg-blue-700');
   return;
+};
+
+var handlePasswordChange = function handlePasswordChange(e) {
+  var password = e.target.value;
+  var passwRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+  var validatePassword = password.match(passwRegex);
+
+  if (!validatePassword) {
+    inputValidationState['password'] = false;
+    removeElementClass('bg-blue-500 hover:bg-blue-700');
+    toggleButton('bg-gray-500 hover:bg-gray-700', true);
+    displayErrorMessage('password must be 6 to 20 characters <br/>must contain at least one numeric digit <br/>one uppercase and one lowercase letter');
+    return;
+  }
+
+  inputValidationState['password'] = true;
+
+  if (checkInputValidationState()) {
+    removeElementClass('bg-gray-500 hover:bg-gray-700');
+    toggleButton('bg-blue-500 hover:bg-blue-700', false);
+    displayErrorMessage(null);
+  }
+
+  return;
+};
+
+var checkInputValidationState = function checkInputValidationState() {
+  var isValid = Object.values(inputValidationState).filter(function (valid) {
+    if (valid) return true;
+  });
+
+  if (isValid.length === 2) {
+    return true;
+  }
+
+  return false;
+};
+
+var toggleButton = function toggleButton(classes) {
+  var disable = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  var btn = document.querySelector('#login-submit-button');
+  classes.split(' ').map(function (css) {
+    return btn.classList.add(css);
+  });
+  btn.disabled = disable;
 };
 
 var elementContainsClass = function elementContainsClass(e, cssClass) {
   return e.classList.contains(cssClass);
 };
 
-var handlePasswordChange = function handlePasswordChange(e) {
-  console.log(e.target.value);
-  var password = e.target.value;
+var removeElementClass = function removeElementClass(classes) {
+  var btn = document.querySelector('#login-submit-button');
+  classes.split(' ').map(function (css) {
+    if (elementContainsClass(btn, css)) {
+      btn.classList.remove(css);
+    }
+  });
+};
+
+var displayErrorMessage = function displayErrorMessage(message) {
+  var errorSpan = document.querySelector('#errorSpan');
+  errorSpan.innerHTML = message;
 };
 
 var onLoginSubmit = function onLoginSubmit(e) {
   e.preventDefault();
-  console.log(e);
   var email = e.target.email.value;
   var password = e.target.password.value;
-  console.log(email);
-  console.log(password); // if(password.length === 0){
-  //     this.setState(() => ({passwordHelp: "Password cannot be empty"}));
-  // }else{
-  //     this.setState(() => ({passwordHelp: undefined}));
-  // }
-  // if(email.length === 0){
-  //     this.setState(() => ({usernameHelp: "Username cannot be empty"}));
-  // }else{
-  //     this.setState(() => ({usernameHelp: undefined}));
-  // }
-  //if(email.length > 0 && password.length > 0){
-  //this.setState(() => ({isLoading: true}));
-
   var data = {
     email: email,
     password: password
   };
   _actions_request__WEBPACK_IMPORTED_MODULE_2__["default"].post(_actions_endpoints__WEBPACK_IMPORTED_MODULE_3__["loginEndpoint"], data).then(function (response) {
-    console.log(response); // window.localStorage.setItem(ACCESS_TOKEN, response.data.access_token);
-    // window.localStorage.setItem(REFRESH_TOKEN, response.data.refresh_token);
-    //this.props.dispatch(loginUser());
+    console.log(response); //this.props.dispatch(loginUser());
     //this.loadCartService();
   })["catch"](function (error) {
     console.log(error.response.data);
-    errors = error.response.data; // this.setState(() => ({
-    //     invalidCredentials: true,
-    //     isLoading: false
-    // }))
-  }); //}
+    errors = error.response.data;
+  });
 };
 
 var mapStateToProps = function mapStateToProps(state) {
