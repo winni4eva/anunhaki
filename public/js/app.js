@@ -72574,8 +72574,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_request__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/request */ "./resources/js/actions/request.js");
 /* harmony import */ var _actions_endpoints__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/endpoints */ "./resources/js/actions/endpoints.js");
-/* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../constants/types */ "./resources/js/constants/types.js");
+/* harmony import */ var _FormInput_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../FormInput/FormInput */ "./resources/js/components/FormInput/FormInput.js");
+/* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../constants/types */ "./resources/js/constants/types.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 
 
 
@@ -72585,7 +72587,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 var setAuthHelper = function setAuthHelper(auth) {
   return {
-    type: _constants_types__WEBPACK_IMPORTED_MODULE_4__["LOG_IN"],
+    type: _constants_types__WEBPACK_IMPORTED_MODULE_5__["LOG_IN"],
     payload: auth
   };
 }; //history, location, match, staticContext, authentication, dispatch 
@@ -72602,35 +72604,29 @@ var login = function login(_ref) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "SignIn ", props.authentication.isAuthenticated || 'Falsy'), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     id: "errorSpan",
     className: "block sm:inline text-red-600 my-2"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "mb-4 my-6"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    className: "block text-grey-darker text-sm font-bold mb-2",
-    htmlFor: "email"
-  }, "Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline",
-    id: "email",
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    label: "Email",
+    labelClass: "block text-grey-darker text-sm font-bold mb-2",
     name: "email",
-    type: "email",
     placeholder: "chloe@gmail.com",
-    onChange: handleEmailChange
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "text-red-dark text-xs italic"
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "mb-6"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    className: "block text-grey-darker text-sm font-bold mb-2",
-    htmlFor: "password"
-  }, "Password"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline",
-    id: "password",
+    type: "email",
+    classList: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" //value={inputs.name.value} 
+    ,
+    onChange: handleEmailChange // error={inputs.name.hasError ? 'Email is required' : ''}
+    // data-test="login-form.email-input"
+
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    label: "Password",
+    labelClass: "block text-grey-darker text-sm font-bold mb-2",
     name: "password",
+    placeholder: "******",
     type: "password",
-    placeholder: "****",
-    onChange: handlePasswordChange
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "text-red-dark text-xs italic"
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    classList: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" //value={inputs.name.value} 
+    ,
+    onChange: handlePasswordChange // error={inputs.name.hasError ? 'Email is required' : ''}
+    // data-test="login-form.email-input"
+
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex items-center justify-between"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "submit",
@@ -72653,6 +72649,7 @@ var handleEmailChange = function handleEmailChange(e) {
   var validEmail = emailRegex.test(String(email).toLowerCase());
 
   if (!validEmail) {
+    console.log('Email Invalid');
     inputValidationState['email'] = false;
     removeElementClass('bg-blue-500 hover:bg-blue-700');
     toggleButton('bg-gray-500 hover:bg-gray-700', true);
@@ -72660,6 +72657,7 @@ var handleEmailChange = function handleEmailChange(e) {
     return;
   }
 
+  console.log('Email valid');
   inputValidationState['email'] = true;
 
   if (checkInputValidationState()) {
@@ -72677,6 +72675,7 @@ var handlePasswordChange = function handlePasswordChange(e) {
   var validatePassword = password.match(passwRegex);
 
   if (!validatePassword) {
+    console.log('Pasword Invalid');
     inputValidationState['password'] = false;
     removeElementClass('bg-blue-500 hover:bg-blue-700');
     toggleButton('bg-gray-500 hover:bg-gray-700', true);
@@ -72687,6 +72686,7 @@ var handlePasswordChange = function handlePasswordChange(e) {
   inputValidationState['password'] = true;
 
   if (checkInputValidationState()) {
+    console.log('Password valid');
     removeElementClass('bg-gray-500 hover:bg-gray-700');
     toggleButton('bg-blue-500 hover:bg-blue-700', false);
     displayErrorMessage();
@@ -72873,6 +72873,55 @@ var cockpit = function cockpit(props) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (cockpit);
+
+/***/ }),
+
+/***/ "./resources/js/components/FormInput/FormInput.js":
+/*!********************************************************!*\
+  !*** ./resources/js/components/FormInput/FormInput.js ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var FormInput = function FormInput() {
+  var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    type: 'text',
+    onBlur: function onBlur() {}
+  },
+      label = _ref.label,
+      labelClass = _ref.labelClass,
+      value = _ref.value,
+      placeholder = _ref.placeholder,
+      type = _ref.type,
+      name = _ref.name,
+      classList = _ref.classList,
+      onChange = _ref.onChange,
+      onBlur = _ref.onBlur,
+      error = _ref.error;
+
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "mb-6"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: name,
+    className: labelClass
+  }, label), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: type,
+    name: name //value={value || ''} 
+    ,
+    onChange: onChange //onBlur={onBlur}
+    ,
+    placeholder: placeholder,
+    className: classList
+  }));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (FormInput);
 
 /***/ }),
 
