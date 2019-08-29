@@ -2,12 +2,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from '../../actions/request';
 import {loginEndpoint} from '../../actions/endpoints';
+import {LOG_IN} from '../../constants/types';
 
-const login = ({props}) => { 
+const setAuthHelper = (auth) => ({
+    type: LOG_IN,
+    payload: auth
+});
+
+//history, location, match, staticContext, authentication, dispatch 
+
+const login = ({...props}) => { 
               return (
                 <div className="flex justify-end w-full my-9 clearfix">
                     <form onSubmit={onLoginSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24">  
-                        <h3>SignIn</h3>     
+                        <h3>SignIn {props.authentication.isAuthenticated || 'Falsy'}</h3>     
                         <span id="errorSpan" className="block sm:inline text-red-600 my-2"></span>
                         <div className="mb-4 my-6">
                             <label className="block text-grey-darker text-sm font-bold mb-2" htmlFor="email">
@@ -41,7 +49,7 @@ const login = ({props}) => {
                         </div>
                         
                         <div className="flex items-center justify-between">
-                        <button type={"submit"} id="login-submit-button" className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded">
+                        <button type={"submit"} onClick={() => props.dispatch(setAuthHelper(true))} id="login-submit-button" className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded">
                             Sign In
                         </button>
                         </div>
@@ -137,8 +145,8 @@ const login = ({props}) => {
 
         axios.post(loginEndpoint, data)
             .then(response => {
-                console.log(response)
                 displayErrorMessage();
+                console.log(response.response.access_token);
             })
             .catch(error => {
                 console.log(error.response.data);

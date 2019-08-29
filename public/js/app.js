@@ -72574,19 +72574,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_request__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/request */ "./resources/js/actions/request.js");
 /* harmony import */ var _actions_endpoints__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/endpoints */ "./resources/js/actions/endpoints.js");
+/* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../constants/types */ "./resources/js/constants/types.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 
 
+
+
+
+
+var setAuthHelper = function setAuthHelper(auth) {
+  return {
+    type: _constants_types__WEBPACK_IMPORTED_MODULE_4__["LOG_IN"],
+    payload: auth
+  };
+}; //history, location, match, staticContext, authentication, dispatch 
 
 
 var login = function login(_ref) {
-  var props = _ref.props;
+  var props = _extends({}, _ref);
+
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex justify-end w-full my-9 clearfix"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     onSubmit: onLoginSubmit,
     className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "SignIn"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "SignIn ", props.authentication.isAuthenticated || 'Falsy'), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     id: "errorSpan",
     className: "block sm:inline text-red-600 my-2"
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -72621,6 +72634,9 @@ var login = function login(_ref) {
     className: "flex items-center justify-between"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "submit",
+    onClick: function onClick() {
+      return props.dispatch(setAuthHelper(true));
+    },
     id: "login-submit-button",
     className: "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded"
   }, "Sign In"))));
@@ -72728,8 +72744,8 @@ var onLoginSubmit = function onLoginSubmit(e) {
     password: password
   };
   _actions_request__WEBPACK_IMPORTED_MODULE_2__["default"].post(_actions_endpoints__WEBPACK_IMPORTED_MODULE_3__["loginEndpoint"], data).then(function (response) {
-    console.log(response);
     displayErrorMessage();
+    console.log(response.response.access_token);
   })["catch"](function (error) {
     console.log(error.response.data);
     var message = error.response.data.message;
