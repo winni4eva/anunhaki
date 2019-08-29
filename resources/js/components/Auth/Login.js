@@ -8,7 +8,7 @@ const login = ({props}) => {
                 <div className="flex justify-end w-full my-9 clearfix">
                     <form onSubmit={onLoginSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24">  
                         <h3>SignIn</h3>     
-                        <span id="errorSpan" className="block sm:inline text-red-dark my-2"></span>
+                        <span id="errorSpan" className="block sm:inline text-red-600 my-2"></span>
                         <div className="mb-4 my-6">
                             <label className="block text-grey-darker text-sm font-bold mb-2" htmlFor="email">
                                 Email
@@ -68,7 +68,7 @@ const login = ({props}) => {
         if(checkInputValidationState()){
             removeElementClass('bg-gray-500 hover:bg-gray-700');
             toggleButton('bg-blue-500 hover:bg-blue-700', false);
-            displayErrorMessage(null);
+            displayErrorMessage();
         }
         return;
     }
@@ -90,7 +90,7 @@ const login = ({props}) => {
         if(checkInputValidationState()){
             removeElementClass('bg-gray-500 hover:bg-gray-700');
             toggleButton('bg-blue-500 hover:bg-blue-700', false);
-            displayErrorMessage(null);
+            displayErrorMessage();
         }
         return;
     }
@@ -124,7 +124,7 @@ const login = ({props}) => {
         });
     }
 
-    const displayErrorMessage = (message) => {
+    const displayErrorMessage = (message = null) => {
         const errorSpan = document.querySelector('#errorSpan');
         errorSpan.innerHTML = message;
     }
@@ -133,18 +133,17 @@ const login = ({props}) => {
         e.preventDefault();
         const email = e.target.email.value;
         const password = e.target.password.value;
-
         const data = {email, password};
 
         axios.post(loginEndpoint, data)
             .then(response => {
                 console.log(response)
-                //this.props.dispatch(loginUser());
-                //this.loadCartService();
+                displayErrorMessage();
             })
             .catch(error => {
                 console.log(error.response.data);
-                errors = error.response.data;
+                const message = error.response.data.message;
+                displayErrorMessage(message);
             });
     };
 

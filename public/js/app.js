@@ -72588,7 +72588,7 @@ var login = function login(_ref) {
     className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "SignIn"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     id: "errorSpan",
-    className: "block sm:inline text-red-dark my-2"
+    className: "block sm:inline text-red-600 my-2"
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "mb-4 my-6"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -72649,7 +72649,7 @@ var handleEmailChange = function handleEmailChange(e) {
   if (checkInputValidationState()) {
     removeElementClass('bg-gray-500 hover:bg-gray-700');
     toggleButton('bg-blue-500 hover:bg-blue-700', false);
-    displayErrorMessage(null);
+    displayErrorMessage();
   }
 
   return;
@@ -72673,7 +72673,7 @@ var handlePasswordChange = function handlePasswordChange(e) {
   if (checkInputValidationState()) {
     removeElementClass('bg-gray-500 hover:bg-gray-700');
     toggleButton('bg-blue-500 hover:bg-blue-700', false);
-    displayErrorMessage(null);
+    displayErrorMessage();
   }
 
   return;
@@ -72713,7 +72713,8 @@ var removeElementClass = function removeElementClass(classes) {
   });
 };
 
-var displayErrorMessage = function displayErrorMessage(message) {
+var displayErrorMessage = function displayErrorMessage() {
+  var message = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
   var errorSpan = document.querySelector('#errorSpan');
   errorSpan.innerHTML = message;
 };
@@ -72727,11 +72728,12 @@ var onLoginSubmit = function onLoginSubmit(e) {
     password: password
   };
   _actions_request__WEBPACK_IMPORTED_MODULE_2__["default"].post(_actions_endpoints__WEBPACK_IMPORTED_MODULE_3__["loginEndpoint"], data).then(function (response) {
-    console.log(response); //this.props.dispatch(loginUser());
-    //this.loadCartService();
+    console.log(response);
+    displayErrorMessage();
   })["catch"](function (error) {
     console.log(error.response.data);
-    errors = error.response.data;
+    var message = error.response.data.message;
+    displayErrorMessage(message);
   });
 };
 
