@@ -90081,11 +90081,7 @@ __webpack_require__.r(__webpack_exports__);
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 
- //import axios from '../../actions/request';
-//import {loginEndpoint} from '../../actions/endpoints';
-//import FormInput from '../FormInput/FormInput';
-//import {handleEmailChange, handlePasswordChange} from '../../utils/helpers';
-//import {isValidEmail, isValidPassword} from '../../utils/validation'
+ //import FormInput from '../FormInput/FormInput';
 
 
 
@@ -90148,7 +90144,7 @@ var login = function login(_ref) {
       type: "submit",
       className: "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded",
       disabled: isSubmitting
-    }, isSubmitting ? "Please wait..." : "Submit")));
+    }, isSubmitting ? "Please wait..." : "Login")));
   }));
 };
 
@@ -90174,52 +90170,88 @@ var Login = Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapState
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/auth */ "./resources/js/actions/auth.js");
+/* harmony import */ var _utils_validation__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/validation */ "./resources/js/utils/validation.js");
+/* harmony import */ var formik__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 
-var register = function register(props) {
+ //import FormInput from '../FormInput/FormInput';
+
+
+
+
+
+var login = function login(_ref) {
+  var props = _extends({}, _ref);
+
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex justify-end w-full my-6 clearfix"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Register"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-    className: "block sm:inline text-red-dark my-2",
-    "v-if": "this.error && this.error.message"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "mb-4 my-6"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    className: "block text-grey-darker text-sm font-bold mb-2",
-    htmlFor: "email"
-  }, "Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    "v-model": "login.email",
-    className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline",
-    id: "email",
-    type: "email",
-    placeholder: "chloe@gmail.com"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "text-red-dark text-xs italic",
-    "v-if": "this.error && this.error.errors && this.error.errors.email && Array.isArray(this.error.errors.email)"
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "mb-6"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    className: "block text-grey-darker text-sm font-bold mb-2",
-    htmlFor: "password"
-  }, "Password"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    "v-model": "login.password",
-    className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline",
-    id: "password",
-    type: "password",
-    placeholder: "***"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    className: "text-red-dark text-xs italic",
-    "v-if": "this.error && this.error.errors && this.error.errors.password && Array.isArray(this.error.errors.password)"
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex items-center justify-between"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
-  }, "Register"))));
+    className: "flex justify-end w-full my-9 clearfix"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["Formik"], {
+    initialValues: {
+      email: '',
+      password: '',
+      password_confirmation: ''
+    } // validationSchema={loginSchemaValidator}
+    ,
+    onSubmit: function onSubmit(values, actions) {//postLogin(values, actions, props);
+    }
+  }, function (_ref2) {
+    var touched = _ref2.touched,
+        errors = _ref2.errors,
+        isSubmitting = _ref2.isSubmitting;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["Form"], {
+      className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "SignIn ", props.authentication.isAuthenticated || 'Falsy'), errors.message ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "text-red-500 text-xs italic"
+    }, errors.message) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "mb-4 my-6"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      htmlFor: "email",
+      className: "block text-grey-darker text-sm font-bold mb-2"
+    }, "Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["Field"], {
+      type: "email",
+      name: "email",
+      placeholder: "chloe@mail.com",
+      className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ".concat(touched.email && errors.email ? "border-red-500 focus:outline-none" : ""),
+      autoFocus: true
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["ErrorMessage"], {
+      component: "p",
+      name: "email",
+      className: "text-red-500 text-xs italic"
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "mb-4 my-6"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      htmlFor: "password",
+      className: "block text-grey-darker text-sm font-bold mb-2"
+    }, "Password"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["Field"], {
+      type: "password",
+      name: "password",
+      placeholder: "Enter password",
+      className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ".concat(touched.password && errors.password ? "is-invalid" : "")
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["ErrorMessage"], {
+      component: "span",
+      name: "password",
+      className: "text-red-500 text-xs italic"
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "flex items-center justify-between"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      type: "submit",
+      className: "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded",
+      disabled: isSubmitting
+    }, isSubmitting ? "Please wait..." : "Register")));
+  }));
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (register);
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    authentication: state.authentication
+  };
+};
+
+var Login = Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps)(login);
+/* harmony default export */ __webpack_exports__["default"] = (Login);
 
 /***/ }),
 
@@ -90642,19 +90674,30 @@ var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])(
 /*!******************************************!*\
   !*** ./resources/js/utils/validation.js ***!
   \******************************************/
-/*! exports provided: loginSchemaValidator */
+/*! exports provided: loginSchemaValidator, registerSchemaValidator */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loginSchemaValidator", function() { return loginSchemaValidator; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerSchemaValidator", function() { return registerSchemaValidator; });
 /* harmony import */ var yup__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! yup */ "./node_modules/yup/lib/index.js");
 /* harmony import */ var yup__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(yup__WEBPACK_IMPORTED_MODULE_0__);
 
 var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/;
+var emailValidationRule = yup__WEBPACK_IMPORTED_MODULE_0__["string"]().email('Email is invalid').required('Email is required');
+var passwordValidationRule = yup__WEBPACK_IMPORTED_MODULE_0__["string"]().min(6, 'Password is too short - should be 6 chars minimum.').max(15, 'Password is too long - should be 15 chars maximum').matches(passwordRegex, 'Password must contain an uppercase letter, lowercase letter and a number');
 var loginSchemaValidator = yup__WEBPACK_IMPORTED_MODULE_0__["object"]().shape({
-  email: yup__WEBPACK_IMPORTED_MODULE_0__["string"]().email('Email is invalid').required('Email is required'),
-  password: yup__WEBPACK_IMPORTED_MODULE_0__["string"]().required('Password is required').min(6, 'Password is too short - should be 6 chars minimum.').max(15, 'Password is too long - should be 15 chars maximum').matches(passwordRegex, 'Password must contain an uppercase letter, lowercase letter and a number')
+  email: emailValidationRule,
+  password: passwordValidationRule.required('Password is required')
+});
+var registerSchemaValidator = yup__WEBPACK_IMPORTED_MODULE_0__["object"]().shape({
+  first_name: yup__WEBPACK_IMPORTED_MODULE_0__["string"]().min(3).required('First name is required'),
+  last_name: yup__WEBPACK_IMPORTED_MODULE_0__["string"]().min(3).required('Last name is required'),
+  email: emailValidationRule,
+  password: passwordValidationRule.required('Password is required'),
+  password_confirmation: passwordValidationRule.required('Password confirmation is required'),
+  phone_number: ''
 });
 
 /***/ }),

@@ -1,10 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-//import axios from '../../actions/request';
-//import {loginEndpoint} from '../../actions/endpoints';
 //import FormInput from '../FormInput/FormInput';
-//import {handleEmailChange, handlePasswordChange} from '../../utils/helpers';
-//import {isValidEmail, isValidPassword} from '../../utils/validation'
 import {postLogin} from '../../actions/auth'
 import {loginSchemaValidator} from '../../utils/validation';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -68,7 +64,7 @@ const login = ({...props}) => {
                         className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded"
                         disabled={isSubmitting}
                         >
-                        {isSubmitting ? "Please wait..." : "Submit"}
+                        {isSubmitting ? "Please wait..." : "Login"}
                         </button>
                     </div>    
                   </Form>
