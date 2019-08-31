@@ -9,7 +9,7 @@ const login = ({...props}) => {
     return (
         <div className="flex justify-end w-full my-9 clearfix">
               <Formik
-                initialValues={{ email: '', password: '', password_confirmation: '' }}
+                initialValues={{ first_name: '', last_name: '', email: '', password: '', password_confirmation: '' , phone_number: ''}}
                 // validationSchema={loginSchemaValidator}
                 onSubmit={(values, actions) => {
                     //postLogin(values, actions, props);

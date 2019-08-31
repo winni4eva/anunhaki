@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('token_2fa')->nullable();
             $table->datetime('token_2fa_expiry')->nullable();
             $table->string('password');
+            $table->json('white_listed_ips');
             $table->rememberToken();
             $table->timestamps();
         });

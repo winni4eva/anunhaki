@@ -90190,9 +90190,12 @@ var login = function login(_ref) {
     className: "flex justify-end w-full my-9 clearfix"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["Formik"], {
     initialValues: {
+      first_name: '',
+      last_name: '',
       email: '',
       password: '',
-      password_confirmation: ''
+      password_confirmation: '',
+      phone_number: ''
     } // validationSchema={loginSchemaValidator}
     ,
     onSubmit: function onSubmit(values, actions) {//postLogin(values, actions, props);
