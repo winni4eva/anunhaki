@@ -6,7 +6,7 @@ import Cockpit from './Cockpit/Cockpit';
 import Main from './Main/Main';
 import Routes from './Routes/Routes';
 import configureStore from '../store/configureStore';
-import axios from '../actions/request';
+import makeRequest from '../actions/request';
 import {getWalletsEndpoint} from '../actions/endpoints';
 import {GET_WALLETS} from '../constants/types';
 
@@ -28,7 +28,7 @@ export default class App extends PureComponent {
     }
 
     getWallets() {
-        axios.get(getWalletsEndpoint)
+        makeRequest('GET', getWalletsEndpoint)
             .then(response => {
                 console.log(response);
                 const wallets = response.data.wallets || [];
