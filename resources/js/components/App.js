@@ -8,9 +8,14 @@ import Routes from './Routes/Routes';
 import configureStore from '../store/configureStore';
 import makeRequest from '../actions/request';
 import {getWalletsEndpoint} from '../actions/endpoints';
-import {GET_WALLETS} from '../constants/types';
+import {GET_WALLETS, LOG_IN, ACCESS_TOKEN} from '../constants/types';
 
 const store = configureStore();
+
+const setAuthHelper = (auth) => ({
+    type: LOG_IN,
+    payload: auth
+});
 
 const addWalletsHelper = (wallets) => ({
     type: GET_WALLETS,
@@ -24,13 +29,13 @@ export default class App extends PureComponent {
     }
     
     componentDidMount() {
+        store.dispatch(setAuthHelper(!!localStorage.getItem(ACCESS_TOKEN)));
         this.getWallets();
     }
 
     getWallets() {
         makeRequest('GET', getWalletsEndpoint)
             .then(response => {
-                console.log(response);
                 const wallets = response.data.wallets || [];
                 store.dispatch(addWalletsHelper(wallets));
             })

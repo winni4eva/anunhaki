@@ -90009,6 +90009,13 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var store = Object(_store_configureStore__WEBPACK_IMPORTED_MODULE_7__["default"])();
 
+var setAuthHelper = function setAuthHelper(auth) {
+  return {
+    type: _constants_types__WEBPACK_IMPORTED_MODULE_10__["LOG_IN"],
+    payload: auth
+  };
+};
+
 var addWalletsHelper = function addWalletsHelper(wallets) {
   return {
     type: _constants_types__WEBPACK_IMPORTED_MODULE_10__["GET_WALLETS"],
@@ -90030,13 +90037,13 @@ function (_PureComponent) {
   _createClass(App, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      store.dispatch(setAuthHelper(!!localStorage.getItem(_constants_types__WEBPACK_IMPORTED_MODULE_10__["ACCESS_TOKEN"])));
       this.getWallets();
     }
   }, {
     key: "getWallets",
     value: function getWallets() {
       Object(_actions_request__WEBPACK_IMPORTED_MODULE_8__["default"])('GET', _actions_endpoints__WEBPACK_IMPORTED_MODULE_9__["getWalletsEndpoint"]).then(function (response) {
-        console.log(response);
         var wallets = response.data.wallets || [];
         store.dispatch(addWalletsHelper(wallets));
       })["catch"](function (error) {
