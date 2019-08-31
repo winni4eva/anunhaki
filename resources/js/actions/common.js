@@ -1,5 +1,5 @@
 import axios from './request';
-import {getWalletsEndpoint} from './endpoints';
+import {getWalletsEndpoint, getCountriesEndpoint} from './endpoints';
 import {GET_WALLETS} from '../constants/types';
 
 const addWalletsHelper = (wallets) => ({
@@ -8,7 +8,6 @@ const addWalletsHelper = (wallets) => ({
 });
 
 export const getWallets = () => {
-    console.log("Made It Here");
     return (dispatch, getState) => {
         //const {authentication} = getState();
         //if(authentication.isAuthenticated){
@@ -27,3 +26,23 @@ export const getWallets = () => {
         //}
     }
 };
+
+export const getCountries = () => {
+    return (dispatch, getState) => {
+        //const {authentication} = getState();
+        //if(authentication.isAuthenticated){
+            //const access_token = localStorage.getItem(ACCESS_TOKEN);
+            //const headers = {Accept: "application/json", Authorization: `Bearer ${access_token}`};
+
+        axios.get(getCountriesEndpoint)
+            .then(response => {
+                console.log(response);
+                const countries = response.data.countries;
+                //dispatch(addWalletsHelper(wallets));
+            })
+            .catch(error => {
+                console.log(error.response);
+            });
+        //}
+    }
+}

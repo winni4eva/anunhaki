@@ -26,6 +26,7 @@ Route::group(
     }
 );
 
+// ========== Cleanup
 Route::post('2fa', function(Request $request){
     logger($request->all());
     return response()->json(['Made It']);
@@ -38,10 +39,13 @@ Route::get('wallets', function(){
     ];
     return response()->json(compact('wallets'));
 });
-
+// ========== Cleanup
+Route::group(function () {
+    Route::resource('countries', 'CountriesController', ['only' => ['index']]);
+});
 Route::group(
     ['middleware' => 'api'],
     function () {
-        //Route::resource('articles', 'ArticleController', ['except' => ['index']]);
+        Route::resource('countries', 'CountriesController', ['only' => ['index']]);
     }
 );

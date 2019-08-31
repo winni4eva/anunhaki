@@ -89825,15 +89825,17 @@ var postLogin = function postLogin(data, actions, props) {
 /*!*******************************************!*\
   !*** ./resources/js/actions/endpoints.js ***!
   \*******************************************/
-/*! exports provided: getWalletsEndpoint, loginEndpoint */
+/*! exports provided: getWalletsEndpoint, loginEndpoint, getCountriesEndpoint */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWalletsEndpoint", function() { return getWalletsEndpoint; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loginEndpoint", function() { return loginEndpoint; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCountriesEndpoint", function() { return getCountriesEndpoint; });
 var getWalletsEndpoint = "api/wallets";
 var loginEndpoint = 'api/login';
+var getCountriesEndpoint = 'api/countries';
 
 /***/ }),
 
