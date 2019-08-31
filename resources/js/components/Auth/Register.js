@@ -51,7 +51,6 @@ const login = ({...props}) => {
                         className={`shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ${
                           touched.last_name && errors.last_name ? "border-red-500 focus:outline-none" : ""
                         }`}
-                        autoFocus
                       />
                       <ErrorMessage
                         component="p"
@@ -69,7 +68,6 @@ const login = ({...props}) => {
                         className={`shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ${
                           touched.email && errors.email ? "border-red-500 focus:outline-none" : ""
                         }`}
-                        autoFocus
                       />
                       <ErrorMessage
                         component="p"
@@ -100,7 +98,7 @@ const login = ({...props}) => {
                       <Field
                         type="password_confirmation"
                         name="password_confirmation"
-                        placeholder="Enter password confirmation"
+                        placeholder="Confirm password"
                         className={`shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ${
                           touched.password_confirmation && errors.password_confirmation ? "is-invalid" : ""
                         }`}
@@ -145,7 +143,6 @@ const login = ({...props}) => {
                             className={`shadow appearance-none border rounded w-6/12 py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ${
                             touched.phone_number && errors.phone_number ? "border-red-500 focus:outline-none" : ""
                             }`}
-                            autoFocus
                         />
                         <ErrorMessage
                             component="p"

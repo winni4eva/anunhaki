@@ -40,7 +40,7 @@ Route::get('wallets', function(){
     return response()->json(compact('wallets'));
 });
 // ========== Cleanup
-Route::group(function () {
+Route::group([], function () {
     Route::resource('countries', 'CountriesController', ['only' => ['index']]);
 });
 Route::group(

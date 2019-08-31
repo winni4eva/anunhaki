@@ -15,8 +15,10 @@ class VerifyAuthUserIPAddress
      */
     public function handle($request, Closure $next)
     {
-        logger($request->all());
-        logger(auth()->user()->white_listed_ips);
+        if(auth()->check()) {
+            logger($request->all());
+            logger(auth()->user()->white_listed_ips);
+        }
         return $next($request);
     }
 }

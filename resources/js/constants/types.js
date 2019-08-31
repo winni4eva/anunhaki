@@ -8,3 +8,5 @@ export const REMOVE_WALLET = 'REMOVE_WALLET';
 export const LOG_IN = 'LOGIN';
 
 export const LOG_OUT = 'LOGOUT';
+
+export const SAVE_COUNTRIES = 'SAVE_COUNTRIES';
