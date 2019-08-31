@@ -1,23 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
 //import FormInput from '../FormInput/FormInput';
-import {postLogin} from '../../actions/auth'
-import {} from '../../utils/validation';
+import {postRegister} from '../../actions/auth'
+import {registerSchemaValidator} from '../../utils/validation';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 const login = ({...props}) => { 
+    const {authentication, countries} = props;
+
     return (
         <div className="flex justify-end w-full my-9 clearfix">
               <Formik
-                initialValues={{ first_name: '', last_name: '', email: '', password: '', password_confirmation: '' , phone_number: '', phone_country: ''}}
-                // validationSchema={loginSchemaValidator}
+                initialValues={{ first_name: '', last_name: '', email: '', password: '' , phone_number: '', phone_country: ''}}
+                validationSchema={registerSchemaValidator}
                 onSubmit={(values, actions) => {
-                    //postLogin(values, actions, props);
+                    postRegister(values, actions, props);
                 }}
               >
-                {({ touched, errors, isSubmitting, values }) => (
+                {({ touched, errors, isSubmitting, values, handleChange, handleBlur }) => (
                   <Form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24">
-                    <h3>Register {props.authentication.isAuthenticated || 'Falsy'}</h3> 
+                    <h3>Register {authentication.isAuthenticated || 'Falsy'}</h3>
                     {
                         errors.message 
                             ?   <span className="text-red-500 text-xs italic">{errors.message}</span>
@@ -93,7 +95,7 @@ const login = ({...props}) => {
                       />
                     </div>
 
-                    <div className="mb-4 my-6">
+                    {/* <div className="mb-4 my-6">
                       <label htmlFor="password_confirmation" className="block text-grey-darker text-sm font-bold mb-2">Password Confirmation</label>
                       <Field
                         type="password_confirmation"
@@ -108,26 +110,24 @@ const login = ({...props}) => {
                         name="password_confirmation"
                         className="text-red-500 text-xs italic"
                       />
-                    </div>
+                    </div> */}
 
                     <div className="mb-4 my-6">
                         <label htmlFor="phone_number" className="block text-grey-darker text-sm font-bold mb-2">Phone Number</label>
                         <select
                             name="phone_country"
                             value={values.phone_country}
-                            //onChange={handleChange}
-                            //onBlur={handleBlur}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                             className={`shadow appearance-none border rounded w-3/12 py-2 px-3 mr-2 text-grey-darker leading-tight focus:shadow-outline ${
-                                touched.password_confirmation && errors.password_confirmation ? "is-invalid" : ""
+                                touched.phone_country && errors.phone_country ? "is-invalid" : ""
                               }`}
                             >
-                            <option value="" label="Country" />
-                            <option value="US" label="United States" />
-                            <option value="GH" label="Ghana" />
+                            {countries.countries.map(country => <option key={country.iso} value={country.iso}>{country.nicename}</option>)}
                         </select>
                         <ErrorMessage
                             component="span"
-                            name="phone_number"
+                            name="phone_country"
                             className="text-red-500 text-xs italic"
                         />
                         {errors.phone_country &&
@@ -143,6 +143,7 @@ const login = ({...props}) => {
                             className={`shadow appearance-none border rounded w-6/12 py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ${
                             touched.phone_number && errors.phone_number ? "border-red-500 focus:outline-none" : ""
                             }`}
+                            id="phone_number"
                         />
                         <ErrorMessage
                             component="p"
@@ -169,7 +170,10 @@ const login = ({...props}) => {
 
 
 const mapStateToProps = state => {
-    return { authentication: state.authentication };
+    return { 
+        authentication: state.authentication,
+        countries: state.countries 
+    };
 };
 
 const Login = connect(mapStateToProps)(login);

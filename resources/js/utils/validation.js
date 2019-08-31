@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { parsePhoneNumberFromString, AsYouType } from 'libphonenumber-js';
 
 const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/;
 const emailValidationRule = Yup.string().email('Email is invalid').required('Email is required');
@@ -17,6 +18,25 @@ export const registerSchemaValidator = Yup.object().shape({
   last_name: Yup.string().min(3).required('Last name is required'), 
   email: emailValidationRule, 
   password: passwordValidationRule.required('Password is required'), 
-  password_confirmation: passwordValidationRule.required('Password confirmation is required'), 
-  phone_number: '',
+  //password_confirmation: passwordValidationRule.required('Password confirmation is required'), 
+  phone_country: Yup.string().required('Phone country is required'),
+  phone_number: Yup.string().test('validate-phone-number', 'Invalid phone number', function(value) {
+    const { path, createError, options } = this;
+    const selectedCountry = options.parent.phone_country;
+    if(value && selectedCountry) {
+      const phoneNumber = parsePhoneNumberFromString(value, selectedCountry);
+
+      if(!phoneNumber.isValid()) {
+        return false;
+        //createError({ path, message: 'Phone number is not valid' });
+      } else if (phoneNumber.country !== selectedCountry) {
+        return false;
+      } else {
+        const phoneInput = document.querySelector('#phone_number');
+        phoneInput.value = phoneNumber.formatInternational();
+        return true;
+      }
+    }
+    return false;
+  }).required('Phone is required'),
 });

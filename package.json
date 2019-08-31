@@ -31,6 +31,7 @@
     },
     "dependencies": {
         "formik": "1.5.8",
+        "libphonenumber-js": "1.7.23",
         "react-router-dom": "5.0.1",
         "yup": "0.27.0"
     }

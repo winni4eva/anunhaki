@@ -14,7 +14,7 @@ class CountriesController extends Controller
      */
     public function index()
     {
-        $countries = Country::pluck('iso', 'nicename');
+        $countries = Country::select('iso', 'nicename')->get();
 
         return response()->json(compact('countries'));
     }
