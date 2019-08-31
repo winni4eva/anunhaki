@@ -3,10 +3,6 @@ import {ACCESS_TOKEN} from '../constants/types';
 
 const access_token = localStorage.getItem(ACCESS_TOKEN);
 
-// export const getHeaders = (access_token) => (
-//     {Accept: "application/json", Authorization: `Bearer ${access_token}`}
-// );
-
 const request = axios.create({
     baseURL: window.Laravel.base_url,
     timeout: 8000,

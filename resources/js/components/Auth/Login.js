@@ -5,14 +5,9 @@ import { connect } from 'react-redux';
 //import FormInput from '../FormInput/FormInput';
 //import {handleEmailChange, handlePasswordChange} from '../../utils/helpers';
 //import {isValidEmail, isValidPassword} from '../../utils/validation'
+import {postLogin} from '../../actions/auth'
 import {loginSchemaValidator} from '../../utils/validation';
-import {LOG_IN} from '../../constants/types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-
-const setAuthHelper = (auth) => ({
-    type: LOG_IN,
-    payload: auth
-});
 
 const login = ({...props}) => { 
     return (
@@ -21,17 +16,17 @@ const login = ({...props}) => {
                 initialValues={{ email: '', password: '' }}
                 validationSchema={loginSchemaValidator}
                 onSubmit={(values, actions) => {
-                  console.log(values);
-                  alert("Form is validated! Submitting the form...");
-                  setTimeout(() => {
-                    actions.setSubmitting(false);
-                  }, 5000);
+                    postLogin(values, actions, props);
                 }}
               >
                 {({ touched, errors, isSubmitting }) => (
                   <Form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24">
                     <h3>SignIn {props.authentication.isAuthenticated || 'Falsy'}</h3> 
-
+                    {
+                        errors.message 
+                            ?   <span className="text-red-500 text-xs italic">{errors.message}</span>
+                            : null
+                    }
                     <div className="mb-4 my-6">
                       <label htmlFor="email" className="block text-grey-darker text-sm font-bold mb-2">Email</label>
                       <Field
@@ -41,6 +36,7 @@ const login = ({...props}) => {
                         className={`shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ${
                           touched.email && errors.email ? "border-red-500 focus:outline-none" : ""
                         }`}
+                        autoFocus
                       />
                       <ErrorMessage
                         component="p"

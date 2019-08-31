@@ -89773,6 +89773,54 @@ module.exports = exports["default"];
 
 /***/ }),
 
+/***/ "./resources/js/actions/auth.js":
+/*!**************************************!*\
+  !*** ./resources/js/actions/auth.js ***!
+  \**************************************/
+/*! exports provided: postLogin */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postLogin", function() { return postLogin; });
+/* harmony import */ var _request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./request */ "./resources/js/actions/request.js");
+/* harmony import */ var _endpoints__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./endpoints */ "./resources/js/actions/endpoints.js");
+/* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants/types */ "./resources/js/constants/types.js");
+
+
+
+
+var setAuthHelper = function setAuthHelper(auth) {
+  return {
+    type: _constants_types__WEBPACK_IMPORTED_MODULE_2__["LOG_IN"],
+    payload: auth
+  };
+};
+
+var postLogin = function postLogin(data, actions, props) {
+  var dispatch = props.dispatch;
+  var setSubmitting = actions.setSubmitting,
+      setErrors = actions.setErrors;
+  Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('POST', _endpoints__WEBPACK_IMPORTED_MODULE_1__["loginEndpoint"], data).then(function (response) {
+    localStorage.setItem(_constants_types__WEBPACK_IMPORTED_MODULE_2__["ACCESS_TOKEN"], response.response.access_token);
+    dispatch(setAuthHelper(true));
+    setSubmitting(false);
+    setErrors({
+      message: ''
+    });
+  })["catch"](function (error) {
+    var message = error.response.data.message;
+    localStorage.setItem(_constants_types__WEBPACK_IMPORTED_MODULE_2__["ACCESS_TOKEN"], null);
+    dispatch(setAuthHelper(false));
+    setSubmitting(false);
+    setErrors({
+      message: message
+    });
+  });
+};
+
+/***/ }),
+
 /***/ "./resources/js/actions/endpoints.js":
 /*!*******************************************!*\
   !*** ./resources/js/actions/endpoints.js ***!
@@ -89803,10 +89851,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants/types */ "./resources/js/constants/types.js");
 
 
-var access_token = localStorage.getItem(_constants_types__WEBPACK_IMPORTED_MODULE_1__["ACCESS_TOKEN"]); // export const getHeaders = (access_token) => (
-//     {Accept: "application/json", Authorization: `Bearer ${access_token}`}
-// );
-
+var access_token = localStorage.getItem(_constants_types__WEBPACK_IMPORTED_MODULE_1__["ACCESS_TOKEN"]);
 var request = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
   baseURL: window.Laravel.base_url,
   timeout: 8000,
@@ -90030,8 +90075,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _utils_validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/validation */ "./resources/js/utils/validation.js");
-/* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../constants/types */ "./resources/js/constants/types.js");
+/* harmony import */ var _actions_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/auth */ "./resources/js/actions/auth.js");
+/* harmony import */ var _utils_validation__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/validation */ "./resources/js/utils/validation.js");
 /* harmony import */ var formik__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
@@ -90046,13 +90091,6 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 
 
-var setAuthHelper = function setAuthHelper(auth) {
-  return {
-    type: _constants_types__WEBPACK_IMPORTED_MODULE_3__["LOG_IN"],
-    payload: auth
-  };
-};
-
 var login = function login(_ref) {
   var props = _extends({}, _ref);
 
@@ -90063,13 +90101,9 @@ var login = function login(_ref) {
       email: '',
       password: ''
     },
-    validationSchema: _utils_validation__WEBPACK_IMPORTED_MODULE_2__["loginSchemaValidator"],
+    validationSchema: _utils_validation__WEBPACK_IMPORTED_MODULE_3__["loginSchemaValidator"],
     onSubmit: function onSubmit(values, actions) {
-      console.log(values);
-      alert("Form is validated! Submitting the form...");
-      setTimeout(function () {
-        actions.setSubmitting(false);
-      }, 5000);
+      Object(_actions_auth__WEBPACK_IMPORTED_MODULE_2__["postLogin"])(values, actions, props);
     }
   }, function (_ref2) {
     var touched = _ref2.touched,
@@ -90077,7 +90111,9 @@ var login = function login(_ref) {
         isSubmitting = _ref2.isSubmitting;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["Form"], {
       className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "SignIn ", props.authentication.isAuthenticated || 'Falsy'), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "SignIn ", props.authentication.isAuthenticated || 'Falsy'), errors.message ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "text-red-500 text-xs italic"
+    }, errors.message) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mb-4 my-6"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       htmlFor: "email",
@@ -90086,7 +90122,8 @@ var login = function login(_ref) {
       type: "email",
       name: "email",
       placeholder: "chloe@mail.com",
-      className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ".concat(touched.email && errors.email ? "border-red-500 focus:outline-none" : "")
+      className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ".concat(touched.email && errors.email ? "border-red-500 focus:outline-none" : ""),
+      autoFocus: true
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["ErrorMessage"], {
       component: "p",
       name: "email",
@@ -90614,27 +90651,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var yup__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! yup */ "./node_modules/yup/lib/index.js");
 /* harmony import */ var yup__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(yup__WEBPACK_IMPORTED_MODULE_0__);
 
-var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/; // export const loginFormValidation = values => {
-//     let errors = {};
-//     if (values.email === '') {
-//       errors.email = 'Email is required';
-//     } else if(!isValidEmail(values.email)){
-//         errors.email = 'Email field is invalid'
-//     }
-//     if (values.password === '') {
-//       errors.password = "Password is required";
-//     } else if (!isValidPassword(values.password)) {
-//       errors.password = `
-//           password must be 6 to 20 characters <br/>must contain at least one numeric digit <br/>one uppercase and one lowercase letter
-//       `;
-//     }
-//     return errors;
-// }
-
+var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/;
 var loginSchemaValidator = yup__WEBPACK_IMPORTED_MODULE_0__["object"]().shape({
   email: yup__WEBPACK_IMPORTED_MODULE_0__["string"]().email('Email is invalid').required('Email is required'),
-  password: yup__WEBPACK_IMPORTED_MODULE_0__["string"]().required('Password is required').min(6, 'Password is too short - should be 6 chars minimum.').max(15, 'Password is too long - should be 15 chars maximum').matches(passwordRegex, 'Password can only contain Latin letters.')
+  password: yup__WEBPACK_IMPORTED_MODULE_0__["string"]().required('Password is required').min(6, 'Password is too short - should be 6 chars minimum.').max(15, 'Password is too long - should be 15 chars maximum').matches(passwordRegex, 'Password must contain an uppercase letter, lowercase letter and a number')
 });
 
 /***/ }),
