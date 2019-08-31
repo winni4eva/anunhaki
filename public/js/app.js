@@ -89802,7 +89802,7 @@ var postLogin = function postLogin(data, actions, props) {
   var setSubmitting = actions.setSubmitting,
       setErrors = actions.setErrors;
   Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('POST', _endpoints__WEBPACK_IMPORTED_MODULE_1__["loginEndpoint"], data).then(function (response) {
-    localStorage.setItem(_constants_types__WEBPACK_IMPORTED_MODULE_2__["ACCESS_TOKEN"], response.response.access_token);
+    localStorage.setItem(_constants_types__WEBPACK_IMPORTED_MODULE_2__["ACCESS_TOKEN"], response.data.access_token);
     dispatch(setAuthHelper(true));
     setSubmitting(false);
     setErrors({

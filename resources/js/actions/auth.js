@@ -12,7 +12,7 @@ export const postLogin = (data, actions, props) => {
     const {setSubmitting, setErrors} = actions;
     makeRequest('POST', loginEndpoint, data)
         .then(response => {
-            localStorage.setItem(ACCESS_TOKEN, response.response.access_token);
+            localStorage.setItem(ACCESS_TOKEN, response.data.access_token);
             dispatch(setAuthHelper(true));
             setSubmitting(false);
             setErrors({message: ''});
