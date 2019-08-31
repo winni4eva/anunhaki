@@ -28,7 +28,7 @@ const login = ({...props}) => {
                       <Field
                         type="email"
                         name="email"
-                        placeholder="chloe@mail.com"
+                        placeholder="adam@winni.com"
                         className={`shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ${
                           touched.email && errors.email ? "border-red-500 focus:outline-none" : ""
                         }`}

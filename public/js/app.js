@@ -90117,7 +90117,7 @@ var login = function login(_ref) {
     }, "Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["Field"], {
       type: "email",
       name: "email",
-      placeholder: "chloe@mail.com",
+      placeholder: "adam@winni.com",
       className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ".concat(touched.email && errors.email ? "border-red-500 focus:outline-none" : ""),
       autoFocus: true
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["ErrorMessage"], {
@@ -90195,7 +90195,8 @@ var login = function login(_ref) {
       email: '',
       password: '',
       password_confirmation: '',
-      phone_number: ''
+      phone_number: '',
+      phone_country: ''
     } // validationSchema={loginSchemaValidator}
     ,
     onSubmit: function onSubmit(values, actions) {//postLogin(values, actions, props);
@@ -90203,12 +90204,43 @@ var login = function login(_ref) {
   }, function (_ref2) {
     var touched = _ref2.touched,
         errors = _ref2.errors,
-        isSubmitting = _ref2.isSubmitting;
+        isSubmitting = _ref2.isSubmitting,
+        values = _ref2.values;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["Form"], {
       className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "SignIn ", props.authentication.isAuthenticated || 'Falsy'), errors.message ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Register ", props.authentication.isAuthenticated || 'Falsy'), errors.message ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "text-red-500 text-xs italic"
     }, errors.message) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "mb-4 my-6"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      htmlFor: "first_name",
+      className: "block text-grey-darker text-sm font-bold mb-2"
+    }, "First Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["Field"], {
+      type: "text",
+      name: "first_name",
+      placeholder: "adam",
+      className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ".concat(touched.first_name && errors.first_name ? "border-red-500 focus:outline-none" : ""),
+      autoFocus: true
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["ErrorMessage"], {
+      component: "p",
+      name: "first_name",
+      className: "text-red-500 text-xs italic"
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "mb-4 my-6"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      htmlFor: "last_name",
+      className: "block text-grey-darker text-sm font-bold mb-2"
+    }, "Last Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["Field"], {
+      type: "text",
+      name: "last_name",
+      placeholder: "winni",
+      className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ".concat(touched.last_name && errors.last_name ? "border-red-500 focus:outline-none" : ""),
+      autoFocus: true
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["ErrorMessage"], {
+      component: "p",
+      name: "last_name",
+      className: "text-red-500 text-xs italic"
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mb-4 my-6"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       htmlFor: "email",
@@ -90216,7 +90248,7 @@ var login = function login(_ref) {
     }, "Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["Field"], {
       type: "email",
       name: "email",
-      placeholder: "chloe@mail.com",
+      placeholder: "adam@winni.com",
       className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ".concat(touched.email && errors.email ? "border-red-500 focus:outline-none" : ""),
       autoFocus: true
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["ErrorMessage"], {
@@ -90236,6 +90268,56 @@ var login = function login(_ref) {
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["ErrorMessage"], {
       component: "span",
       name: "password",
+      className: "text-red-500 text-xs italic"
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "mb-4 my-6"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      htmlFor: "password_confirmation",
+      className: "block text-grey-darker text-sm font-bold mb-2"
+    }, "Password Confirmation"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["Field"], {
+      type: "password_confirmation",
+      name: "password_confirmation",
+      placeholder: "Enter password confirmation",
+      className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ".concat(touched.password_confirmation && errors.password_confirmation ? "is-invalid" : "")
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["ErrorMessage"], {
+      component: "span",
+      name: "password_confirmation",
+      className: "text-red-500 text-xs italic"
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "mb-4 my-6"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      htmlFor: "phone_number",
+      className: "block text-grey-darker text-sm font-bold mb-2"
+    }, "Phone Number"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+      name: "phone_country",
+      value: values.phone_country //onChange={handleChange}
+      //onBlur={handleBlur}
+      ,
+      className: "shadow appearance-none border rounded w-3/12 py-2 px-3 mr-2 text-grey-darker leading-tight focus:shadow-outline ".concat(touched.password_confirmation && errors.password_confirmation ? "is-invalid" : "")
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      value: "",
+      label: "Country"
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      value: "US",
+      label: "United States"
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      value: "GH",
+      label: "Ghana"
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["ErrorMessage"], {
+      component: "span",
+      name: "phone_number",
+      className: "text-red-500 text-xs italic"
+    }), errors.phone_country && touched.phone_country && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "input-feedback"
+    }, errors.phone_country), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["Field"], {
+      type: "text",
+      name: "phone_number",
+      placeholder: "+ 233 223 344 556",
+      className: "shadow appearance-none border rounded w-6/12 py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ".concat(touched.phone_number && errors.phone_number ? "border-red-500 focus:outline-none" : ""),
+      autoFocus: true
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["ErrorMessage"], {
+      component: "p",
+      name: "phone_number",
       className: "text-red-500 text-xs italic"
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "flex items-center justify-between"

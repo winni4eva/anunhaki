@@ -9,26 +9,63 @@ const login = ({...props}) => {
     return (
         <div className="flex justify-end w-full my-9 clearfix">
               <Formik
-                initialValues={{ first_name: '', last_name: '', email: '', password: '', password_confirmation: '' , phone_number: ''}}
+                initialValues={{ first_name: '', last_name: '', email: '', password: '', password_confirmation: '' , phone_number: '', phone_country: ''}}
                 // validationSchema={loginSchemaValidator}
                 onSubmit={(values, actions) => {
                     //postLogin(values, actions, props);
                 }}
               >
-                {({ touched, errors, isSubmitting }) => (
+                {({ touched, errors, isSubmitting, values }) => (
                   <Form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24">
-                    <h3>SignIn {props.authentication.isAuthenticated || 'Falsy'}</h3> 
+                    <h3>Register {props.authentication.isAuthenticated || 'Falsy'}</h3> 
                     {
                         errors.message 
                             ?   <span className="text-red-500 text-xs italic">{errors.message}</span>
                             : null
                     }
+
+                    <div className="mb-4 my-6">
+                      <label htmlFor="first_name" className="block text-grey-darker text-sm font-bold mb-2">First Name</label>
+                      <Field
+                        type="text"
+                        name="first_name"
+                        placeholder="adam"
+                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ${
+                          touched.first_name && errors.first_name ? "border-red-500 focus:outline-none" : ""
+                        }`}
+                        autoFocus
+                      />
+                      <ErrorMessage
+                        component="p"
+                        name="first_name"
+                        className="text-red-500 text-xs italic"
+                      />
+                    </div>
+
+                    <div className="mb-4 my-6">
+                      <label htmlFor="last_name" className="block text-grey-darker text-sm font-bold mb-2">Last Name</label>
+                      <Field
+                        type="text"
+                        name="last_name"
+                        placeholder="winni"
+                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ${
+                          touched.last_name && errors.last_name ? "border-red-500 focus:outline-none" : ""
+                        }`}
+                        autoFocus
+                      />
+                      <ErrorMessage
+                        component="p"
+                        name="last_name"
+                        className="text-red-500 text-xs italic"
+                      />
+                    </div>
+
                     <div className="mb-4 my-6">
                       <label htmlFor="email" className="block text-grey-darker text-sm font-bold mb-2">Email</label>
                       <Field
                         type="email"
                         name="email"
-                        placeholder="chloe@mail.com"
+                        placeholder="adam@winni.com"
                         className={`shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ${
                           touched.email && errors.email ? "border-red-500 focus:outline-none" : ""
                         }`}
@@ -56,6 +93,65 @@ const login = ({...props}) => {
                         name="password"
                         className="text-red-500 text-xs italic"
                       />
+                    </div>
+
+                    <div className="mb-4 my-6">
+                      <label htmlFor="password_confirmation" className="block text-grey-darker text-sm font-bold mb-2">Password Confirmation</label>
+                      <Field
+                        type="password_confirmation"
+                        name="password_confirmation"
+                        placeholder="Enter password confirmation"
+                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ${
+                          touched.password_confirmation && errors.password_confirmation ? "is-invalid" : ""
+                        }`}
+                      />
+                      <ErrorMessage
+                        component="span"
+                        name="password_confirmation"
+                        className="text-red-500 text-xs italic"
+                      />
+                    </div>
+
+                    <div className="mb-4 my-6">
+                        <label htmlFor="phone_number" className="block text-grey-darker text-sm font-bold mb-2">Phone Number</label>
+                        <select
+                            name="phone_country"
+                            value={values.phone_country}
+                            //onChange={handleChange}
+                            //onBlur={handleBlur}
+                            className={`shadow appearance-none border rounded w-3/12 py-2 px-3 mr-2 text-grey-darker leading-tight focus:shadow-outline ${
+                                touched.password_confirmation && errors.password_confirmation ? "is-invalid" : ""
+                              }`}
+                            >
+                            <option value="" label="Country" />
+                            <option value="US" label="United States" />
+                            <option value="GH" label="Ghana" />
+                        </select>
+                        <ErrorMessage
+                            component="span"
+                            name="phone_number"
+                            className="text-red-500 text-xs italic"
+                        />
+                        {errors.phone_country &&
+                            touched.phone_country &&
+                            <div className="input-feedback">
+                            {errors.phone_country}
+                            </div>}
+
+                        <Field
+                            type="text"
+                            name="phone_number"
+                            placeholder="+ 233 223 344 556"
+                            className={`shadow appearance-none border rounded w-6/12 py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ${
+                            touched.phone_number && errors.phone_number ? "border-red-500 focus:outline-none" : ""
+                            }`}
+                            autoFocus
+                        />
+                        <ErrorMessage
+                            component="p"
+                            name="phone_number"
+                            className="text-red-500 text-xs italic"
+                        />
                     </div>
 
                     <div className="flex items-center justify-between">
