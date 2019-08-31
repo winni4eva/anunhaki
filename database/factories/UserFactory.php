@@ -25,6 +25,6 @@ $factory->define(User::class, function (Faker $faker) {
         'password' => bcrypt('Pa$$w0rd'),
         'remember_token' => Str::random(10),
         'phone_number' => $faker->e164PhoneNumber,
-        'white_listed_ips' => ['192.168.1.1']
+        'white_listed_ips' => ['127.0.0.1']
     ];
 });
