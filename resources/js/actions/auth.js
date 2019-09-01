@@ -1,7 +1,11 @@
 import makeRequest from './request';
-import {loginEndpoint, logoutEndpoint, registerEnpoint} from './endpoints';
-import {LOG_IN, ACCESS_TOKEN} from '../constants/types';
-import { reject } from 'q';
+import {loginEndpoint, logoutEndpoint, registerEnpoint, twoFactorEndpoint} from './endpoints';
+import {LOG_IN, ACCESS_TOKEN, JWT_TOKEN} from '../constants/types';
+
+const setJwtHelper = (token) => ({
+    type: JWT_TOKEN,
+    payload: token
+});
 
 const setAuthHelper = (auth) => ({
     type: LOG_IN,
@@ -18,14 +22,41 @@ export const getLogout = async () => {
     }
 };
 
-export const postLogin = async (postData) => {
-    try {
-        const {data} = await makeRequest('POST', loginEndpoint, postData);
-        return data.access_token;
-    } catch (error) {
-        console.error(error);
-        return false;
-    }
+export const postLogin = (postData, actions, props) => {
+    const {dispatch, history} = props;
+    const {setSubmitting, setErrors} = actions;
+
+    makeRequest('POST', loginEndpoint, postData)
+        .then(response => {
+            const {data} = response;
+            const {access_token} = data;
+            localStorage.setItem(ACCESS_TOKEN, access_token);
+            dispatch(setJwtHelper(access_token));
+            setSubmitting(false);
+            setErrors({message: ''});
+            history.push('/two-factor-auth');  
+        })
+        .catch(error => console.error(error))
+};
+
+export const postTwoFactor = (postData, actions, props) => {
+    const {dispatch, history} = props;
+    const {setSubmitting, setErrors} = actions;
+
+    makeRequest('POST', twoFactorEndpoint, postData)
+        .then(response => {
+            console.log(response)
+            //const {data} = response;
+            //const {access_token} = data;
+            //dispatch(setJwtHelper(access_token));
+            setSubmitting(false);
+            //setErrors({message: ''});
+            //history.push('/wallets');  
+        })
+        .catch(error => {
+            console.error(error);
+            setSubmitting(false);
+        })
 };
 
 export const postRegister = (data, actions, props) => {
@@ -60,4 +91,24 @@ export const postRegister = (data, actions, props) => {
 //     }
 //     const {data} = result;
 //     return data.message;
+// };
+
+// export const getLogout = async () => {
+//     try {
+//         const {data} = await makeRequest('GET', logoutEndpoint);
+//         return data.message;
+//     } catch (error) {
+//         console.error(error.response);
+//         return false;
+//     }
+// };
+
+// export const postLogin = async (postData) => {
+//     try {
+//         const {data} = await makeRequest('POST', loginEndpoint, postData);
+//         return data.access_token;
+//     } catch (error) {
+//         console.error(error);
+//         return false;
+//     }
 // };

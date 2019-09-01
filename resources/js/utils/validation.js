@@ -41,4 +41,8 @@ export const registerSchemaValidator = Yup.object().shape({
   }).required('Phone is required'),
 });
 
+export const twoFactorAuthValidator = Yup.object().shape({
+  token: Yup.number().min(3).required('Token is required')
+});
+
 export const isValidString = value => Yup.string(value).required()

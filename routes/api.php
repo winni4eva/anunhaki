@@ -23,6 +23,7 @@ Route::group(
         Route::get('logout', 'LoginController@logout');
         Route::post('register', 'RegisterController@register');
         Route::post('login', 'LoginController@login');
+        Route::post('two-factor-auth', 'LoginController@twoFactor')->middleware(['api']);
     }
 );
 
@@ -40,6 +41,7 @@ Route::get('wallets', function(){
     return response()->json(compact('wallets'));
 });
 // ========== Cleanup
+
 Route::group([], function () {
     Route::resource('countries', 'CountriesController', ['only' => ['index']]);
 });

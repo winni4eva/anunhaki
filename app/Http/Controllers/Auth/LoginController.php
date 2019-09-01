@@ -130,4 +130,8 @@ class LoginController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
+
+    public function twoFactor() {
+        logger(request()->all());
+    }
 }

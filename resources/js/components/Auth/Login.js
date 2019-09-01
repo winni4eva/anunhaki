@@ -10,17 +10,7 @@ import { ACCESS_TOKEN, LOG_IN, JWT_TOKEN } from '../../constants/types';
 
 
 const login = ({...props}) => { 
-    const {authentication, history, dispatch} = props;
-
-    const setAuthHelper = (auth) => ({
-        type: LOG_IN,
-        payload: auth
-    });
-
-    const setJwtHelper = (token) => ({
-        type: JWT_TOKEN,
-        payload: token
-    });
+    const {authentication} = props;
 
     return (
         <div className="flex justify-end w-full my-9 clearfix">
@@ -28,17 +18,7 @@ const login = ({...props}) => {
                 initialValues={{ email: '', password: '' }}
                 validationSchema={loginSchemaValidator}
                 onSubmit={(values, actions) => {
-                    const accessToken = postLogin(values);
-                    if (accessToken) {
-                        //localStorage.setItem(ACCESS_TOKEN, accessToken);
-                        dispatch(setJwtHelper(accessToken));
-                        actions.setSubmitting(false);
-                        actions.setErrors({message: ''});
-                        history.push('/two-factor-auth');
-                    } else {
-                        console.log('Login failed');
-                        actions.setSubmitting(false);
-                    }
+                    postLogin(values, actions, props);
                 }}
               >
                 {({ touched, errors, isSubmitting }) => (

@@ -1,4 +1,4 @@
-import React, { PureComponent, Component } from 'react';
+import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import history from '../actions/history';
@@ -24,7 +24,7 @@ const setAuthHelper = (auth) => ({
 //     payload: countries
 // });
 
-export default class App extends Component {
+export default class App extends PureComponent {
 
     constructor(props){
         super(props);
