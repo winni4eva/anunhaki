@@ -5,11 +5,13 @@ import {postRegister} from '../../actions/auth'
 import {registerSchemaValidator} from '../../utils/validation';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
-const login = ({...props}) => { 
+const register = ({...props}) => { 
     const {authentication, countries} = props;
 
     return (
         <div className="flex justify-end w-full my-9 clearfix">
+        
+            {Array.isArray(countries.countries) ?
               <Formik
                 initialValues={{ first_name: '', last_name: '', email: '', password: '' , phone_number: '', phone_country: ''}}
                 validationSchema={registerSchemaValidator}
@@ -164,6 +166,8 @@ const login = ({...props}) => {
                   </Form>
                 )}
               </Formik>
+              : null
+            }
         </div>
       );
 }
@@ -176,6 +180,6 @@ const mapStateToProps = state => {
     };
 };
 
-const Login = connect(mapStateToProps)(login);
+const Register = connect(mapStateToProps)(register);
 
-export default Login;
+export default Register;

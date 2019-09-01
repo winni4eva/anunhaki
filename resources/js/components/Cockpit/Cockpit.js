@@ -11,6 +11,8 @@ const cockpit = ({...props}) => {
     const handleLogout = () => {
         const loggedOut = getLogout();
         if (loggedOut) {
+            console.log('Processing Logout');
+            console.log(loggedOut);
             localStorage.setItem(ACCESS_TOKEN, '');
             dispatch(setAuthHelper(false));
             history.push('/login');

@@ -6,6 +6,7 @@ import { Provider, connect } from 'react-redux';
 import Cockpit from './Cockpit/Cockpit';
 import Main from './Main/Main';
 import Routes from './Routes/Routes';
+import AuthRoutes from './Routes/AuthRoutes';
 import configureStore from '../store/configureStore';
 import {getCountries} from '../actions/common'
 import {LOG_IN, ACCESS_TOKEN, SAVE_COUNTRIES} from '../constants/types';
@@ -18,32 +19,29 @@ const setAuthHelper = (auth) => ({
     payload: auth
 });
 
-const saveCountriesHelper = (countries) => ({
-    type: SAVE_COUNTRIES,
-    payload: countries
-});
+// const saveCountriesHelper = (countries) => ({
+//     type: SAVE_COUNTRIES,
+//     payload: countries
+// });
 
 export default class App extends Component {
-    
-    _isMounted;
 
     constructor(props){
         super(props);
-        this._isMounted = false;
     }
     
     componentDidMount() {
-        this._isMounted = true;
         console.log(localStorage.getItem(ACCESS_TOKEN));
         const autheniticated = isValidString(localStorage.getItem(ACCESS_TOKEN)) && !!localStorage.getItem(ACCESS_TOKEN)
             ? true
             : false;
         store.dispatch(setAuthHelper(autheniticated));
 
-        const countries = getCountries();
-        if (countries) {
-            store.dispatch(saveCountriesHelper(countries));
-        }
+        getCountries(store);
+        //console.log(countries);
+        // if (countries) {
+        //     store.dispatch(saveCountriesHelper(countries));
+        // }
     }
 
     render() {
@@ -51,9 +49,13 @@ export default class App extends Component {
             <ConnectedRouter history={history}>
                 <p>{this.props.authentication.isAuthenticated? 'Yaay' : 'Naay'}</p>
                 <Cockpit/>
-                <Main>
-                    <Routes/>
-                </Main>
+                <Routes/>
+                {this.props.authentication.isAuthenticated
+                    ?    <Main>
+                            <AuthRoutes/>
+                        </Main>
+                    : null
+                }
             </ConnectedRouter>
         );
     }

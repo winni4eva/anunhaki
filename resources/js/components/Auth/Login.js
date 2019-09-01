@@ -12,12 +12,6 @@ import { ACCESS_TOKEN, LOG_IN } from '../../constants/types';
 const login = ({...props}) => { 
     const {authentication, history, dispatch} = props;
 
-    const redirect = () => {
-        if (authentication.isAuthenticated) {
-            history.push('/wallets');
-        }
-    }
-
     const setAuthHelper = (auth) => ({
         type: LOG_IN,
         payload: auth
@@ -35,7 +29,7 @@ const login = ({...props}) => {
                         dispatch(setAuthHelper(true));
                         actions.setSubmitting(false);
                         actions.setErrors({message: ''});
-                        redirect();
+                        history.push('/wallets');
                     } else {
                         console.log('Login failed');
                         actions.setSubmitting(false);

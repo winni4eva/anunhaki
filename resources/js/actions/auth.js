@@ -1,6 +1,7 @@
 import makeRequest from './request';
 import {loginEndpoint, logoutEndpoint, registerEnpoint} from './endpoints';
 import {LOG_IN, ACCESS_TOKEN} from '../constants/types';
+import { reject } from 'q';
 
 const setAuthHelper = (auth) => ({
     type: LOG_IN,
@@ -9,42 +10,22 @@ const setAuthHelper = (auth) => ({
 
 export const getLogout = async () => {
     try {
-        const response = await makeRequest('GET', logoutEndpoint);
-        const {data} = response;
+        const {data} = await makeRequest('GET', logoutEndpoint);
         return data.message;
     } catch (error) {
-        console.log(error);
+        console.error(error.response);
         return false;
     }
 };
 
 export const postLogin = async (postData) => {
-    //const {dispatch} = props;
-    //const {setSubmitting, setErrors} = actions;
     try {
-        const response = await makeRequest('POST', loginEndpoint, postData);
-        const {data} = response;
+        const {data} = await makeRequest('POST', loginEndpoint, postData);
         return data.access_token;
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return false;
     }
-
-        // .then(response => {
-        //     localStorage.setItem(ACCESS_TOKEN, response.data.access_token);
-        //     dispatch(setAuthHelper(true));
-        //     setSubmitting(false);
-        //     setErrors({message: ''});
-        //     //history.push('/wallets');
-        //     //window.location.reload(true);
-        // })
-        // .catch(error => {
-        //     const message = error.response.data.message;
-        //     localStorage.setItem(ACCESS_TOKEN, null);
-        //     dispatch(setAuthHelper(false));
-        //     setSubmitting(false);
-        //     setErrors({message});
-        // });
 };
 
 export const postRegister = (data, actions, props) => {
@@ -65,3 +46,18 @@ export const postRegister = (data, actions, props) => {
             setErrors({message});
         });
 };
+
+// const execute = (promise) => {
+//     return promise.then(result => [null, result])
+//                   .catch(error => [error]);
+// }
+
+// export const getLogout = async () => {
+//     const [error, result] = await execute(makeRequest('GET', logoutEndpoint));
+//     if(error) {
+//         console.error(error);
+//         return false;
+//     }
+//     const {data} = result;
+//     return data.message;
+// };
