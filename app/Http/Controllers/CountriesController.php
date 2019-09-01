@@ -19,14 +19,4 @@ class CountriesController extends Controller
         return response()->json(compact('countries'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 }

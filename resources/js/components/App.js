@@ -7,7 +7,8 @@ import Main from './Main/Main';
 import Routes from './Routes/Routes';
 import configureStore from '../store/configureStore';
 import {getCountries} from '../actions/common'
-import {GET_WALLETS, LOG_IN, ACCESS_TOKEN} from '../constants/types';
+import {LOG_IN, ACCESS_TOKEN} from '../constants/types';
+import {isValidString} from '../utils/validation';
 
 const store = configureStore();
 
@@ -23,7 +24,16 @@ export default class App extends PureComponent {
     }
     
     componentDidMount() {
-        store.dispatch(setAuthHelper(!!localStorage.getItem(ACCESS_TOKEN)));
+        console.log(localStorage.getItem(ACCESS_TOKEN));
+        const autheniticated = isValidString(localStorage.getItem(ACCESS_TOKEN)) && !!localStorage.getItem(ACCESS_TOKEN)
+            ? true
+            : false;
+        if(autheniticated) {
+            console.log('Yaay');
+        } else {
+            console.log('Naaay');
+        }
+        store.dispatch(setAuthHelper(autheniticated));
         getCountries(store);
     }
 

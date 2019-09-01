@@ -1,11 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 //import FormInput from '../FormInput/FormInput';
 import {postLogin} from '../../actions/auth'
 import {loginSchemaValidator} from '../../utils/validation';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 const login = ({...props}) => { 
+
+    const redirect = () => {
+        console.log('I need to redirect or stay put')
+        if(props.authentication.isAuthenticated) {
+            console.log('Redirecting To Wallets');
+            props.history.push('/wallets');
+        } else {
+            console.log('Fix form validation errors')
+        }
+    }
     return (
         <div className="flex justify-end w-full my-9 clearfix">
               <Formik
@@ -13,6 +24,7 @@ const login = ({...props}) => {
                 validationSchema={loginSchemaValidator}
                 onSubmit={(values, actions) => {
                     postLogin(values, actions, props);
+                    redirect();
                 }}
               >
                 {({ touched, errors, isSubmitting }) => (
@@ -81,4 +93,4 @@ const mapStateToProps = state => {
 
 const Login = connect(mapStateToProps)(login);
 
-export default Login;
+export default withRouter(Login);

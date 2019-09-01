@@ -30,6 +30,7 @@
         "tailwindcss": "1.1.2"
     },
     "dependencies": {
+        "connected-react-router": "6.5.2",
         "formik": "1.5.8",
         "libphonenumber-js": "1.7.23",
         "react-router-dom": "5.0.1",

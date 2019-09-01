@@ -8,15 +8,9 @@ const authenticationReducerDefaultState = {
 export default (state = authenticationReducerDefaultState, action) => {
     switch (action.type) {
         case LOG_IN:
-            return {
-                ...state,
-                isAuthenticated: true
-            };
-        case LOG_OUT:
-            return {
-                ...state,
-                isAuthenticated: false
-            };
+            let newState = {...state};
+            newState.isAuthenticated = action.payload;
+            return newState;
         default:
             return state;
     }

@@ -40,3 +40,5 @@ export const registerSchemaValidator = Yup.object().shape({
     return false;
   }).required('Phone is required'),
 });
+
+export const isValidString = value => Yup.string(value).required()

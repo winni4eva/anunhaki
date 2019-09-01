@@ -1,12 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getLogout } from '../../actions/auth';
 
 
-const cockpit = (props) => {
+const cockpit = ({...props}) => {
+    const {authentication} = props;
+
+    const handleLogout = () => {
+        getLogout(props);
+    }
 
     return (
         <nav className="flex items-center justify-between flex-wrap bg-grey-lighter p-6 shadow-lg mb-6">
-            
+            <p>{authentication.isAuthenticated === true? 'Yaaay':'Naay'}</p>
             <div className="flex items-center flex-no-shrink text-grey-darkest mr-6">
                 <Link to={`/`} className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
                     <span className="font-semibold text-xl tracking-tight hover:text-red-900 cursor-pointer">QHCoin</span>
@@ -22,17 +29,30 @@ const cockpit = (props) => {
             <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
                 <div className="text-sm lg:flex-grow">
                 </div>
-                <div>
-                    <Link to={`/register`} className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
-                        REGISTER
-                    </Link>
-                    <Link to={`/login`} className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
-                        LOGIN
-                    </Link>
-                </div>
+                {authentication.isAuthenticated === false 
+                    ?
+                    (<div>
+                        <Link to={`/register`} className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
+                            REGISTER
+                        </Link>
+                        <Link to={`/login`} className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
+                            LOGIN
+                        </Link>
+                    </div>)
+                    : <Link to={`/`} onClick={handleLogout} className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
+                        LOGOUT
+                    </Link>}
             </div>
         </nav>
     )
 }
 
-export default cockpit;
+const mapStateToProps = state => {
+    return { 
+        authentication: state.authentication,
+    };
+};
+
+const Cockpit = connect(mapStateToProps)(cockpit);
+
+export default Cockpit;

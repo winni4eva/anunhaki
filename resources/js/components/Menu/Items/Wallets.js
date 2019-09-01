@@ -10,9 +10,9 @@ const Wallets = ({wallets}) => {
             <div className="inline-block relative w-full">
                 <select className="block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2">
                     <option>-- All coins/tokens --</option>
-                    {wallets.wallets.map((e, key) => {
+                    {/* {wallets.wallets.map((e, key) => {
                         return <option key={key} value={e.value}>{e.name}</option>;
-                    })}
+                    })} */}
                 </select>
 
                 <button className="bg-blue-500 w-1/4 float-left hover:bg-blue-700 text-white font-bold py-2 px-4 pull-right mt-4 rounded">
