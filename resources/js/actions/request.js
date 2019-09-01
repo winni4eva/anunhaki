@@ -39,7 +39,7 @@ request.interceptors.response.use(function (config) {
         console.log("send me to login")
         //localStorage.setItem(ACCESS_TOKEN, '');
         //store.dispatch(setAuthHelper(false));
-        history.push('/login');
+        //history.push('/login');
       }
      return Promise.reject(error)
  })

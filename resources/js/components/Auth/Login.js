@@ -5,30 +5,49 @@ import { withRouter } from 'react-router-dom';
 import {postLogin} from '../../actions/auth'
 import {loginSchemaValidator} from '../../utils/validation';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { ACCESS_TOKEN, LOG_IN } from '../../constants/types';
+
+
 
 const login = ({...props}) => { 
+    const {authentication, history, dispatch} = props;
 
     const redirect = () => {
-        if (props.authentication.isAuthenticated) {
-            props.history.push('/wallets');
+        if (authentication.isAuthenticated) {
+            history.push('/wallets');
         }
     }
+
+    const setAuthHelper = (auth) => ({
+        type: LOG_IN,
+        payload: auth
+    });
+
     return (
         <div className="flex justify-end w-full my-9 clearfix">
               <Formik
                 initialValues={{ email: '', password: '' }}
                 validationSchema={loginSchemaValidator}
                 onSubmit={(values, actions) => {
-                    postLogin(values, actions, props);
-                    redirect();
+                    const accessToken = postLogin(values);
+                    if (accessToken) {
+                        localStorage.setItem(ACCESS_TOKEN, accessToken);
+                        dispatch(setAuthHelper(true));
+                        actions.setSubmitting(false);
+                        actions.setErrors({message: ''});
+                        redirect();
+                    } else {
+                        console.log('Login failed');
+                        actions.setSubmitting(false);
+                    }
                 }}
               >
                 {({ touched, errors, isSubmitting }) => (
                   <Form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24">
-                    <h3>SignIn {props.authentication.isAuthenticated || 'Falsy'}</h3> 
+                    <h3>SignIn {authentication.isAuthenticated || 'Falsy'}</h3> 
                     {
                         errors.message 
-                            ?   <span className="text-red-500 text-xs italic">{errors.message}</span>
+                            ? <span className="text-red-500 text-xs italic">{errors.message}</span>
                             : null
                     }
                     <div className="mb-4 my-6">

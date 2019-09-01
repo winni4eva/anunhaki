@@ -2,14 +2,27 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getLogout } from '../../actions/auth';
+import { ACCESS_TOKEN, LOG_IN } from '../../constants/types';
 
 
 const cockpit = ({...props}) => {
-    const {authentication} = props;
+    const {authentication, history, dispatch} = props;
 
     const handleLogout = () => {
-        getLogout(props);
+        const loggedOut = getLogout();
+        if (loggedOut) {
+            localStorage.setItem(ACCESS_TOKEN, '');
+            dispatch(setAuthHelper(false));
+            history.push('/login');
+        } else {
+            console.log('Failed logging you out');
+        }
     }
+
+    const setAuthHelper = (auth) => ({
+        type: LOG_IN,
+        payload: auth
+    });
 
     return (
         <nav className="flex items-center justify-between flex-wrap bg-grey-lighter p-6 shadow-lg mb-6">

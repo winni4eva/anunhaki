@@ -1,14 +1,14 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Component } from 'react';
 import ReactDOM from 'react-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import history from '../actions/history';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import Cockpit from './Cockpit/Cockpit';
 import Main from './Main/Main';
 import Routes from './Routes/Routes';
 import configureStore from '../store/configureStore';
 import {getCountries} from '../actions/common'
-import {LOG_IN, ACCESS_TOKEN} from '../constants/types';
+import {LOG_IN, ACCESS_TOKEN, SAVE_COUNTRIES} from '../constants/types';
 import {isValidString} from '../utils/validation';
 
 const store = configureStore();
@@ -18,29 +18,38 @@ const setAuthHelper = (auth) => ({
     payload: auth
 });
 
-export default class App extends PureComponent {
+const saveCountriesHelper = (countries) => ({
+    type: SAVE_COUNTRIES,
+    payload: countries
+});
 
-    constructor(){
-        super();
+export default class App extends Component {
+    
+    _isMounted;
+
+    constructor(props){
+        super(props);
+        this._isMounted = false;
     }
     
     componentDidMount() {
+        this._isMounted = true;
         console.log(localStorage.getItem(ACCESS_TOKEN));
         const autheniticated = isValidString(localStorage.getItem(ACCESS_TOKEN)) && !!localStorage.getItem(ACCESS_TOKEN)
             ? true
             : false;
-        if(autheniticated) {
-            console.log('Yaay');
-        } else {
-            console.log('Naaay');
-        }
         store.dispatch(setAuthHelper(autheniticated));
-        getCountries(store);
+
+        const countries = getCountries();
+        if (countries) {
+            store.dispatch(saveCountriesHelper(countries));
+        }
     }
 
     render() {
         return (
             <ConnectedRouter history={history}>
+                <p>{this.props.authentication.isAuthenticated? 'Yaay' : 'Naay'}</p>
                 <Cockpit/>
                 <Main>
                     <Routes/>
@@ -50,8 +59,15 @@ export default class App extends PureComponent {
     }
 }
 
+const mapStateToProps = state => {
+    return { 
+        authentication: state.authentication,
+        countries: state.countries 
+    };
+};
 
+const QHCoin = connect(mapStateToProps)(App);
 
 if (document.getElementById('app')) {
-    ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('app'));
+    ReactDOM.render(<Provider store={store}><QHCoin /></Provider>, document.getElementById('app'));
 }
