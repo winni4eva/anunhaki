@@ -1,6 +1,8 @@
 
 export const ACCESS_TOKEN = 'qh_access_token';
 
+export const JWT_TOKEN = 'JWT_TOKEN'
+
 export const GET_WALLETS = 'GET_WALLETS';
 
 export const REMOVE_WALLET = 'REMOVE_WALLET';

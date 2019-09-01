@@ -1,16 +1,21 @@
 
-import {LOG_IN, LOG_OUT} from '../constants/types';
+import {LOG_IN, JWT_TOKEN} from '../constants/types';
 
 const authenticationReducerDefaultState = {
-    isAuthenticated: false
+    isAuthenticated: false,
+    jwtToken: ''
 };
 
 export default (state = authenticationReducerDefaultState, action) => {
     switch (action.type) {
         case LOG_IN:
-            let newState = {...state};
-            newState.isAuthenticated = action.payload;
-            return newState;
+            let newLoginState = {...state};
+            newLoginState.isAuthenticated = action.payload;
+            return newLoginState;
+        case JWT_TOKEN:
+            let newJwtState = {...state};
+            newJwtState.jwtToken = action.payload;
+            return newJwtState;
         default:
             return state;
     }

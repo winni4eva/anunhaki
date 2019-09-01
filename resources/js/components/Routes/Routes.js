@@ -9,6 +9,7 @@ const routes = (props) => {
         <Aux>
             <Route path="/login" component={Login}/>
             <Route path="/register" component={Register}/>
+            <Route path="/two-factor-auth" component={}/>
         </Aux>
     );
 }
