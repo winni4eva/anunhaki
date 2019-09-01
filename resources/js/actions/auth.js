@@ -17,6 +17,7 @@ export const getLogout = (props) => {
             console.log(response)
             localStorage.setItem(ACCESS_TOKEN, '');
             dispatch(setAuthHelper(false));
+            props.history.push('/login');
             //setSubmitting(false);
             //setErrors({message: ''});
         })

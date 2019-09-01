@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getLogout } from '../../actions/auth';
 
@@ -55,4 +55,4 @@ const mapStateToProps = state => {
 
 const Cockpit = connect(mapStateToProps)(cockpit);
 
-export default Cockpit;
+export default withRouter(Cockpit);

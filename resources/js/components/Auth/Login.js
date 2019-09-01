@@ -9,12 +9,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 const login = ({...props}) => { 
 
     const redirect = () => {
-        console.log('I need to redirect or stay put')
-        if(props.authentication.isAuthenticated) {
-            console.log('Redirecting To Wallets');
+        if (props.authentication.isAuthenticated) {
             props.history.push('/wallets');
-        } else {
-            console.log('Fix form validation errors')
         }
     }
     return (

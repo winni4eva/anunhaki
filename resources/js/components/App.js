@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
+import history from '../actions/history';
 import { Provider } from 'react-redux';
 import Cockpit from './Cockpit/Cockpit';
 import Main from './Main/Main';
@@ -39,12 +40,12 @@ export default class App extends PureComponent {
 
     render() {
         return (
-            <BrowserRouter>
+            <ConnectedRouter history={history}>
                 <Cockpit/>
                 <Main>
                     <Routes/>
                 </Main>
-            </BrowserRouter>
+            </ConnectedRouter>
         );
     }
 }
