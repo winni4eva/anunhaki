@@ -97453,6 +97453,7 @@ var postLogin = function postLogin(postData, actions, props) {
     var access_token = data.access_token;
     localStorage.setItem(_constants_types__WEBPACK_IMPORTED_MODULE_3__["ACCESS_TOKEN"], access_token);
     dispatch(setJwtHelper(access_token));
+    dispatch(setAuthHelper(true));
     setSubmitting(false);
     setErrors({
       message: ''
@@ -97652,15 +97653,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants/types */ "./resources/js/constants/types.js");
+/* harmony import */ var _history__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./history */ "./resources/js/actions/history.js");
+/* harmony import */ var _store_configureStore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../store/configureStore */ "./resources/js/store/configureStore.js");
 
- //import history from './history';
-//import configureStore from '../store/configureStore';
-//const store = configureStore();
-//const state = store.getState();
-// const setAuthHelper = (auth) => ({
-//     type: LOG_IN,
-//     payload: auth
-// });
+
+
+
+var store = Object(_store_configureStore__WEBPACK_IMPORTED_MODULE_3__["default"])(); //const state = store.getState();
+
+var setAuthHelper = function setAuthHelper(auth) {
+  return {
+    type: _constants_types__WEBPACK_IMPORTED_MODULE_1__["LOG_IN"],
+    payload: auth
+  };
+};
 
 var request = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
   baseURL: window.Laravel.base_url,
@@ -97671,7 +97677,6 @@ var request = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
 request.interceptors.request.use(function (config) {
   // Start request loader
   var access_token = localStorage.getItem(_constants_types__WEBPACK_IMPORTED_MODULE_1__["ACCESS_TOKEN"]);
-  console.log(access_token);
   config.headers['X-Requested-With'] = 'XMLHttpRequest';
   config.headers['X-CSRF-TOKEN'] = window.Laravel.csrfToken, config.headers.Accept = 'application/json';
   config.headers.Authorization = "Bearer ".concat(access_token);
@@ -97685,9 +97690,10 @@ request.interceptors.response.use(function (config) {
 }, function (error) {
   // Stop request loader
   if (error.response.status === 401) {
-    console.log("send me to login"); //localStorage.setItem(ACCESS_TOKEN, '');
-    //store.dispatch(setAuthHelper(false));
-    //history.push('/login');
+    console.log("send me to login");
+    localStorage.setItem(_constants_types__WEBPACK_IMPORTED_MODULE_1__["ACCESS_TOKEN"], '');
+    store.dispatch(setAuthHelper(false));
+    _history__WEBPACK_IMPORTED_MODULE_2__["default"].push('/login');
   }
 
   return Promise.reject(error);
@@ -98571,10 +98577,13 @@ var twoFactor = function twoFactor(_ref) {
   }, function (_ref2) {
     var touched = _ref2.touched,
         errors = _ref2.errors,
-        isSubmitting = _ref2.isSubmitting;
+        isSubmitting = _ref2.isSubmitting,
+        values = _ref2.values,
+        handleChange = _ref2.handleChange,
+        handleBlur = _ref2.handleBlur;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_5__["Form"], {
       className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Two Factor Authentication"), errors.message ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Check your ", authentication.sendTokenVia, " for two factor token"), errors.message ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "text-red-500 text-xs italic"
     }, errors.message) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mb-4 my-6"
@@ -98592,14 +98601,36 @@ var twoFactor = function twoFactor(_ref) {
       name: "token",
       className: "text-red-500 text-xs italic"
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "mb-4 my-6"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+      name: "via",
+      value: values.via,
+      onChange: handleChange,
+      onBlur: handleBlur,
+      className: "shadow appearance-none border rounded w-6/12 py-2 px-3 mr-2 text-grey-darker leading-tight focus:shadow-outline ".concat(touched.via && errors.via ? "is-invalid" : "")
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: "default",
+      value: "email"
+    }, "-send via-"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: "email",
+      value: "email"
+    }, "email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: "phone",
+      value: "phone"
+    }, "phone")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_5__["ErrorMessage"], {
+      component: "span",
+      name: "via",
+      className: "text-red-500 text-xs italic"
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "flex items-center justify-between"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       type: "submit",
       className: "bg-blue-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded",
       disabled: isSubmitting
-    }, isSubmitting ? "Please wait..." : "Verify"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      type: "submit",
-      className: "bg-green-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded"
+    }, isSubmitting ? "Please wait..." : "Verify"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+      to: "/two-factor-auth",
+      className: "bg-green-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded",
+      onClick: sendToken()
     }, "Resend")));
   }));
 };
@@ -98681,7 +98712,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var authenticationReducerDefaultState = {
   isAuthenticated: false,
-  jwtToken: ''
+  jwtToken: '',
+  sendTokenVia: 'email'
 };
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : authenticationReducerDefaultState;

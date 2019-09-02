@@ -1,15 +1,15 @@
 import axios from 'axios';
 import {ACCESS_TOKEN, LOG_IN} from '../constants/types';
-//import history from './history';
-//import configureStore from '../store/configureStore';
+import history from './history';
+import configureStore from '../store/configureStore';
 
-//const store = configureStore();
+const store = configureStore();
 //const state = store.getState();
 
-// const setAuthHelper = (auth) => ({
-//     type: LOG_IN,
-//     payload: auth
-// });
+const setAuthHelper = (auth) => ({
+    type: LOG_IN,
+    payload: auth
+});
 
 const request = axios.create({
     baseURL: window.Laravel.base_url,
@@ -21,7 +21,6 @@ const request = axios.create({
 request.interceptors.request.use(function (config) {
     // Start request loader
     const access_token = localStorage.getItem(ACCESS_TOKEN);
-    console.log(access_token);
     config.headers['X-Requested-With'] = 'XMLHttpRequest';
     config.headers['X-CSRF-TOKEN'] = window.Laravel.csrfToken, 
     config.headers.Accept = 'application/json';
@@ -38,9 +37,9 @@ request.interceptors.response.use(function (config) {
      // Stop request loader
      if (error.response.status === 401) {
         console.log("send me to login")
-        //localStorage.setItem(ACCESS_TOKEN, '');
-        //store.dispatch(setAuthHelper(false));
-        //history.push('/login');
+        localStorage.setItem(ACCESS_TOKEN, '');
+        store.dispatch(setAuthHelper(false));
+        history.push('/login');
       }
      return Promise.reject(error)
  })

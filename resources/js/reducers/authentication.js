@@ -3,7 +3,8 @@ import {LOG_IN, JWT_TOKEN} from '../constants/types';
 
 const authenticationReducerDefaultState = {
     isAuthenticated: false,
-    jwtToken: ''
+    jwtToken: '',
+    sendTokenVia: 'email',
 };
 
 export default (state = authenticationReducerDefaultState, action) => {

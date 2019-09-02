@@ -32,6 +32,7 @@ export const postLogin = (postData, actions, props) => {
             const {access_token} = data;
             localStorage.setItem(ACCESS_TOKEN, access_token);
             dispatch(setJwtHelper(access_token));
+            dispatch(setAuthHelper(true));
             setSubmitting(false);
             setErrors({message: ''});
             history.push('/two-factor-auth');  

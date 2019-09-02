@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import {postTwoFactor,getTwoFactor} from '../../actions/auth'
 import {twoFactorAuthValidator} from '../../utils/validation';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -29,9 +29,9 @@ const twoFactor = ({...props}) => {
                     postTwoFactor(values, actions, props);
                 }}
               >
-                {({ touched, errors, isSubmitting }) => (
+                {({ touched, errors, isSubmitting, values, handleChange, handleBlur }) => (
                   <Form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24">
-                    <h3>Two Factor Authentication</h3> 
+                    <h3>Check your {authentication.sendTokenVia} for two factor token</h3> 
                     {
                         errors.message 
                             ? <span className="text-red-500 text-xs italic">{errors.message}</span>
@@ -55,6 +55,28 @@ const twoFactor = ({...props}) => {
                       />
                     </div>
 
+                    <div className="mb-4 my-6">
+                        {/* <label htmlFor="via" className="block text-grey-darker text-sm font-bold mb-2"></label> */}
+                        <select
+                            name="via"
+                            value={values.via}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className={`shadow appearance-none border rounded w-6/12 py-2 px-3 mr-2 text-grey-darker leading-tight focus:shadow-outline ${
+                                touched.via && errors.via ? "is-invalid" : ""
+                              }`}
+                            >
+                            <option key='default' value='email'>-send via-</option>
+                            <option key='email' value='email'>email</option>
+                            <option key='phone' value='phone'>phone</option>
+                        </select>
+                        <ErrorMessage
+                            component="span"
+                            name="via"
+                            className="text-red-500 text-xs italic"
+                        />
+                    </div>
+
                     <div className="flex items-center justify-between">
                         <button
                         type="submit"
@@ -64,12 +86,12 @@ const twoFactor = ({...props}) => {
                         {isSubmitting ? "Please wait..." : "Verify"}
                         </button>
 
-                        <button
-                        type="submit"
+                        <Link
+                        to="/two-factor-auth"
                         className="bg-green-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded"
-                        >
+                        onClick={sendToken()}>
                         Resend
-                        </button>
+                        </Link>
                     </div>    
                   </Form>
                 )}
