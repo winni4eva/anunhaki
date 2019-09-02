@@ -98538,6 +98538,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/auth */ "./resources/js/actions/auth.js");
 /* harmony import */ var _utils_validation__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/validation */ "./resources/js/utils/validation.js");
 /* harmony import */ var formik__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
+/* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../constants/types */ "./resources/js/constants/types.js");
+/* harmony import */ var _hoc_Aux__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../hoc/Aux */ "./resources/js/hoc/Aux.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 
@@ -98545,11 +98547,13 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 
 
- //import { ACCESS_TOKEN, LOG_IN } from '../../constants/types';
+
+
+
 
 var sendToken = function sendToken() {
   var via = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'email';
-  console.log("Send My Token");
+  console.log('Send Token Via ' + via);
   Object(_actions_auth__WEBPACK_IMPORTED_MODULE_3__["getTwoFactor"])(via);
 };
 
@@ -98559,13 +98563,22 @@ var twoFactor = function twoFactor(_ref) {
   var authentication = props.authentication,
       history = props.history,
       dispatch = props.dispatch;
-  sendToken(); // const setAuthHelper = (auth) => ({
-  //     type: LOG_IN,
-  //     payload: auth
-  // });
+  sendToken();
 
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex justify-end w-full my-9 clearfix"
+  var setAuthHelper = function setAuthHelper(via) {
+    return {
+      type: _constants_types__WEBPACK_IMPORTED_MODULE_6__["SEND_TOKEN_VIA"],
+      payload: via
+    };
+  };
+
+  var handleViaChange = function handleViaChange(e) {
+    var sendMethod = e.target.value;
+    dispatch(setAuthHelper(sendMethod));
+  };
+
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_hoc_Aux__WEBPACK_IMPORTED_MODULE_7__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex justify-end w-full clearfix"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_5__["Formik"], {
     initialValues: {
       token: ''
@@ -98579,7 +98592,6 @@ var twoFactor = function twoFactor(_ref) {
         errors = _ref2.errors,
         isSubmitting = _ref2.isSubmitting,
         values = _ref2.values,
-        handleChange = _ref2.handleChange,
         handleBlur = _ref2.handleBlur;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_5__["Form"], {
       className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24"
@@ -98605,7 +98617,7 @@ var twoFactor = function twoFactor(_ref) {
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
       name: "via",
       value: values.via,
-      onChange: handleChange,
+      onChange: handleViaChange,
       onBlur: handleBlur,
       className: "shadow appearance-none border rounded w-6/12 py-2 px-3 mr-2 text-grey-darker leading-tight focus:shadow-outline ".concat(touched.via && errors.via ? "is-invalid" : "")
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -98627,12 +98639,17 @@ var twoFactor = function twoFactor(_ref) {
       type: "submit",
       className: "bg-blue-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded",
       disabled: isSubmitting
-    }, isSubmitting ? "Please wait..." : "Verify"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
-      to: "/two-factor-auth",
-      className: "bg-green-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded",
-      onClick: sendToken()
-    }, "Resend")));
-  }));
+    }, isSubmitting ? "Please wait..." : "Verify")));
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "flex justify-end w-full clearfix"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "bg-green-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded",
+    onClick: function onClick(e) {
+      sendToken(authentication.sendTokenVia);
+    }
+  }, "Resend"))));
 };
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -98650,7 +98667,7 @@ var TwoFactor = Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapS
 /*!*****************************************!*\
   !*** ./resources/js/constants/types.js ***!
   \*****************************************/
-/*! exports provided: ACCESS_TOKEN, JWT_TOKEN, GET_WALLETS, REMOVE_WALLET, LOG_IN, LOG_OUT, SAVE_COUNTRIES */
+/*! exports provided: ACCESS_TOKEN, JWT_TOKEN, GET_WALLETS, REMOVE_WALLET, LOG_IN, LOG_OUT, SAVE_COUNTRIES, SEND_TOKEN_VIA */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -98662,6 +98679,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOG_IN", function() { return LOG_IN; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOG_OUT", function() { return LOG_OUT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_COUNTRIES", function() { return SAVE_COUNTRIES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SEND_TOKEN_VIA", function() { return SEND_TOKEN_VIA; });
 var ACCESS_TOKEN = 'qh_access_token';
 var JWT_TOKEN = 'JWT_TOKEN';
 var GET_WALLETS = 'GET_WALLETS';
@@ -98669,6 +98687,7 @@ var REMOVE_WALLET = 'REMOVE_WALLET';
 var LOG_IN = 'LOGIN';
 var LOG_OUT = 'LOGOUT';
 var SAVE_COUNTRIES = 'SAVE_COUNTRIES';
+var SEND_TOKEN_VIA = 'SEND_TOKEN_VIA';
 
 /***/ }),
 
@@ -98731,6 +98750,12 @@ var authenticationReducerDefaultState = {
 
       newJwtState.jwtToken = action.payload;
       return newJwtState;
+
+    case _constants_types__WEBPACK_IMPORTED_MODULE_0__["SEND_TOKEN_VIA"]:
+      var newViaState = _objectSpread({}, state);
+
+      newViaState.sendTokenVia = action.payload;
+      return newViaState;
 
     default:
       return state;

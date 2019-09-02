@@ -1,5 +1,5 @@
 
-import {LOG_IN, JWT_TOKEN} from '../constants/types';
+import {LOG_IN, JWT_TOKEN, SEND_TOKEN_VIA} from '../constants/types';
 
 const authenticationReducerDefaultState = {
     isAuthenticated: false,
@@ -17,6 +17,10 @@ export default (state = authenticationReducerDefaultState, action) => {
             let newJwtState = {...state};
             newJwtState.jwtToken = action.payload;
             return newJwtState;
+        case SEND_TOKEN_VIA:
+                let newViaState = {...state};
+                newViaState.sendTokenVia = action.payload;
+                return newViaState;
         default:
             return state;
     }
