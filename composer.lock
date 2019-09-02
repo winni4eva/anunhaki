@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dd6efa02658e8badca63c8ea3ba5b30f",
+    "content-hash": "74151a89f81ba06d5fc223d7f4a716c5",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1079,6 +1079,49 @@
                 "time"
             ],
             "time": "2019-08-17T13:57:34+00:00"
+        },
+        {
+            "name": "neto737/bitgosdk-php",
+            "version": "2.1.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/neto737/BitGoSDK-PHP.git",
+                "reference": "dc90309c454101d846b4db8159d570183e3dbecc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/neto737/BitGoSDK-PHP/zipball/dc90309c454101d846b4db8159d570183e3dbecc",
+                "reference": "dc90309c454101d846b4db8159d570183e3dbecc",
+                "shasum": ""
+            },
+            "require": {
+                "ext-bcmath": "*",
+                "ext-curl": "*",
+                "php": ">=7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "neto737\\BitGoSDK\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Neto Melo",
+                    "email": "neto737@live.com"
+                }
+            ],
+            "description": "A BitGo SDK written in PHP",
+            "keywords": [
+                "bitcoin",
+                "bitgo",
+                "sdk"
+            ],
+            "time": "2019-07-08T21:32:06+00:00"
         },
         {
             "name": "nikic/php-parser",
