@@ -97469,14 +97469,12 @@ var postTwoFactor = function postTwoFactor(postData, actions, props) {
   var setSubmitting = actions.setSubmitting,
       setErrors = actions.setErrors;
   Object(_request__WEBPACK_IMPORTED_MODULE_1__["default"])('POST', _endpoints__WEBPACK_IMPORTED_MODULE_2__["twoFactorPostEndpoint"], postData).then(function (response) {
-    console.log(response); //const {data} = response;
-    //const {access_token} = data;
-    //dispatch(setJwtHelper(access_token));
-
-    setSubmitting(false); //setErrors({message: ''});
-    //history.push('/wallets');  
+    setSubmitting(false);
+    setErrors({
+      message: ''
+    });
+    history.push('/wallets');
   })["catch"](function (error) {
-    console.error(error);
     setSubmitting(false);
   });
 };

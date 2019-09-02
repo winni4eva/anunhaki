@@ -46,16 +46,11 @@ export const postTwoFactor = (postData, actions, props) => {
 
     makeRequest('POST', twoFactorPostEndpoint, postData)
         .then(response => {
-            console.log(response)
-            //const {data} = response;
-            //const {access_token} = data;
-            //dispatch(setJwtHelper(access_token));
             setSubmitting(false);
-            //setErrors({message: ''});
-            //history.push('/wallets');  
+            setErrors({message: ''});
+            history.push('/wallets'); 
         })
         .catch(error => {
-            console.error(error);
             setSubmitting(false);
         })
 };

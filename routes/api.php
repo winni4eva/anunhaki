@@ -17,6 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::resource('countries', 'CountriesController', ['only' => ['index']]);
 Route::group(
     ['namespace' => 'Auth'], 
     function () {
@@ -24,7 +25,13 @@ Route::group(
         Route::post('register', 'RegisterController@register');
         Route::post('login', 'LoginController@login');
         Route::get('send-two-factor-token', 'LoginController@sendtwoFactorToken')->middleware(['api']);
-        Route::post('post-two-factor-token', 'LoginController@postTwoFactor')->middleware(['api']);
+        Route::post('post-two-factor-token', 'LoginController@postTwoFactorToken')->middleware(['api']);
+    }
+);
+Route::group(
+    ['middleware' => 'api'],
+    function () {
+        Route::resource('countries', 'CountriesController', ['only' => ['index']]);
     }
 );
 
@@ -37,13 +44,3 @@ Route::get('wallets', function(){
     return response()->json(compact('wallets'));
 });
 // ========== Cleanup
-
-Route::group([], function () {
-    Route::resource('countries', 'CountriesController', ['only' => ['index']]);
-});
-Route::group(
-    ['middleware' => 'api'],
-    function () {
-        Route::resource('countries', 'CountriesController', ['only' => ['index']]);
-    }
-);

@@ -26,6 +26,19 @@ class TwoFactorAuthenticationService {
         return $this->getUserNotifiableChannel($user);
     }
 
+    public function verifyToken(): bool
+    {
+        if(!auth()->check() || !request()->has('token')) {
+            return false;
+        }
+        
+        if(auth()->user()->token_2fa !== request()->get('token')) {
+            return false;
+        }
+
+        return true;
+    }
+
     protected function getUserNotifiableChannel(User $user)
     {
         if (request()->has('option_2fa') && request()->get('option_2fa')){

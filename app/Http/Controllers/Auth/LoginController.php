@@ -142,4 +142,19 @@ class LoginController extends Controller
         }
         return response()->json(['message'=> "Failed sending token"], 422);
     }
+
+    public function postTwoFactorToken() {
+        $verified = TwoFactorAuthenticationService::verifyToken();
+        
+        if($verified) {
+            return response()->json(
+                ['message' => "Token verified successfully"]
+            );
+        }
+
+        return response()->json(
+            ['message' => "The token provided is not valid"],
+            422
+        );
+    }
 }
