@@ -23,16 +23,12 @@ Route::group(
         Route::get('logout', 'LoginController@logout');
         Route::post('register', 'RegisterController@register');
         Route::post('login', 'LoginController@login');
-        Route::post('two-factor-auth', 'LoginController@twoFactor')->middleware(['api']);
+        Route::get('send-two-factor-token', 'LoginController@sendtwoFactorToken')->middleware(['api']);
+        Route::post('post-two-factor-token', 'LoginController@postTwoFactor')->middleware(['api']);
     }
 );
 
 // ========== Cleanup
-Route::post('2fa', function(Request $request){
-    logger($request->all());
-    return response()->json(['Made It']);
-});
-
 Route::get('wallets', function(){
     $wallets = [
         ['id'=>123,'name'=>'BTC'], 

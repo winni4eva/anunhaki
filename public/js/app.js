@@ -97365,7 +97365,7 @@ module.exports = exports["default"];
 /*!**************************************!*\
   !*** ./resources/js/actions/auth.js ***!
   \**************************************/
-/*! exports provided: getLogout, postLogin, postTwoFactor, postRegister */
+/*! exports provided: getLogout, postLogin, postTwoFactor, getTwoFactor, postRegister */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -97373,6 +97373,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLogout", function() { return getLogout; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postLogin", function() { return postLogin; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postTwoFactor", function() { return postTwoFactor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTwoFactor", function() { return getTwoFactor; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postRegister", function() { return postRegister; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
@@ -97466,7 +97467,7 @@ var postTwoFactor = function postTwoFactor(postData, actions, props) {
       history = props.history;
   var setSubmitting = actions.setSubmitting,
       setErrors = actions.setErrors;
-  Object(_request__WEBPACK_IMPORTED_MODULE_1__["default"])('POST', _endpoints__WEBPACK_IMPORTED_MODULE_2__["twoFactorEndpoint"], postData).then(function (response) {
+  Object(_request__WEBPACK_IMPORTED_MODULE_1__["default"])('POST', _endpoints__WEBPACK_IMPORTED_MODULE_2__["twoFactorPostEndpoint"], postData).then(function (response) {
     console.log(response); //const {data} = response;
     //const {access_token} = data;
     //dispatch(setJwtHelper(access_token));
@@ -97476,6 +97477,14 @@ var postTwoFactor = function postTwoFactor(postData, actions, props) {
   })["catch"](function (error) {
     console.error(error);
     setSubmitting(false);
+  });
+};
+var getTwoFactor = function getTwoFactor() {
+  var option = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'email';
+  Object(_request__WEBPACK_IMPORTED_MODULE_1__["default"])('GET', _endpoints__WEBPACK_IMPORTED_MODULE_2__["twoFactorGetEndpoint"] + "?option_2fa=".concat(option)).then(function (response) {
+    console.log(response);
+  })["catch"](function (error) {
+    console.error(error);
   });
 };
 var postRegister = function postRegister(data, actions, props) {
@@ -97594,7 +97603,7 @@ var getCountries = function getCountries(store) {
 /*!*******************************************!*\
   !*** ./resources/js/actions/endpoints.js ***!
   \*******************************************/
-/*! exports provided: getWalletsEndpoint, loginEndpoint, logoutEndpoint, registerEnpoint, twoFactorEndpoint, getCountriesEndpoint */
+/*! exports provided: getWalletsEndpoint, loginEndpoint, logoutEndpoint, registerEnpoint, twoFactorGetEndpoint, twoFactorPostEndpoint, getCountriesEndpoint */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -97603,13 +97612,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loginEndpoint", function() { return loginEndpoint; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logoutEndpoint", function() { return logoutEndpoint; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerEnpoint", function() { return registerEnpoint; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "twoFactorEndpoint", function() { return twoFactorEndpoint; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "twoFactorGetEndpoint", function() { return twoFactorGetEndpoint; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "twoFactorPostEndpoint", function() { return twoFactorPostEndpoint; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCountriesEndpoint", function() { return getCountriesEndpoint; });
 var getWalletsEndpoint = "api/wallets";
 var loginEndpoint = 'api/login';
 var logoutEndpoint = 'api/logout';
 var registerEnpoint = 'api/register';
-var twoFactorEndpoint = 'api/two-factor-auth';
+var twoFactorGetEndpoint = 'api/send-two-factor-token';
+var twoFactorPostEndpoint = 'api/post-two-factor-token';
 var getCountriesEndpoint = 'api/countries';
 
 /***/ }),
@@ -98488,7 +98499,7 @@ var routes = function routes(props) {
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: "/register",
     component: _Auth_Register__WEBPACK_IMPORTED_MODULE_5__["default"]
-  }), authentication.jwtToken ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+  }), authentication.isAuthenticated ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: "/two-factor-auth",
     component: _TwoFactorAuth_TwoFactorAuth__WEBPACK_IMPORTED_MODULE_6__["default"]
   }) : null);
@@ -98530,12 +98541,19 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
  //import { ACCESS_TOKEN, LOG_IN } from '../../constants/types';
 
+var sendToken = function sendToken() {
+  var via = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'email';
+  console.log("Send My Token");
+  Object(_actions_auth__WEBPACK_IMPORTED_MODULE_3__["getTwoFactor"])(via);
+};
+
 var twoFactor = function twoFactor(_ref) {
   var props = _extends({}, _ref);
 
   var authentication = props.authentication,
       history = props.history,
-      dispatch = props.dispatch; // const setAuthHelper = (auth) => ({
+      dispatch = props.dispatch;
+  sendToken(); // const setAuthHelper = (auth) => ({
   //     type: LOG_IN,
   //     payload: auth
   // });
@@ -98548,7 +98566,6 @@ var twoFactor = function twoFactor(_ref) {
     },
     validationSchema: _utils_validation__WEBPACK_IMPORTED_MODULE_4__["twoFactorAuthValidator"],
     onSubmit: function onSubmit(values, actions) {
-      console.log(values);
       Object(_actions_auth__WEBPACK_IMPORTED_MODULE_3__["postTwoFactor"])(values, actions, props);
     }
   }, function (_ref2) {
@@ -98578,9 +98595,12 @@ var twoFactor = function twoFactor(_ref) {
       className: "flex items-center justify-between"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       type: "submit",
-      className: "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded",
+      className: "bg-blue-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded",
       disabled: isSubmitting
-    }, isSubmitting ? "Please wait..." : "Verify")));
+    }, isSubmitting ? "Please wait..." : "Verify"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      type: "submit",
+      className: "bg-green-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded"
+    }, "Resend")));
   }));
 };
 

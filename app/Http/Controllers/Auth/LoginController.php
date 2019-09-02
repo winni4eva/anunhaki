@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use App\Exceptions\InvalidCredentialsException;
+use Facades\App\Services\Auth\TwoFactorAuthenticationService;
 
 class LoginController extends Controller
 {
@@ -131,7 +132,14 @@ class LoginController extends Controller
         ]);
     }
 
-    public function twoFactor() {
-        logger(request()->all());
+    public function sendtwoFactorToken() {
+        $via = TwoFactorAuthenticationService::sendToken();
+
+        if($via) {
+            return response()->json(
+                ['message' => "You should receive a message via {$via} with your token"]
+            );
+        }
+        return response()->json(['message'=> "Failed sending token"], 422);
     }
 }

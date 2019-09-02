@@ -1,5 +1,5 @@
 import makeRequest from './request';
-import {loginEndpoint, logoutEndpoint, registerEnpoint, twoFactorEndpoint} from './endpoints';
+import {loginEndpoint, logoutEndpoint, registerEnpoint, twoFactorPostEndpoint, twoFactorGetEndpoint} from './endpoints';
 import {LOG_IN, ACCESS_TOKEN, JWT_TOKEN} from '../constants/types';
 
 const setJwtHelper = (token) => ({
@@ -43,7 +43,7 @@ export const postTwoFactor = (postData, actions, props) => {
     const {dispatch, history} = props;
     const {setSubmitting, setErrors} = actions;
 
-    makeRequest('POST', twoFactorEndpoint, postData)
+    makeRequest('POST', twoFactorPostEndpoint, postData)
         .then(response => {
             console.log(response)
             //const {data} = response;
@@ -56,6 +56,16 @@ export const postTwoFactor = (postData, actions, props) => {
         .catch(error => {
             console.error(error);
             setSubmitting(false);
+        })
+};
+
+export const getTwoFactor = (option = 'email') => {
+    makeRequest('GET', twoFactorGetEndpoint+`?option_2fa=${option}`)
+        .then(response => {
+            console.log(response)
+        })
+        .catch(error => {
+            console.error(error);
         })
 };
 

@@ -1,15 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import {postTwoFactor} from '../../actions/auth'
+import {postTwoFactor,getTwoFactor} from '../../actions/auth'
 import {twoFactorAuthValidator} from '../../utils/validation';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 //import { ACCESS_TOKEN, LOG_IN } from '../../constants/types';
 
-
+const sendToken = (via = 'email') => {
+    console.log("Send My Token");
+    getTwoFactor(via);
+}
 
 const twoFactor = ({...props}) => { 
     const {authentication, history, dispatch} = props;
+    sendToken();
 
     // const setAuthHelper = (auth) => ({
     //     type: LOG_IN,
@@ -22,7 +26,6 @@ const twoFactor = ({...props}) => {
                 initialValues={{ token: '' }}
                 validationSchema={twoFactorAuthValidator}
                 onSubmit={(values, actions) => {
-                    console.log(values);
                     postTwoFactor(values, actions, props);
                 }}
               >
@@ -55,10 +58,17 @@ const twoFactor = ({...props}) => {
                     <div className="flex items-center justify-between">
                         <button
                         type="submit"
-                        className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded"
+                        className="bg-blue-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded"
                         disabled={isSubmitting}
                         >
                         {isSubmitting ? "Please wait..." : "Verify"}
+                        </button>
+
+                        <button
+                        type="submit"
+                        className="bg-green-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded"
+                        >
+                        Resend
                         </button>
                     </div>    
                   </Form>

@@ -12,7 +12,7 @@ const routes = (props) => {
         <Aux>
             <Route path="/login" component={Login}/>
             <Route path="/register" component={Register}/>
-            {authentication.jwtToken
+            {authentication.isAuthenticated
                 ? <Route path="/two-factor-auth" component={TwoFactorAuth}/>
                 : null
             }

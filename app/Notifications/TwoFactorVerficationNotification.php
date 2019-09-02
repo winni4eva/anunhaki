@@ -9,7 +9,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
 
-class TwoFactorVerficationNotification extends Notification
+class TwoFactorVerficationNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -31,7 +31,12 @@ class TwoFactorVerficationNotification extends Notification
      */
     public function via($notifiable)
     {
-        return $notifiable->option_2fa == 'phone' ? [TwilioChannel::class] : ['mail'];
+        $twilio = TwilioChannel::class;
+    
+        if (request()->has('option_2fa') && request()->get('option_2fa')){
+            return request()->get('option_2fa') == 'phone' ? [$twilio] : ['mail'];
+        }
+        return $notifiable->option_2fa == 'phone' ? [$twilio] : ['mail'];
     }
 
     /**
