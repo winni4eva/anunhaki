@@ -8,7 +8,7 @@ import Main from './Main/Main';
 import Routes from './Routes/Routes';
 import AuthRoutes from './Routes/AuthRoutes';
 import configureStore from '../store/configureStore';
-import {getCountries} from '../actions/common'
+import {getCountries} from '../actions/common';
 import {LOG_IN, ACCESS_TOKEN, SAVE_COUNTRIES} from '../constants/types';
 import {isValidString} from '../utils/validation';
 

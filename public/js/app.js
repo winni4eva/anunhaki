@@ -97544,12 +97544,13 @@ var postRegister = function postRegister(data, actions, props) {
 /*!****************************************!*\
   !*** ./resources/js/actions/common.js ***!
   \****************************************/
-/*! exports provided: getCountries */
+/*! exports provided: getCountries, getCurrencies */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCountries", function() { return getCountries; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrencies", function() { return getCurrencies; });
 /* harmony import */ var _request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./request */ "./resources/js/actions/request.js");
 /* harmony import */ var _endpoints__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./endpoints */ "./resources/js/actions/endpoints.js");
 /* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants/types */ "./resources/js/constants/types.js");
@@ -97561,6 +97562,13 @@ var saveCountriesHelper = function saveCountriesHelper(countries) {
   return {
     type: _constants_types__WEBPACK_IMPORTED_MODULE_2__["SAVE_COUNTRIES"],
     payload: countries
+  };
+};
+
+var saveCurrenciesHelper = function saveCurrenciesHelper(currencies) {
+  return {
+    type: _constants_types__WEBPACK_IMPORTED_MODULE_2__["SAVE_CURRENCIES"],
+    payload: currencies
   };
 }; // export const getWallets = () => {
 //     return (dispatch, getState) => {
@@ -97583,14 +97591,17 @@ var saveCountriesHelper = function saveCountriesHelper(countries) {
 
 
 var getCountries = function getCountries(store) {
-  //const {authentication} = store.getState();
-  //if(authentication.isAuthenticated){
-  //const access_token = localStorage.getItem(ACCESS_TOKEN);
-  //const headers = {Accept: "application/json", Authorization: `Bearer ${access_token}`};
   Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('GET', _endpoints__WEBPACK_IMPORTED_MODULE_1__["getCountriesEndpoint"]).then(function (response) {
-    console.log(response);
     var countries = response.data.countries;
     store.dispatch(saveCountriesHelper(countries));
+  })["catch"](function (error) {
+    console.log(error.response);
+  });
+};
+var getCurrencies = function getCurrencies(dispatch) {
+  Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('GET', _endpoints__WEBPACK_IMPORTED_MODULE_1__["getCurrenciesEndpoint"]).then(function (response) {
+    var currencies = response.data.currencies;
+    dispatch(saveCurrenciesHelper(currencies));
   })["catch"](function (error) {
     console.log(error.response);
   });
@@ -97602,7 +97613,7 @@ var getCountries = function getCountries(store) {
 /*!*******************************************!*\
   !*** ./resources/js/actions/endpoints.js ***!
   \*******************************************/
-/*! exports provided: getWalletsEndpoint, loginEndpoint, logoutEndpoint, registerEnpoint, twoFactorGetEndpoint, twoFactorPostEndpoint, getCountriesEndpoint */
+/*! exports provided: getWalletsEndpoint, loginEndpoint, logoutEndpoint, registerEnpoint, twoFactorGetEndpoint, twoFactorPostEndpoint, getCountriesEndpoint, getCurrenciesEndpoint, postCreateWalletEndpoint */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -97614,6 +97625,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "twoFactorGetEndpoint", function() { return twoFactorGetEndpoint; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "twoFactorPostEndpoint", function() { return twoFactorPostEndpoint; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCountriesEndpoint", function() { return getCountriesEndpoint; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrenciesEndpoint", function() { return getCurrenciesEndpoint; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postCreateWalletEndpoint", function() { return postCreateWalletEndpoint; });
 var getWalletsEndpoint = "api/wallets";
 var loginEndpoint = 'api/login';
 var logoutEndpoint = 'api/logout';
@@ -97621,6 +97634,8 @@ var registerEnpoint = 'api/register';
 var twoFactorGetEndpoint = 'api/send-two-factor-token';
 var twoFactorPostEndpoint = 'api/post-two-factor-token';
 var getCountriesEndpoint = 'api/countries';
+var getCurrenciesEndpoint = 'api/currencies';
+var postCreateWalletEndpoint = 'api/wallets';
 
 /***/ }),
 
@@ -97704,6 +97719,32 @@ request.interceptors.response.use(function (config) {
     data: data
   });
 });
+
+/***/ }),
+
+/***/ "./resources/js/actions/wallet.js":
+/*!****************************************!*\
+  !*** ./resources/js/actions/wallet.js ***!
+  \****************************************/
+/*! exports provided: postCreateWallet */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postCreateWallet", function() { return postCreateWallet; });
+/* harmony import */ var _request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./request */ "./resources/js/actions/request.js");
+/* harmony import */ var _endpoints__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./endpoints */ "./resources/js/actions/endpoints.js");
+/* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants/types */ "./resources/js/constants/types.js");
+
+
+
+var postCreateWallet = function postCreateWallet(data, dispatch) {
+  Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('POST', _endpoints__WEBPACK_IMPORTED_MODULE_1__["postCreateWalletEndpoint"], JSON.stringify(data)).then(function (response) {
+    console.log(response);
+  })["catch"](function (error) {
+    console.log(error);
+  });
+};
 
 /***/ }),
 
@@ -98338,14 +98379,59 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/common */ "./resources/js/actions/common.js");
+/* harmony import */ var _actions_wallet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../actions/wallet */ "./resources/js/actions/wallet.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+
+
 
 
 
 var Wallets = function Wallets(_ref) {
-  var wallets = _ref.wallets;
-  var style = {
-    borderCollapse: "collapse"
+  var props = _extends({}, _ref);
+
+  var authentication = props.authentication,
+      history = props.history,
+      dispatch = props.dispatch,
+      wallets = props.wallets,
+      currencies = props.currencies;
+  var currencyOptions = [];
+  var selectedCurrency;
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    Object(_actions_common__WEBPACK_IMPORTED_MODULE_2__["getCurrencies"])(dispatch);
+  }, []);
+
+  var handleCurrencyChange = function handleCurrencyChange(e) {
+    selectedCurrency = e.target.value;
   };
+
+  var handleCreateWallet = function handleCreateWallet() {
+    if (!selectedCurrency) {
+      alert('Select a coin to create a wallet');
+      return;
+    }
+
+    var confirmed = confirm("Do you want to proceed!");
+
+    if (confirmed) {
+      var data = {
+        coin: selectedCurrency
+      };
+      Object(_actions_wallet__WEBPACK_IMPORTED_MODULE_3__["postCreateWallet"])(data, dispatch);
+      selectedCurrency = '';
+    }
+  };
+
+  if (currencies.currencies) {
+    currencyOptions = currencies.currencies.map(function (c, key) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        key: key,
+        value: c.identifier
+      }, c.currency);
+    });
+  }
+
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex mb-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -98353,12 +98439,15 @@ var Wallets = function Wallets(_ref) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "inline-block relative w-full"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-    className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "-- All coins/tokens --")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "bg-blue-500 w-1/4 float-left hover:bg-blue-700 text-white font-bold py-2 px-4 pull-right mt-4 rounded"
+    className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2",
+    onChange: handleCurrencyChange
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: ""
+  }, "-- All coins/tokens --"), currencyOptions), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "bg-blue-500 w-1/4 float-left hover:bg-blue-700 text-white font-bold py-2 px-4 pull-right mt-4 rounded",
+    onClick: handleCreateWallet
   }, "Create Wallet"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
-    className: "text-left m-4",
-    style: style
+    className: "text-left m-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
   }, "My Wallets"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
@@ -98367,26 +98456,15 @@ var Wallets = function Wallets(_ref) {
     className: "py-4 px-6 border-b border-grey-light"
   }, "Conversations"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
     className: "py-4 px-6 border-b border-grey-light text-center"
-  }, "\u274C")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-    className: "hover:bg-blue-lightest"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-    className: "py-4 px-6 border-b border-grey-light"
-  }, "Question-Buttons"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-    className: "py-4 px-6 border-b border-grey-light text-center"
-  }, "\u274C")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-    className: "hover:bg-blue-lightest"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-    className: "py-4 px-6 border-b border-grey-light"
-  }, "Image Attachment"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-    className: "py-4 px-6 border-b border-grey-light text-center"
-  }, "\u2705 ")))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "\u274C")))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-1/2 bg-white-500 h-64"
   }));
 };
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    wallets: state.wallets
+    wallets: state.wallets,
+    currencies: state.currencies
   };
 };
 
@@ -98665,7 +98743,7 @@ var TwoFactor = Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapS
 /*!*****************************************!*\
   !*** ./resources/js/constants/types.js ***!
   \*****************************************/
-/*! exports provided: ACCESS_TOKEN, JWT_TOKEN, GET_WALLETS, REMOVE_WALLET, LOG_IN, LOG_OUT, SAVE_COUNTRIES, SEND_TOKEN_VIA */
+/*! exports provided: ACCESS_TOKEN, JWT_TOKEN, GET_WALLETS, REMOVE_WALLET, LOG_IN, LOG_OUT, SAVE_COUNTRIES, SEND_TOKEN_VIA, SAVE_CURRENCIES */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -98678,6 +98756,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOG_OUT", function() { return LOG_OUT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_COUNTRIES", function() { return SAVE_COUNTRIES; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SEND_TOKEN_VIA", function() { return SEND_TOKEN_VIA; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_CURRENCIES", function() { return SAVE_CURRENCIES; });
 var ACCESS_TOKEN = 'qh_access_token';
 var JWT_TOKEN = 'JWT_TOKEN';
 var GET_WALLETS = 'GET_WALLETS';
@@ -98686,6 +98765,7 @@ var LOG_IN = 'LOGIN';
 var LOG_OUT = 'LOGOUT';
 var SAVE_COUNTRIES = 'SAVE_COUNTRIES';
 var SEND_TOKEN_VIA = 'SEND_TOKEN_VIA';
+var SAVE_CURRENCIES = 'SAVE_CURRENCIES';
 
 /***/ }),
 
@@ -98798,6 +98878,42 @@ var countriesReducerDefaultState = [];
 
 /***/ }),
 
+/***/ "./resources/js/reducers/currencies.js":
+/*!*********************************************!*\
+  !*** ./resources/js/reducers/currencies.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants/types */ "./resources/js/constants/types.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var currenciesReducerDefaultState = [];
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : currenciesReducerDefaultState;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _constants_types__WEBPACK_IMPORTED_MODULE_0__["SAVE_CURRENCIES"]:
+      var newState = _objectSpread({}, state);
+
+      newState.currencies = action.payload;
+      return newState;
+
+    default:
+      return state;
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/reducers/wallets.js":
 /*!******************************************!*\
   !*** ./resources/js/reducers/wallets.js ***!
@@ -98820,14 +98936,11 @@ var walletReducerDefaultState = [];
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : walletReducerDefaultState;
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
-  //console.log(state);
-  //console.log(action);
   switch (action.type) {
     case _constants_types__WEBPACK_IMPORTED_MODULE_0__["GET_WALLETS"]:
       var newState = _objectSpread({}, state);
 
       newState.wallets = action.payload;
-      console.log(newState);
       return newState;
 
     case _constants_types__WEBPACK_IMPORTED_MODULE_0__["REMOVE_WALLET"]:
@@ -98853,8 +98966,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _reducers_wallets__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../reducers/wallets */ "./resources/js/reducers/wallets.js");
 /* harmony import */ var _reducers_authentication__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../reducers/authentication */ "./resources/js/reducers/authentication.js");
 /* harmony import */ var _reducers_countries__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../reducers/countries */ "./resources/js/reducers/countries.js");
-/* harmony import */ var connected_react_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! connected-react-router */ "./node_modules/connected-react-router/esm/index.js");
-/* harmony import */ var _actions_history__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../actions/history */ "./resources/js/actions/history.js");
+/* harmony import */ var _reducers_currencies__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../reducers/currencies */ "./resources/js/reducers/currencies.js");
+/* harmony import */ var connected_react_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! connected-react-router */ "./node_modules/connected-react-router/esm/index.js");
+/* harmony import */ var _actions_history__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../actions/history */ "./resources/js/actions/history.js");
+
 
 
 
@@ -98863,13 +98978,14 @@ __webpack_require__.r(__webpack_exports__);
  //import thunk from 'redux-thunk';
 
 var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  router: Object(connected_react_router__WEBPACK_IMPORTED_MODULE_4__["connectRouter"])(_actions_history__WEBPACK_IMPORTED_MODULE_5__["default"]),
+  router: Object(connected_react_router__WEBPACK_IMPORTED_MODULE_5__["connectRouter"])(_actions_history__WEBPACK_IMPORTED_MODULE_6__["default"]),
   wallets: _reducers_wallets__WEBPACK_IMPORTED_MODULE_1__["default"],
   authentication: _reducers_authentication__WEBPACK_IMPORTED_MODULE_2__["default"],
-  countries: _reducers_countries__WEBPACK_IMPORTED_MODULE_3__["default"]
+  countries: _reducers_countries__WEBPACK_IMPORTED_MODULE_3__["default"],
+  currencies: _reducers_currencies__WEBPACK_IMPORTED_MODULE_4__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (function () {
-  var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(rootReducer, Object(redux__WEBPACK_IMPORTED_MODULE_0__["compose"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(Object(connected_react_router__WEBPACK_IMPORTED_MODULE_4__["routerMiddleware"])(_actions_history__WEBPACK_IMPORTED_MODULE_5__["default"]))));
+  var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(rootReducer, Object(redux__WEBPACK_IMPORTED_MODULE_0__["compose"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(Object(connected_react_router__WEBPACK_IMPORTED_MODULE_5__["routerMiddleware"])(_actions_history__WEBPACK_IMPORTED_MODULE_6__["default"]))));
   return store;
 });
 

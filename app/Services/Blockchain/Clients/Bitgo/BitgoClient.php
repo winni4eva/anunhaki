@@ -9,22 +9,28 @@ class BitgoClient implements ClientContract
 {
     protected $bitGo;
 
+    protected $host;
+
     public function __construct(string $accessToken, string $currency, bool $appEnvironment = false)
     {
-        //$bitgo = new BitGoSDK(config('token.token'), CurrencyCode::BITCOIN, $this->getAppEnvironment());
         $this->bitgo = new BitGoSDK($accessToken, $currency, $appEnvironment);
     }
 
     public function createWallet(string $currency): string 
     {   
-        $this->bitgo->walletId = 'btc';
-        return $this->bitgo->createWallet();
+        //$this->bitgo->walletId = 'btc';
+        //return $this->bitgo->createWallet();
     }
 
     public function createWalletAddress(string $walletId, string $currency): string 
     {
         $this->bitgo->walletId = 'btc';
         return $this->bitgo->createWalletAddress();
+    }
+
+    public function getCurrentUserProfile()
+    {
+        return $this->bitgo->getCurrentUserProfile();
     }
 
 }

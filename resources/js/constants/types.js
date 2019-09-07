@@ -14,3 +14,5 @@ export const LOG_OUT = 'LOGOUT';
 export const SAVE_COUNTRIES = 'SAVE_COUNTRIES';
 
 export const SEND_TOKEN_VIA = 'SEND_TOKEN_VIA';
+
+export const SAVE_CURRENCIES = 'SAVE_CURRENCIES';

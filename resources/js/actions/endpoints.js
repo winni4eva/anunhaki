@@ -11,3 +11,7 @@ export const twoFactorGetEndpoint = 'api/send-two-factor-token';
 export const twoFactorPostEndpoint = 'api/post-two-factor-token';
 
 export const getCountriesEndpoint = 'api/countries';
+
+export const getCurrenciesEndpoint = 'api/currencies';
+
+export const postCreateWalletEndpoint = 'api/wallets'; 

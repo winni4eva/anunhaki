@@ -17,30 +17,21 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('countries', 'CountriesController', ['only' => ['index']]);
+Route::get('countries', 'CountriesController@index');
 Route::group(
     ['namespace' => 'Auth'], 
     function () {
         Route::get('logout', 'LoginController@logout');
         Route::post('register', 'RegisterController@register');
         Route::post('login', 'LoginController@login');
-        Route::get('send-two-factor-token', 'LoginController@sendtwoFactorToken')->middleware(['api']);
-        Route::post('post-two-factor-token', 'LoginController@postTwoFactorToken')->middleware(['api']);
+        Route::get('send-two-factor-token', 'LoginController@sendtwoFactorToken')->middleware(['auth:api']);
+        Route::post('post-two-factor-token', 'LoginController@postTwoFactorToken')->middleware(['auth:api']);
     }
 );
 Route::group(
-    ['middleware' => 'api'],
+    ['middleware' => 'auth:api'],
     function () {
-        Route::resource('countries', 'CountriesController', ['only' => ['index']]);
+        Route::get('currencies', 'CurrenciesController@index');
+        Route::resource('wallets', 'WalletsController', ['only' => ['index','store']]);
     }
 );
-
-// ========== Cleanup
-Route::get('wallets', function(){
-    $wallets = [
-        ['id'=>123,'name'=>'BTC'], 
-        ['id'=>345,'name'=>'LTC']
-    ];
-    return response()->json(compact('wallets'));
-});
-// ========== Cleanup
