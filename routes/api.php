@@ -24,10 +24,17 @@ Route::group(
         Route::get('logout', 'LoginController@logout');
         Route::post('register', 'RegisterController@register');
         Route::post('login', 'LoginController@login');
-        Route::get('send-two-factor-token', 'LoginController@sendtwoFactorToken')->middleware(['auth:api']);
-        Route::post('post-two-factor-token', 'LoginController@postTwoFactorToken')->middleware(['auth:api']);
     }
 );
+
+Route::group(
+    ['namespace' => 'Auth', 'middleware', 'auth:api'], 
+    function () {
+        Route::get('send-two-factor-token', 'LoginController@sendtwoFactorToken');
+        Route::post('post-two-factor-token', 'LoginController@postTwoFactorToken');
+    }
+);
+
 Route::group(
     ['middleware' => 'auth:api'],
     function () {

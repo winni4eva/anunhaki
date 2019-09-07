@@ -14,7 +14,6 @@ class CurrenciesController extends Controller
      */
     public function index()
     {
-        logger(auth()->user()->email);
         $currencies = Currency::getEnvironmentCurrencies()->get();
 
         return response()->json(compact('currencies'));

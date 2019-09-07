@@ -14,7 +14,7 @@ class CountriesController extends Controller
      */
     public function index()
     {
-        $countries = Country::select('iso', 'nicename')->get();
+        $countries = Country::limitCountries()->select('iso', 'nicename')->get();
 
         return response()->json(compact('countries'));
     }
