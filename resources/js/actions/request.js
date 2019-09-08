@@ -4,7 +4,6 @@ import history from './history';
 import configureStore from '../store/configureStore';
 
 const store = configureStore();
-//const state = store.getState();
 
 const setAuthHelper = (auth) => ({
     type: LOG_IN,

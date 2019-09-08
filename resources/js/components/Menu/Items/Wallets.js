@@ -4,7 +4,7 @@ import {getCurrencies} from '../../../actions/common';
 import {postCreateWallet} from '../../../actions/wallet';
 
 const Wallets = ({...props}) => { 
-    const {authentication, history, dispatch, wallets, currencies} = props;
+    const {authentication, history, dispatch, wallets, currencies, notification} = props;
     let currencyOptions = [];
     let selectedCurrency;
 
@@ -29,16 +29,25 @@ const Wallets = ({...props}) => {
         }
     }
 
-    if(currencies.currencies) {
+    if(Array.isArray(currencies.currencies)) {
         currencyOptions = currencies.currencies.map((c, key) => {
             return <option key={key} value={c.identifier}>{c.currency}</option>
         });
+    }
+
+    const getErrors = () => {
+        return typeof(notification.notification) !== 'undefined'
+                ? (typeof(notification.notification.message) !== 'undefined') 
+                    ? notification.notification.message
+                    : ''
+                : null
     }
 
     return (
     <div className="flex mb-4">
         <div className="w-1/2 bg-white-400 h-auto p-4">
             <div className="inline-block relative w-full">
+                <h4 className="text-red-500 text-xs italic">{getErrors()}</h4>
                 <select className="block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
                     onChange={handleCurrencyChange}>
                     <option value=''>-- All coins/tokens --</option>
@@ -81,7 +90,8 @@ const Wallets = ({...props}) => {
 const mapStateToProps = state => {
     return { 
         wallets: state.wallets,
-        currencies: state.currencies 
+        currencies: state.currencies,
+        notification: state.notification 
     };
 };
 

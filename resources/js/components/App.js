@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
+import { Redirect } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import history from '../actions/history';
 import { Provider, connect } from 'react-redux';
@@ -19,11 +20,6 @@ const setAuthHelper = (auth) => ({
     payload: auth
 });
 
-// const saveCountriesHelper = (countries) => ({
-//     type: SAVE_COUNTRIES,
-//     payload: countries
-// });
-
 export default class App extends PureComponent {
 
     constructor(props){
@@ -31,22 +27,22 @@ export default class App extends PureComponent {
     }
     
     componentDidMount() {
-        console.log(localStorage.getItem(ACCESS_TOKEN));
         const autheniticated = isValidString(localStorage.getItem(ACCESS_TOKEN)) && !!localStorage.getItem(ACCESS_TOKEN)
             ? true
             : false;
         store.dispatch(setAuthHelper(autheniticated));
 
         getCountries(store);
-        //console.log(countries);
-        // if (countries) {
-        //     store.dispatch(saveCountriesHelper(countries));
-        // }
     }
 
     render() {
         return (
             <ConnectedRouter history={history}>
+                <span>{
+                    !this.props.authentication.isAuthenticated
+                        ? <Redirect to='/login'/>
+                        : null
+                }</span>
                 <p>{this.props.authentication.isAuthenticated? 'Yaay' : 'Naay'}</p>
                 <Cockpit/>
                 <Routes/>
