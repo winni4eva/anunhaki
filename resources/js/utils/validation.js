@@ -25,15 +25,7 @@ export const registerSchemaValidator = Yup.object().shape({
     const selectedCountry = options.parent.phone_country;
     if(value && selectedCountry) {
       const phoneNumber = parsePhoneNumberFromString(value, selectedCountry);
-
-      if(!phoneNumber.isValid()) {
-        return false;
-        //createError({ path, message: 'Phone number is not valid' });
-      } else if (phoneNumber.country !== selectedCountry) {
-        return false;
-      } else {
-        const phoneInput = document.querySelector('#phone_number');
-        phoneInput.value = phoneNumber.formatInternational();
+      if(phoneNumber.isValid()) {
         return true;
       }
     }

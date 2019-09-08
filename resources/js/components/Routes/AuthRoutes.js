@@ -9,8 +9,8 @@ const routes = (props) => {
     return (
         <Aux>
             <Route path={`/(wallets|transactions|)`} component={Menu}/>
-            <Route path="/wallets" component={Wallets}/>
-            <Route path="/transactions" component={Transactions}/>
+            <Route name="wallets" path="/wallets" component={Wallets}/>
+            <Route name="transactions" path="/transactions" component={Transactions}/>
         </Aux>
     );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Aux from '../../hoc/Aux';
 import Login from '../Auth/Login';
@@ -10,8 +10,9 @@ const routes = (props) => {
     const {authentication} = props; 
     return (
         <Aux>
-            <Route path="/login" component={Login}/>
-            <Route path="/register" component={Register}/>
+            <Redirect exact from="/" to="/login" />
+            <Route name="login" path="/login" component={Login}/>
+            <Route name="register" path="/register" component={Register}/>
             {authentication.isAuthenticated
                 ? <Route path="/two-factor-auth" component={TwoFactorAuth}/>
                 : null

@@ -98068,10 +98068,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/auth */ "./resources/js/actions/auth.js");
 /* harmony import */ var _utils_validation__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/validation */ "./resources/js/utils/validation.js");
 /* harmony import */ var formik__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
+/* harmony import */ var libphonenumber_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! libphonenumber-js */ "./node_modules/libphonenumber-js/index.es6.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 
  //import FormInput from '../FormInput/FormInput';
+
 
 
 
@@ -98095,6 +98097,8 @@ var register = function register(_ref) {
     },
     validationSchema: _utils_validation__WEBPACK_IMPORTED_MODULE_3__["registerSchemaValidator"],
     onSubmit: function onSubmit(values, actions) {
+      var phoneNumber = Object(libphonenumber_js__WEBPACK_IMPORTED_MODULE_5__["parsePhoneNumberFromString"])(values.phone_number);
+      values.phone_number = phoneNumber.formatInternational();
       Object(_actions_auth__WEBPACK_IMPORTED_MODULE_2__["postRegister"])(values, actions, props);
     }
   }, function (_ref2) {
@@ -98176,7 +98180,9 @@ var register = function register(_ref) {
       onChange: handleChange,
       onBlur: handleBlur,
       className: "shadow appearance-none border rounded w-3/12 py-2 px-3 mr-2 text-grey-darker leading-tight focus:shadow-outline ".concat(touched.phone_country && errors.phone_country ? "is-invalid" : "")
-    }, countries.countries.map(function (country) {
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      value: ""
+    }, "- select country -"), countries.countries.map(function (country) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         key: country.iso,
         value: country.iso
@@ -98536,9 +98542,11 @@ var routes = function routes(props) {
     path: "/(wallets|transactions|)",
     component: _Menu_Menu__WEBPACK_IMPORTED_MODULE_3__["default"]
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+    name: "wallets",
     path: "/wallets",
     component: _Menu_Items_Wallets__WEBPACK_IMPORTED_MODULE_4__["default"]
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+    name: "transactions",
     path: "/transactions",
     component: _Menu_Items_Transactions__WEBPACK_IMPORTED_MODULE_5__["default"]
   }));
@@ -98575,10 +98583,16 @@ __webpack_require__.r(__webpack_exports__);
 
 var routes = function routes(props) {
   var authentication = props.authentication;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_hoc_Aux__WEBPACK_IMPORTED_MODULE_3__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_hoc_Aux__WEBPACK_IMPORTED_MODULE_3__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
+    exact: true,
+    from: "/",
+    to: "/login"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+    name: "login",
     path: "/login",
     component: _Auth_Login__WEBPACK_IMPORTED_MODULE_4__["default"]
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+    name: "register",
     path: "/register",
     component: _Auth_Register__WEBPACK_IMPORTED_MODULE_5__["default"]
   }), authentication.isAuthenticated ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
@@ -99032,13 +99046,7 @@ var registerSchemaValidator = yup__WEBPACK_IMPORTED_MODULE_0__["object"]().shape
     if (value && selectedCountry) {
       var phoneNumber = Object(libphonenumber_js__WEBPACK_IMPORTED_MODULE_1__["parsePhoneNumberFromString"])(value, selectedCountry);
 
-      if (!phoneNumber.isValid()) {
-        return false; //createError({ path, message: 'Phone number is not valid' });
-      } else if (phoneNumber.country !== selectedCountry) {
-        return false;
-      } else {
-        var phoneInput = document.querySelector('#phone_number');
-        phoneInput.value = phoneNumber.formatInternational();
+      if (phoneNumber.isValid()) {
         return true;
       }
     }

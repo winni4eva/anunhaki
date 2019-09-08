@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {postRegister} from '../../actions/auth'
 import {registerSchemaValidator} from '../../utils/validation';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 const register = ({...props}) => { 
     const {authentication, countries} = props;
@@ -16,6 +17,8 @@ const register = ({...props}) => {
                 initialValues={{ first_name: '', last_name: '', email: '', password: '' , phone_number: '', phone_country: ''}}
                 validationSchema={registerSchemaValidator}
                 onSubmit={(values, actions) => {
+                    const phoneNumber = parsePhoneNumberFromString(values.phone_number);
+                    values.phone_number = phoneNumber.formatInternational();
                     postRegister(values, actions, props);
                 }}
               >
@@ -97,23 +100,6 @@ const register = ({...props}) => {
                       />
                     </div>
 
-                    {/* <div className="mb-4 my-6">
-                      <label htmlFor="password_confirmation" className="block text-grey-darker text-sm font-bold mb-2">Password Confirmation</label>
-                      <Field
-                        type="password_confirmation"
-                        name="password_confirmation"
-                        placeholder="Confirm password"
-                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ${
-                          touched.password_confirmation && errors.password_confirmation ? "is-invalid" : ""
-                        }`}
-                      />
-                      <ErrorMessage
-                        component="span"
-                        name="password_confirmation"
-                        className="text-red-500 text-xs italic"
-                      />
-                    </div> */}
-
                     <div className="mb-4 my-6">
                         <label htmlFor="phone_number" className="block text-grey-darker text-sm font-bold mb-2">Phone Number</label>
                         <select
@@ -125,6 +111,7 @@ const register = ({...props}) => {
                                 touched.phone_country && errors.phone_country ? "is-invalid" : ""
                               }`}
                             >
+                              <option value=''>- select country -</option>
                             {countries.countries.map(country => <option key={country.iso} value={country.iso}>{country.nicename}</option>)}
                         </select>
                         <ErrorMessage
