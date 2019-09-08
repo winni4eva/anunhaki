@@ -97615,7 +97615,7 @@ var getCurrencies = function getCurrencies(dispatch) {
 /*!*******************************************!*\
   !*** ./resources/js/actions/endpoints.js ***!
   \*******************************************/
-/*! exports provided: getWalletsEndpoint, loginEndpoint, logoutEndpoint, registerEnpoint, twoFactorGetEndpoint, twoFactorPostEndpoint, getCountriesEndpoint, getCurrenciesEndpoint, postCreateWalletEndpoint */
+/*! exports provided: getWalletsEndpoint, loginEndpoint, logoutEndpoint, registerEnpoint, twoFactorGetEndpoint, twoFactorPostEndpoint, getCountriesEndpoint, getCurrenciesEndpoint, walletsEndpoint */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -97628,7 +97628,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "twoFactorPostEndpoint", function() { return twoFactorPostEndpoint; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCountriesEndpoint", function() { return getCountriesEndpoint; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrenciesEndpoint", function() { return getCurrenciesEndpoint; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postCreateWalletEndpoint", function() { return postCreateWalletEndpoint; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "walletsEndpoint", function() { return walletsEndpoint; });
 var getWalletsEndpoint = "api/wallets";
 var loginEndpoint = 'api/login';
 var logoutEndpoint = 'api/logout';
@@ -97637,7 +97637,7 @@ var twoFactorGetEndpoint = 'api/send-two-factor-token';
 var twoFactorPostEndpoint = 'api/post-two-factor-token';
 var getCountriesEndpoint = 'api/countries';
 var getCurrenciesEndpoint = 'api/currencies';
-var postCreateWalletEndpoint = 'api/wallets';
+var walletsEndpoint = 'api/wallets';
 
 /***/ }),
 
@@ -97727,11 +97727,12 @@ request.interceptors.response.use(function (config) {
 /*!****************************************!*\
   !*** ./resources/js/actions/wallet.js ***!
   \****************************************/
-/*! exports provided: postCreateWallet */
+/*! exports provided: getWallets, postCreateWallet */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWallets", function() { return getWallets; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postCreateWallet", function() { return postCreateWallet; });
 /* harmony import */ var _request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./request */ "./resources/js/actions/request.js");
 /* harmony import */ var _endpoints__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./endpoints */ "./resources/js/actions/endpoints.js");
@@ -97747,11 +97748,11 @@ var saveNotificationHelper = function saveNotificationHelper(notice) {
   };
 };
 
-var postCreateWallet = function postCreateWallet(data, dispatch) {
-  Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('POST', _endpoints__WEBPACK_IMPORTED_MODULE_1__["postCreateWalletEndpoint"], data).then(function (response) {
-    console.log(response);
-    dispatch(saveNotificationHelper(''));
+var getWallets = function getWallets(dispatch) {
+  Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('GET', _endpoints__WEBPACK_IMPORTED_MODULE_1__["walletsEndpoint"]).then(function (response) {
+    console.log(response); //dispatch(saveNotificationHelper(''));
   })["catch"](function (error) {
+    console.log(error);
     var _error$response = error.response;
     _error$response = _error$response === void 0 ? {} : _error$response;
     var _error$response$data = _error$response.data;
@@ -97762,6 +97763,27 @@ var postCreateWallet = function postCreateWallet(data, dispatch) {
     var _error$response2$data = _error$response2.data;
     _error$response2$data = _error$response2$data === void 0 ? {} : _error$response2$data;
     var errors = _error$response2$data.errors;
+    dispatch(saveNotificationHelper({
+      message: message,
+      errors: errors
+    }));
+  });
+};
+var postCreateWallet = function postCreateWallet(data, dispatch) {
+  Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('POST', _endpoints__WEBPACK_IMPORTED_MODULE_1__["walletsEndpoint"], data).then(function (response) {
+    console.log(response);
+    dispatch(saveNotificationHelper(''));
+  })["catch"](function (error) {
+    var _error$response3 = error.response;
+    _error$response3 = _error$response3 === void 0 ? {} : _error$response3;
+    var _error$response3$data = _error$response3.data;
+    _error$response3$data = _error$response3$data === void 0 ? {} : _error$response3$data;
+    var message = _error$response3$data.message;
+    var _error$response4 = error.response;
+    _error$response4 = _error$response4 === void 0 ? {} : _error$response4;
+    var _error$response4$data = _error$response4.data;
+    _error$response4$data = _error$response4$data === void 0 ? {} : _error$response4$data;
+    var errors = _error$response4$data.errors;
     dispatch(saveNotificationHelper({
       message: message,
       errors: errors
@@ -98422,6 +98444,7 @@ var Wallets = function Wallets(_ref) {
   var selectedCurrency, coinError, errorMessage;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     Object(_actions_common__WEBPACK_IMPORTED_MODULE_2__["getCurrencies"])(dispatch);
+    Object(_actions_wallet__WEBPACK_IMPORTED_MODULE_3__["getWallets"])(dispatch);
   }, []);
 
   var handleCurrencyChange = function handleCurrencyChange(e) {

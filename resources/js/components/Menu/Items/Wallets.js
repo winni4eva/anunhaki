@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import { connect } from "react-redux";
 import {getCurrencies} from '../../../actions/common';
-import {postCreateWallet} from '../../../actions/wallet';
+import {postCreateWallet, getWallets} from '../../../actions/wallet';
 
 const Wallets = ({...props}) => { 
     const {authentication, history, dispatch, wallets, currencies, notification} = props;
@@ -10,6 +10,7 @@ const Wallets = ({...props}) => {
 
     useEffect(() => {
         getCurrencies(dispatch);
+        getWallets(dispatch);
     }, []);
 
     const handleCurrencyChange = e => {

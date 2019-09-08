@@ -3,16 +3,19 @@
 namespace App\Services\Blockchain\Clients\Bitgo;
 
 use neto737\BitGoSDK\BitGoSDK;
+use neto737\BitGoSDK\BitGoExpress;
 use App\Services\Blockchain\Clients\ClientContract;
-use Symfony\Component\HttpClient\HttpClient;
+use GuzzleHttp\Client;
 
 class BitgoClient implements ClientContract
 {
     protected $bitGo;
 
-    protected $expressServerhost;
+    protected $bitGoExpress;
 
-    protected $apiVersion;
+    //protected $expressServerhost;
+
+    //protected $apiVersion;
 
     protected $accessToken;
 
@@ -22,32 +25,65 @@ class BitgoClient implements ClientContract
 
     protected $httpClient;
 
-    public function __construct(string $accessToken, string $currency, bool $appEnvironment = false)
+    public function __construct(string $accessToken, string $currency = 'tbtc', bool $appEnvironment = false)
     {
         $this->accessToken = $accessToken;
         $this->currency = $currency;
         $this->appEnvironment = $appEnvironment;
         $this->bitgo = new BitGoSDK($accessToken, $currency, $appEnvironment);
-        $this->expressServerHost = config('crypto.host');
+        $this->expressServerHost = config('crypto.host').':'.config('crypto.port');
         $this->apiVersion = config('crypto.bitgoApiVersion');
-        $this->httpClient = HttpClient::create([
-            'auth_bearer' => $accessToken,
-        ]);
+        //$this->bitGoExpress = new BitGoExpress(config('crypto.host'), config('crypto.port'), $currency);
+        $this->httpClient = new Client(['headers' => ['Authorization'=>"Bearer {$accessToken}"]]);
     }
 
-    public function createWallet(): string 
+    public function createWallet() 
     {   
-        // Check for wallet on bitgo if one exists, return cached wallet response
-
-        $createWalletEndpoint = $this->expressServerHost.$this->apiVersion."/{$this->currency}/wallet/generate";
-        $response = $this->httpClient->request('GET', $createWalletEndpoint);
-        
-        if($response->getStatusCode() == 200) {
-            $data = $response->getContent();
+        try {
+            // Check for wallet on bitgo if one exists, return cached wallet response
+            // tdash
+            $createWalletEndpoint = $this->expressServerHost.$this->apiVersion."/{$this->currency}/wallet/generate";
+            $label = auth()->user()->email;
+            $passphrase = auth()->user()->last_name;
+            //$createWalletEndpoint = $this->expressServerHost.$this->apiVersion."/txlm/wallet/generate";
+            $response = $this->httpClient->request('POST', $createWalletEndpoint, [
+                'json' => [
+                    'label' => $label,
+                    'passphrase' => $passphrase,
+                    'enterprise' => '5d74f776d8b63b7603c0de49837f7987'
+                ]
+            ]);
+            
+            // if($response->getStatusCode() == 200) {
+            //     $data = $response->getBody()->getContents();
+            //     logger($response->getStatusCode());
+            //     logger($data);
+            //     //cache data
+            //     return true;
+            // }
             logger($response->getStatusCode());
-            logger($data);
-            //cache data
-            return true;
+            logger($response->getBody()->getContents());
+            // return false;
+            //$this->bitGoExpress->accessToken = $this->accessToken;
+            
+            //$generateWallet = $this->bitGoExpress->generateWallet($label, $passphrase);
+            //logger($generateWallet);
+        } catch (\Exception $e) {
+            logger('BitGo Client - Wallet Create Error');
+            logger("Message: " . $e->getMessage());
+            logger("File: " . $e->getFile());
+            logger("Line: " . $e->getLine());
+        }
+    }
+
+    public function getWallets() 
+    {
+        $getWalletsEndpoint = $this->expressServerHost.$this->apiVersion."/wallets";
+
+        $response = $this->httpClient->request('GET', $getWalletsEndpoint);
+
+        if($response->getStatusCode() == 200) {
+            return $response->getBody()->getContents();
         }
         return false;
     }

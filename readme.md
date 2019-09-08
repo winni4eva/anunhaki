@@ -11,24 +11,33 @@ A simple application that helps you manage your crypto currency wallets using Bi
 7. Create Twilio account https://www.twilio.com
 8. Update these .env keys
     ```
-    TWILIO_ACC_ID=xxxx-xxxxx-xxxxx
-    TWILIO_TOKEN=xxxx-xxxxx-xxxxx
-    TWILIO_NUMBER=xxxx-xxxx-xxxxx
+        TWILIO_ACC_ID=xxxx-xxxxx-xxxxx
+        TWILIO_TOKEN=xxxx-xxxxx-xxxxx
+        TWILIO_NUMBER=xxxx-xxxx-xxxxx
 
-    BITGO_EXPRESS_ENDPOINT=http://localhost:3080
-    BITGO_TOKEN=xxxx-xxxx-xxxx
+        BITGO_EXPRESS_ENDPOINT=http://localhost:3080
+        BITGO_TOKEN=xxxx-xxxx-xxxx
     ```
-8. Run command: composer install
-9. Run command: npm install
-10. Run command: php artisan key:generate
-11. Run command: php artisan jwt:secret
-12. Run command: php artisan migrate
-13. Run command: php artisan db:seed
-14. Setup Bitgo express server. There are two options here
+9. Update mail config. You can create a mailtrap account for testing
+    ```
+        MAIL_DRIVER=smtp
+        MAIL_HOST=smtp.mailtrap.io
+        MAIL_PORT=587
+        MAIL_USERNAME=
+        MAIL_PASSWORD=
+        MAIL_ENCRYPTION=tls
+    ```
+10. Run command: composer install
+11. Run command: npm install
+12. Run command: php artisan key:generate
+13. Run command: php artisan jwt:secret
+14. Run command: php artisan migrate
+15. Run command: php artisan db:seed
+16. Setup Bitgo express server. There are two options here
     - https://github.com/BitGo/BitGoJS
     - docker pull bitgo/express 
-15. BitGoJS has a guide on how to setup
-15. Docker Setup
+17. BitGoJS has a guide on how to setup
+18. Docker Setup
     ```
         Make sure you have docker setup on your environment
         Run command: docker pull bitgo/express 

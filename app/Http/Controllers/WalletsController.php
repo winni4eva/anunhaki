@@ -15,7 +15,16 @@ class WalletsController extends Controller
      */
     public function index()
     {
-        //
+        $accessToken = config('crypto.token');
+        $currency = 'tbtc'; 
+        $appEnvironment = app()->env == 'production' ? true : false;
+        $bitgo = app()->makeWith(ClientContract::class, compact('accessToken', 'currency', 'appEnvironment'));
+        $wallets = $bitgo->getWallets();
+
+        if (!$wallets) {
+            return response()->json(['message' => 'Error fetching wallets']);
+        }
+        return response()->json(compact('wallets'));
     }
 
     /**
@@ -31,7 +40,7 @@ class WalletsController extends Controller
 
         $bitgo = app()->makeWith(ClientContract::class, compact('accessToken', 'currency', 'appEnvironment'));
         $response = $bitgo->createWallet();
-        
+
         if(!$response) {
             return response()->json(['message' => 'Error creating wallet'], 422);
         }

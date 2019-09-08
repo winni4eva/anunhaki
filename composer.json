@@ -10,11 +10,11 @@
     "require": {
         "php": "^7.1.3",
         "fideloper/proxy": "^4.0",
+        "guzzlehttp/guzzle": "^6.3",
         "laravel-notification-channels/twilio": "^2.0",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
         "neto737/bitgosdk-php": "^2.1",
-        "symfony/http-client": "^4.3",
         "tymon/jwt-auth": "dev-develop#f72b8eb as 1.0.0-rc.3.2"
     },
     "require-dev": {
