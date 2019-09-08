@@ -12,6 +12,7 @@ export const postCreateWallet = (data, dispatch) => {
     makeRequest('POST', postCreateWalletEndpoint, data)
         .then(response => {
             console.log(response);
+            dispatch(saveNotificationHelper(''));
         })
         .catch(error => {
             const { response: { data: { message } = {} } = {} } = error;

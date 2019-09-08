@@ -30,9 +30,11 @@ class WalletsController extends Controller
         $appEnvironment = app()->env == 'production' ? true : false;
 
         $bitgo = app()->makeWith(ClientContract::class, compact('accessToken', 'currency', 'appEnvironment'));
-
-        // $userProfile = $bitgo->
-
-        // return response()->json(compact('userProfile'));
+        $response = $bitgo->createWallet();
+        
+        if(!$response) {
+            return response()->json(['message' => 'Error creating wallet'], 422);
+        }
+        return response()->json(['success' => 'Wallet created successfully']);
     }
 }

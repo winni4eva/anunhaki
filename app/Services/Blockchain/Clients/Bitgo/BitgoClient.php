@@ -37,13 +37,19 @@ class BitgoClient implements ClientContract
 
     public function createWallet(): string 
     {   
+        // Check for wallet on bitgo if one exists, return cached wallet response
+
         $createWalletEndpoint = $this->expressServerHost.$this->apiVersion."/{$this->currency}/wallet/generate";
         $response = $this->httpClient->request('GET', $createWalletEndpoint);
         
         if($response->getStatusCode() == 200) {
             $data = $response->getContent();
+            logger($response->getStatusCode());
+            logger($data);
             //cache data
+            return true;
         }
+        return false;
     }
 
     public function createWalletAddress(string $walletId): string 

@@ -97750,6 +97750,7 @@ var saveNotificationHelper = function saveNotificationHelper(notice) {
 var postCreateWallet = function postCreateWallet(data, dispatch) {
   Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('POST', _endpoints__WEBPACK_IMPORTED_MODULE_1__["postCreateWalletEndpoint"], data).then(function (response) {
     console.log(response);
+    dispatch(saveNotificationHelper(''));
   })["catch"](function (error) {
     var _error$response = error.response;
     _error$response = _error$response === void 0 ? {} : _error$response;
