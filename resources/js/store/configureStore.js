@@ -3,9 +3,9 @@ import walletsReducer from '../reducers/wallets';
 import authenticationReducer from '../reducers/authentication';
 import countriesReducer from '../reducers/countries';
 import currenciesReducer from '../reducers/currencies';
+import notificationReducer from '../reducers/notification';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import history from '../actions/history';
-//import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
     router: connectRouter(history),
@@ -13,6 +13,7 @@ const rootReducer = combineReducers({
     authentication: authenticationReducer,
     countries: countriesReducer,
     currencies: currenciesReducer,
+    notification: notificationReducer,
 });
 
 export default () => {

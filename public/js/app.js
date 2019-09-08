@@ -97487,7 +97487,8 @@ var getTwoFactor = function getTwoFactor() {
   });
 };
 var postRegister = function postRegister(data, actions, props) {
-  var dispatch = props.dispatch;
+  var dispatch = props.dispatch,
+      history = props.history;
   var setSubmitting = actions.setSubmitting,
       setErrors = actions.setErrors;
   Object(_request__WEBPACK_IMPORTED_MODULE_1__["default"])('POST', _endpoints__WEBPACK_IMPORTED_MODULE_2__["registerEnpoint"], data).then(function (response) {
@@ -97497,6 +97498,7 @@ var postRegister = function postRegister(data, actions, props) {
     setErrors({
       message: ''
     });
+    history.push('/login');
   })["catch"](function (error) {
     var message = error.response.data.message;
     localStorage.setItem(_constants_types__WEBPACK_IMPORTED_MODULE_3__["ACCESS_TOKEN"], null);
@@ -97703,7 +97705,6 @@ request.interceptors.response.use(function (config) {
 }, function (error) {
   // Stop request loader
   if (error.response.status === 401) {
-    console.log("send me to login");
     localStorage.setItem(_constants_types__WEBPACK_IMPORTED_MODULE_1__["ACCESS_TOKEN"], '');
     store.dispatch(setAuthHelper(false));
     _history__WEBPACK_IMPORTED_MODULE_2__["default"].push('/login');
@@ -98072,7 +98073,6 @@ __webpack_require__.r(__webpack_exports__);
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 
- //import FormInput from '../FormInput/FormInput';
 
 
 
@@ -98082,11 +98082,10 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 var register = function register(_ref) {
   var props = _extends({}, _ref);
 
-  var authentication = props.authentication,
-      countries = props.countries;
+  var countries = props.countries;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex justify-end w-full my-9 clearfix"
-  }, Array.isArray(countries.countries) ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["Formik"], {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["Formik"], {
     initialValues: {
       first_name: '',
       last_name: '',
@@ -98097,8 +98096,8 @@ var register = function register(_ref) {
     },
     validationSchema: _utils_validation__WEBPACK_IMPORTED_MODULE_3__["registerSchemaValidator"],
     onSubmit: function onSubmit(values, actions) {
-      var phoneNumber = Object(libphonenumber_js__WEBPACK_IMPORTED_MODULE_5__["parsePhoneNumberFromString"])(values.phone_number);
-      values.phone_number = phoneNumber.formatInternational();
+      var phoneNumber = Object(libphonenumber_js__WEBPACK_IMPORTED_MODULE_5__["parsePhoneNumberFromString"])(values.phone_number, values.phone_country);
+      values['phone_number'] = phoneNumber.formatInternational();
       Object(_actions_auth__WEBPACK_IMPORTED_MODULE_2__["postRegister"])(values, actions, props);
     }
   }, function (_ref2) {
@@ -98110,7 +98109,7 @@ var register = function register(_ref) {
         handleBlur = _ref2.handleBlur;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["Form"], {
       className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Register ", authentication.isAuthenticated || 'Falsy'), errors.message ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Register"), errors.message ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "text-red-500 text-xs italic"
     }, errors.message) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mb-4 my-6"
@@ -98182,12 +98181,12 @@ var register = function register(_ref) {
       className: "shadow appearance-none border rounded w-3/12 py-2 px-3 mr-2 text-grey-darker leading-tight focus:shadow-outline ".concat(touched.phone_country && errors.phone_country ? "is-invalid" : "")
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       value: ""
-    }, "- select country -"), countries.countries.map(function (country) {
+    }, "- select country -"), Array.isArray(countries.countries) ? countries.countries.map(function (country) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         key: country.iso,
         value: country.iso
       }, country.nicename);
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["ErrorMessage"], {
+    }) : null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["ErrorMessage"], {
       component: "span",
       name: "phone_country",
       className: "text-red-500 text-xs italic"
@@ -98210,7 +98209,7 @@ var register = function register(_ref) {
       className: "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded",
       disabled: isSubmitting
     }, isSubmitting ? "Please wait..." : "Register")));
-  }) : null);
+  }), "}");
 };
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -98757,7 +98756,7 @@ var TwoFactor = Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapS
 /*!*****************************************!*\
   !*** ./resources/js/constants/types.js ***!
   \*****************************************/
-/*! exports provided: ACCESS_TOKEN, JWT_TOKEN, GET_WALLETS, REMOVE_WALLET, LOG_IN, LOG_OUT, SAVE_COUNTRIES, SEND_TOKEN_VIA, SAVE_CURRENCIES */
+/*! exports provided: ACCESS_TOKEN, JWT_TOKEN, GET_WALLETS, REMOVE_WALLET, LOG_IN, LOG_OUT, SAVE_COUNTRIES, SEND_TOKEN_VIA, SAVE_CURRENCIES, SAVE_NOTIFICATION, REMOVE_NOTIFICATION */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -98771,6 +98770,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_COUNTRIES", function() { return SAVE_COUNTRIES; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SEND_TOKEN_VIA", function() { return SEND_TOKEN_VIA; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_CURRENCIES", function() { return SAVE_CURRENCIES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_NOTIFICATION", function() { return SAVE_NOTIFICATION; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_NOTIFICATION", function() { return REMOVE_NOTIFICATION; });
 var ACCESS_TOKEN = 'qh_access_token';
 var JWT_TOKEN = 'JWT_TOKEN';
 var GET_WALLETS = 'GET_WALLETS';
@@ -98780,6 +98781,8 @@ var LOG_OUT = 'LOGOUT';
 var SAVE_COUNTRIES = 'SAVE_COUNTRIES';
 var SEND_TOKEN_VIA = 'SEND_TOKEN_VIA';
 var SAVE_CURRENCIES = 'SAVE_CURRENCIES';
+var SAVE_NOTIFICATION = 'SAVE_NOTIFICATION';
+var REMOVE_NOTIFICATION = 'REMOVE_NOTIFICATION';
 
 /***/ }),
 
@@ -98928,6 +98931,48 @@ var currenciesReducerDefaultState = [];
 
 /***/ }),
 
+/***/ "./resources/js/reducers/notification.js":
+/*!***********************************************!*\
+  !*** ./resources/js/reducers/notification.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants/types */ "./resources/js/constants/types.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var notificationsReducerDefaultState = [];
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : notificationsReducerDefaultState;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _constants_types__WEBPACK_IMPORTED_MODULE_0__["SAVE_NOTIFICATION"]:
+      var newState = _objectSpread({}, state);
+
+      newState.notification = action.payload;
+      return newState;
+
+    case _constants_types__WEBPACK_IMPORTED_MODULE_0__["REMOVE_NOTIFICATION"]:
+      var removeState = _objectSpread({}, state);
+
+      removeState.notification = action.payload;
+      return removeState;
+
+    default:
+      return state;
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/reducers/wallets.js":
 /*!******************************************!*\
   !*** ./resources/js/reducers/wallets.js ***!
@@ -98981,25 +99026,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _reducers_authentication__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../reducers/authentication */ "./resources/js/reducers/authentication.js");
 /* harmony import */ var _reducers_countries__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../reducers/countries */ "./resources/js/reducers/countries.js");
 /* harmony import */ var _reducers_currencies__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../reducers/currencies */ "./resources/js/reducers/currencies.js");
-/* harmony import */ var connected_react_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! connected-react-router */ "./node_modules/connected-react-router/esm/index.js");
-/* harmony import */ var _actions_history__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../actions/history */ "./resources/js/actions/history.js");
+/* harmony import */ var _reducers_notification__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../reducers/notification */ "./resources/js/reducers/notification.js");
+/* harmony import */ var connected_react_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! connected-react-router */ "./node_modules/connected-react-router/esm/index.js");
+/* harmony import */ var _actions_history__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../actions/history */ "./resources/js/actions/history.js");
 
 
 
 
 
 
- //import thunk from 'redux-thunk';
+
 
 var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  router: Object(connected_react_router__WEBPACK_IMPORTED_MODULE_5__["connectRouter"])(_actions_history__WEBPACK_IMPORTED_MODULE_6__["default"]),
+  router: Object(connected_react_router__WEBPACK_IMPORTED_MODULE_6__["connectRouter"])(_actions_history__WEBPACK_IMPORTED_MODULE_7__["default"]),
   wallets: _reducers_wallets__WEBPACK_IMPORTED_MODULE_1__["default"],
   authentication: _reducers_authentication__WEBPACK_IMPORTED_MODULE_2__["default"],
   countries: _reducers_countries__WEBPACK_IMPORTED_MODULE_3__["default"],
-  currencies: _reducers_currencies__WEBPACK_IMPORTED_MODULE_4__["default"]
+  currencies: _reducers_currencies__WEBPACK_IMPORTED_MODULE_4__["default"],
+  notification: _reducers_notification__WEBPACK_IMPORTED_MODULE_5__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (function () {
-  var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(rootReducer, Object(redux__WEBPACK_IMPORTED_MODULE_0__["compose"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(Object(connected_react_router__WEBPACK_IMPORTED_MODULE_5__["routerMiddleware"])(_actions_history__WEBPACK_IMPORTED_MODULE_6__["default"]))));
+  var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(rootReducer, Object(redux__WEBPACK_IMPORTED_MODULE_0__["compose"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(Object(connected_react_router__WEBPACK_IMPORTED_MODULE_6__["routerMiddleware"])(_actions_history__WEBPACK_IMPORTED_MODULE_7__["default"]))));
   return store;
 });
 

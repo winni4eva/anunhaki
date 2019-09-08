@@ -1,30 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
-//import FormInput from '../FormInput/FormInput';
 import {postRegister} from '../../actions/auth'
 import {registerSchemaValidator} from '../../utils/validation';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 const register = ({...props}) => { 
-    const {authentication, countries} = props;
+    const {countries} = props;
 
     return (
         <div className="flex justify-end w-full my-9 clearfix">
         
-            {Array.isArray(countries.countries) ?
               <Formik
                 initialValues={{ first_name: '', last_name: '', email: '', password: '' , phone_number: '', phone_country: ''}}
                 validationSchema={registerSchemaValidator}
                 onSubmit={(values, actions) => {
-                    const phoneNumber = parsePhoneNumberFromString(values.phone_number);
-                    values.phone_number = phoneNumber.formatInternational();
+                    const phoneNumber = parsePhoneNumberFromString(values.phone_number, values.phone_country);
+                    values['phone_number'] = phoneNumber.formatInternational();
                     postRegister(values, actions, props);
                 }}
               >
                 {({ touched, errors, isSubmitting, values, handleChange, handleBlur }) => (
                   <Form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24">
-                    <h3>Register {authentication.isAuthenticated || 'Falsy'}</h3>
+                    <h3>Register</h3>
                     {
                         errors.message 
                             ?   <span className="text-red-500 text-xs italic">{errors.message}</span>
@@ -112,7 +110,10 @@ const register = ({...props}) => {
                               }`}
                             >
                               <option value=''>- select country -</option>
-                            {countries.countries.map(country => <option key={country.iso} value={country.iso}>{country.nicename}</option>)}
+                            {Array.isArray(countries.countries) ?
+                              countries.countries.map(country => <option key={country.iso} value={country.iso}>{country.nicename}</option>)
+                              : null
+                            }
                         </select>
                         <ErrorMessage
                             component="span"
@@ -153,7 +154,6 @@ const register = ({...props}) => {
                   </Form>
                 )}
               </Formik>
-              : null
             }
         </div>
       );

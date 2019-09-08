@@ -66,7 +66,7 @@ export const getTwoFactor = (option = 'email') => {
 };
 
 export const postRegister = (data, actions, props) => {
-    const {dispatch} = props;
+    const {dispatch, history} = props;
     const {setSubmitting, setErrors} = actions;
     makeRequest('POST', registerEnpoint, data)
         .then(response => {
@@ -74,6 +74,7 @@ export const postRegister = (data, actions, props) => {
             dispatch(setAuthHelper(true));
             setSubmitting(false);
             setErrors({message: ''});
+            history.push('/login'); 
         })
         .catch(error => {
             const message = error.response.data.message;
