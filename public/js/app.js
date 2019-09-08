@@ -98348,7 +98348,7 @@ var cockpit = function cockpit(_ref) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex items-center flex-no-shrink text-grey-darkest mr-6"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/",
+    to: "/wallets",
     className: "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "font-semibold text-xl tracking-tight hover:text-red-900 cursor-pointer"

@@ -27,7 +27,7 @@ const cockpit = ({...props}) => {
     return (
         <nav className="flex items-center justify-between flex-wrap bg-grey-lighter p-6 shadow-lg mb-6">
             <div className="flex items-center flex-no-shrink text-grey-darkest mr-6">
-                <Link to={`/`} className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
+                <Link to={`/wallets`} className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
                     <span className="font-semibold text-xl tracking-tight hover:text-red-900 cursor-pointer">QHCoin</span>
                 </Link>
             </div>
