@@ -4,8 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Services\Blockchain\Clients\ClientContract;
-//use App\Services\Blockchain\Clients\Bitgo\BitgoClient;
-use App\Services\Blockchain\Clients\Winni\WinniClient;
+use App\Services\Blockchain\Clients\Bitgo\BitgoClient;
 
 class BlockChainServiceProvider extends ServiceProvider
 {
@@ -26,6 +25,6 @@ class BlockChainServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind(ClientContract::class, WinniClient::class);
+        $this->app->bind(ClientContract::class, BitgoClient::class);
     }
 }

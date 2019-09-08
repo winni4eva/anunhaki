@@ -3,6 +3,7 @@
 return [
     'token' => env('BITGO_TOKEN'),
     'currency' => '',
-    'host' => env('BITGO_ENDPOINT', 'https://test.bitgo.com'),
-    'ip' => env('BITGO_ALLOWED_IP_ADDRESS')
+    'host' => env('BITGO_EXPRESS_ENDPOINT', 'https://localhost:8030'),
+    'ip' => env('BITGO_ALLOWED_IP_ADDRESS'),
+    'bitgoApiVersion' => '/api/v2',
 ];

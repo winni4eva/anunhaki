@@ -25,15 +25,13 @@ class WalletsController extends Controller
      */
     public function store(Wallet $wallet)
     {
-        logger($wallet->all());
-        // $accessToken = config('crypto.token');
-        // $currency = request('currency'); 
-        // $appEnvironment = app()->env == 'production' ? true : false;
-        // //logger(compact('accessToken', 'currency', 'appEnvironment'));
+        $accessToken = config('crypto.token');
+        $currency = request('coin'); 
+        $appEnvironment = app()->env == 'production' ? true : false;
 
-        // $bitgo = app()->makeWith(ClientContract::class, compact('accessToken', 'currency', 'appEnvironment'));
+        $bitgo = app()->makeWith(ClientContract::class, compact('accessToken', 'currency', 'appEnvironment'));
 
-        // $userProfile = $bitgo->getCurrentUserProfile();
+        // $userProfile = $bitgo->
 
         // return response()->json(compact('userProfile'));
     }

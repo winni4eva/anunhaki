@@ -9,7 +9,7 @@ const saveNotificationHelper = (notice) => ({
 
 
 export const postCreateWallet = (data, dispatch) => {
-    makeRequest('POST', postCreateWalletEndpoint, JSON.stringify(data))
+    makeRequest('POST', postCreateWalletEndpoint, data)
         .then(response => {
             console.log(response);
         })
