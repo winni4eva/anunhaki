@@ -4,8 +4,8 @@ import {getCurrencies} from '../../../actions/common';
 import {postCreateWallet, getWallets} from '../../../actions/wallet';
 
 const Wallets = ({...props}) => { 
-    const {authentication, history, dispatch, wallets, currencies, notification} = props;
-    let currencyOptions = [];
+    const {authentication, history, dispatch, currencies, notification, wallets} = props;
+    let currencyOptions, walletsTableData = [];
     let selectedCurrency, coinError, errorMessage;
 
     useEffect(() => {
@@ -36,6 +36,16 @@ const Wallets = ({...props}) => {
         });
     }
 
+    if(Array.isArray(wallets.wallets)) {
+        walletsTableData = wallets.wallets.map((w, key) => {
+            return <tr className="hover:bg-blue-lightest">
+            <td className="py-4 px-6 border-b border-grey-light">{w.currency}</td>
+            <td className="py-4 px-6 border-b border-grey-light">{w.coin}</td>
+            <td className="py-4 px-6 border-b border-grey-light text-center">❌</td>
+        </tr>;
+        });
+    }
+
     const getErrors = () => {
         const { notification: { errors: { coin } = {} } = {} } = notification;
         const { notification: { message } = '' } = notification;
@@ -61,22 +71,13 @@ const Wallets = ({...props}) => {
                 <table className="text-left m-4">
                     <thead>
                         <tr>
-                            <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">My Wallets</th>
+                            <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Currency</th>
+                            <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Identifier</th>
+                            <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Remove</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className="hover:bg-blue-lightest">
-                            <td className="py-4 px-6 border-b border-grey-light">Conversations</td>
-                            <td className="py-4 px-6 border-b border-grey-light text-center">❌</td>
-                        </tr>
-                        {/* <tr className="hover:bg-blue-lightest">
-                            <td className="py-4 px-6 border-b border-grey-light">Question-Buttons</td>
-                            <td className="py-4 px-6 border-b border-grey-light text-center">❌</td>
-                        </tr>
-                        <tr className="hover:bg-blue-lightest">
-                            <td className="py-4 px-6 border-b border-grey-light">Image Attachment</td>
-                            <td className="py-4 px-6 border-b border-grey-light text-center">✅ </td>
-                        </tr> */}
+                        {walletsTableData}
                     </tbody>
                 </table>
             </div>

@@ -5,6 +5,8 @@ export const JWT_TOKEN = 'JWT_TOKEN'
 
 export const GET_WALLETS = 'GET_WALLETS';
 
+export const SAVE_WALLETS = 'SAVE_WALLETS';
+
 export const REMOVE_WALLET = 'REMOVE_WALLET';
 
 export const LOG_IN = 'LOGIN';

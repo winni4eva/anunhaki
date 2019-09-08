@@ -97748,11 +97748,20 @@ var saveNotificationHelper = function saveNotificationHelper(notice) {
   };
 };
 
+var saveWalletsHelper = function saveWalletsHelper(wallets) {
+  return {
+    type: _constants_types__WEBPACK_IMPORTED_MODULE_2__["SAVE_WALLETS"],
+    payload: wallets
+  };
+};
+
 var getWallets = function getWallets(dispatch) {
   Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('GET', _endpoints__WEBPACK_IMPORTED_MODULE_1__["walletsEndpoint"]).then(function (response) {
-    console.log(response); //dispatch(saveNotificationHelper(''));
+    var _response$data = response.data;
+    _response$data = _response$data === void 0 ? {} : _response$data;
+    var wallets = _response$data.wallets;
+    dispatch(saveWalletsHelper(wallets));
   })["catch"](function (error) {
-    console.log(error);
     var _error$response = error.response;
     _error$response = _error$response === void 0 ? {} : _error$response;
     var _error$response$data = _error$response.data;
@@ -98437,10 +98446,11 @@ var Wallets = function Wallets(_ref) {
   var authentication = props.authentication,
       history = props.history,
       dispatch = props.dispatch,
-      wallets = props.wallets,
       currencies = props.currencies,
-      notification = props.notification;
-  var currencyOptions = [];
+      notification = props.notification,
+      wallets = props.wallets;
+  var currencyOptions,
+      walletsTableData = [];
   var selectedCurrency, coinError, errorMessage;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     Object(_actions_common__WEBPACK_IMPORTED_MODULE_2__["getCurrencies"])(dispatch);
@@ -98477,6 +98487,20 @@ var Wallets = function Wallets(_ref) {
     });
   }
 
+  if (Array.isArray(wallets.wallets)) {
+    walletsTableData = wallets.wallets.map(function (w, key) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        className: "hover:bg-blue-lightest"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "py-4 px-6 border-b border-grey-light"
+      }, w.currency), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "py-4 px-6 border-b border-grey-light"
+      }, w.coin), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "py-4 px-6 border-b border-grey-light text-center"
+      }, "\u274C"));
+    });
+  }
+
   var getErrors = function getErrors() {
     var _notification$notific = notification.notification;
     _notification$notific = _notification$notific === void 0 ? {} : _notification$notific;
@@ -98509,13 +98533,11 @@ var Wallets = function Wallets(_ref) {
     className: "text-left m-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
-  }, "My Wallets"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-    className: "hover:bg-blue-lightest"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-    className: "py-4 px-6 border-b border-grey-light"
-  }, "Conversations"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-    className: "py-4 px-6 border-b border-grey-light text-center"
-  }, "\u274C")))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Currency"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
+  }, "Identifier"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
+  }, "Remove"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, walletsTableData)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-1/2 bg-white-500 h-64"
   }));
 };
@@ -98825,7 +98847,7 @@ var TwoFactor = Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapS
 /*!*****************************************!*\
   !*** ./resources/js/constants/types.js ***!
   \*****************************************/
-/*! exports provided: ACCESS_TOKEN, JWT_TOKEN, GET_WALLETS, REMOVE_WALLET, LOG_IN, LOG_OUT, SAVE_COUNTRIES, SEND_TOKEN_VIA, SAVE_CURRENCIES, SAVE_NOTIFICATION, REMOVE_NOTIFICATION */
+/*! exports provided: ACCESS_TOKEN, JWT_TOKEN, GET_WALLETS, SAVE_WALLETS, REMOVE_WALLET, LOG_IN, LOG_OUT, SAVE_COUNTRIES, SEND_TOKEN_VIA, SAVE_CURRENCIES, SAVE_NOTIFICATION, REMOVE_NOTIFICATION */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -98833,6 +98855,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ACCESS_TOKEN", function() { return ACCESS_TOKEN; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "JWT_TOKEN", function() { return JWT_TOKEN; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_WALLETS", function() { return GET_WALLETS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_WALLETS", function() { return SAVE_WALLETS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_WALLET", function() { return REMOVE_WALLET; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOG_IN", function() { return LOG_IN; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOG_OUT", function() { return LOG_OUT; });
@@ -98844,6 +98867,7 @@ __webpack_require__.r(__webpack_exports__);
 var ACCESS_TOKEN = 'qh_access_token';
 var JWT_TOKEN = 'JWT_TOKEN';
 var GET_WALLETS = 'GET_WALLETS';
+var SAVE_WALLETS = 'SAVE_WALLETS';
 var REMOVE_WALLET = 'REMOVE_WALLET';
 var LOG_IN = 'LOGIN';
 var LOG_OUT = 'LOGOUT';
@@ -99065,7 +99089,7 @@ var walletReducerDefaultState = [];
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
   switch (action.type) {
-    case _constants_types__WEBPACK_IMPORTED_MODULE_0__["GET_WALLETS"]:
+    case _constants_types__WEBPACK_IMPORTED_MODULE_0__["SAVE_WALLETS"]:
       var newState = _objectSpread({}, state);
 
       newState.wallets = action.payload;
