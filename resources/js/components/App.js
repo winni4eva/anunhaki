@@ -43,7 +43,6 @@ export default class App extends PureComponent {
                         ? <Redirect to='/login'/>
                         : null
                 }</span>
-                <p>{this.props.authentication.isAuthenticated? 'Yaay' : 'Naay'}</p>
                 <Cockpit/>
                 <Routes/>
                 {this.props.authentication.isAuthenticated

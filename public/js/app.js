@@ -97944,7 +97944,7 @@ function (_PureComponent) {
         history: _actions_history__WEBPACK_IMPORTED_MODULE_4__["default"]
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, !this.props.authentication.isAuthenticated ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
         to: "/login"
-      }) : null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.authentication.isAuthenticated ? 'Yaay' : 'Naay'), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Cockpit_Cockpit__WEBPACK_IMPORTED_MODULE_6__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Routes_Routes__WEBPACK_IMPORTED_MODULE_8__["default"], null), this.props.authentication.isAuthenticated ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Main_Main__WEBPACK_IMPORTED_MODULE_7__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Routes_AuthRoutes__WEBPACK_IMPORTED_MODULE_9__["default"], null)) : null);
+      }) : null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Cockpit_Cockpit__WEBPACK_IMPORTED_MODULE_6__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Routes_Routes__WEBPACK_IMPORTED_MODULE_8__["default"], null), this.props.authentication.isAuthenticated ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Main_Main__WEBPACK_IMPORTED_MODULE_7__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Routes_AuthRoutes__WEBPACK_IMPORTED_MODULE_9__["default"], null)) : null);
     }
   }]);
 
@@ -98275,8 +98275,6 @@ var cockpit = function cockpit(_ref) {
     var loggedOut = Object(_actions_auth__WEBPACK_IMPORTED_MODULE_3__["getLogout"])();
 
     if (loggedOut) {
-      console.log('Processing Logout');
-      console.log(loggedOut);
       localStorage.setItem(_constants_types__WEBPACK_IMPORTED_MODULE_4__["ACCESS_TOKEN"], '');
       dispatch(setAuthHelper(false));
       history.push('/login');
@@ -98294,7 +98292,7 @@ var cockpit = function cockpit(_ref) {
 
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
     className: "flex items-center justify-between flex-wrap bg-grey-lighter p-6 shadow-lg mb-6"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, authentication.isAuthenticated === true ? 'Yaaay' : 'Naay'), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex items-center flex-no-shrink text-grey-darkest mr-6"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/",
@@ -98420,7 +98418,7 @@ var Wallets = function Wallets(_ref) {
       currencies = props.currencies,
       notification = props.notification;
   var currencyOptions = [];
-  var selectedCurrency;
+  var selectedCurrency, coinError, errorMessage;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     Object(_actions_common__WEBPACK_IMPORTED_MODULE_2__["getCurrencies"])(dispatch);
   }, []);
@@ -98456,7 +98454,15 @@ var Wallets = function Wallets(_ref) {
   }
 
   var getErrors = function getErrors() {
-    return typeof notification.notification !== 'undefined' ? typeof notification.notification.message !== 'undefined' ? notification.notification.message : '' : null;
+    var _notification$notific = notification.notification;
+    _notification$notific = _notification$notific === void 0 ? {} : _notification$notific;
+    var _notification$notific2 = _notification$notific.errors;
+    _notification$notific2 = _notification$notific2 === void 0 ? {} : _notification$notific2;
+    var coin = _notification$notific2.coin;
+    var _notification$notific3 = notification.notification;
+    _notification$notific3 = _notification$notific3 === void 0 ? '' : _notification$notific3;
+    var message = _notification$notific3.message;
+    return [message, coin];
   };
 
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -98467,7 +98473,7 @@ var Wallets = function Wallets(_ref) {
     className: "inline-block relative w-full"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
     className: "text-red-500 text-xs italic"
-  }, getErrors()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+  }, getErrors()[1] || getErrors()[0]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2",
     onChange: handleCurrencyChange
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {

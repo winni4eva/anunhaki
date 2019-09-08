@@ -11,8 +11,6 @@ const cockpit = ({...props}) => {
     const handleLogout = () => {
         const loggedOut = getLogout();
         if (loggedOut) {
-            console.log('Processing Logout');
-            console.log(loggedOut);
             localStorage.setItem(ACCESS_TOKEN, '');
             dispatch(setAuthHelper(false));
             history.push('/login');
@@ -28,7 +26,6 @@ const cockpit = ({...props}) => {
 
     return (
         <nav className="flex items-center justify-between flex-wrap bg-grey-lighter p-6 shadow-lg mb-6">
-            <p>{authentication.isAuthenticated === true? 'Yaaay':'Naay'}</p>
             <div className="flex items-center flex-no-shrink text-grey-darkest mr-6">
                 <Link to={`/`} className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
                     <span className="font-semibold text-xl tracking-tight hover:text-red-900 cursor-pointer">QHCoin</span>
