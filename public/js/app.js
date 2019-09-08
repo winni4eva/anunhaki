@@ -97727,12 +97727,13 @@ request.interceptors.response.use(function (config) {
 /*!****************************************!*\
   !*** ./resources/js/actions/wallet.js ***!
   \****************************************/
-/*! exports provided: getWallets, postCreateWallet */
+/*! exports provided: getWallets, removeWallet, postCreateWallet */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWallets", function() { return getWallets; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeWallet", function() { return removeWallet; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postCreateWallet", function() { return postCreateWallet; });
 /* harmony import */ var _request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./request */ "./resources/js/actions/request.js");
 /* harmony import */ var _endpoints__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./endpoints */ "./resources/js/actions/endpoints.js");
@@ -97778,10 +97779,9 @@ var getWallets = function getWallets(dispatch) {
     }));
   });
 };
-var postCreateWallet = function postCreateWallet(data, dispatch) {
-  Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('POST', _endpoints__WEBPACK_IMPORTED_MODULE_1__["walletsEndpoint"], data).then(function (response) {
+var removeWallet = function removeWallet(walletId, coin, dispatch) {
+  Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('DELETE', "".concat(_endpoints__WEBPACK_IMPORTED_MODULE_1__["walletsEndpoint"], "/").concat(walletId, "?coin=").concat(coin)).then(function (response) {
     console.log(response);
-    dispatch(saveNotificationHelper(''));
   })["catch"](function (error) {
     var _error$response3 = error.response;
     _error$response3 = _error$response3 === void 0 ? {} : _error$response3;
@@ -97793,6 +97793,27 @@ var postCreateWallet = function postCreateWallet(data, dispatch) {
     var _error$response4$data = _error$response4.data;
     _error$response4$data = _error$response4$data === void 0 ? {} : _error$response4$data;
     var errors = _error$response4$data.errors;
+    dispatch(saveNotificationHelper({
+      message: message,
+      errors: errors
+    }));
+  });
+};
+var postCreateWallet = function postCreateWallet(data, dispatch) {
+  Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('POST', _endpoints__WEBPACK_IMPORTED_MODULE_1__["walletsEndpoint"], data).then(function (response) {
+    console.log(response);
+    dispatch(saveNotificationHelper(''));
+  })["catch"](function (error) {
+    var _error$response5 = error.response;
+    _error$response5 = _error$response5 === void 0 ? {} : _error$response5;
+    var _error$response5$data = _error$response5.data;
+    _error$response5$data = _error$response5$data === void 0 ? {} : _error$response5$data;
+    var message = _error$response5$data.message;
+    var _error$response6 = error.response;
+    _error$response6 = _error$response6 === void 0 ? {} : _error$response6;
+    var _error$response6$data = _error$response6.data;
+    _error$response6$data = _error$response6$data === void 0 ? {} : _error$response6$data;
+    var errors = _error$response6$data.errors;
     dispatch(saveNotificationHelper({
       message: message,
       errors: errors
@@ -98443,15 +98464,16 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 var Wallets = function Wallets(_ref) {
   var props = _extends({}, _ref);
 
-  var authentication = props.authentication,
-      history = props.history,
-      dispatch = props.dispatch,
+  var dispatch = props.dispatch,
       currencies = props.currencies,
       notification = props.notification,
       wallets = props.wallets;
   var currencyOptions,
       walletsTableData = [];
-  var selectedCurrency, coinError, errorMessage;
+  var selectedCurrency;
+  var style = {
+    cursor: "pointer"
+  };
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     Object(_actions_common__WEBPACK_IMPORTED_MODULE_2__["getCurrencies"])(dispatch);
     Object(_actions_wallet__WEBPACK_IMPORTED_MODULE_3__["getWallets"])(dispatch);
@@ -98478,6 +98500,16 @@ var Wallets = function Wallets(_ref) {
     }
   };
 
+  var handleDeleteWallet = function handleDeleteWallet(e) {
+    var confirmed = confirm("Do you want to remove the selected wallet!");
+
+    if (confirmed) {
+      var walletId = e.target.getAttribute('data-coin-id');
+      var coin = e.target.getAttribute('data-coin');
+      Object(_actions_wallet__WEBPACK_IMPORTED_MODULE_3__["removeWallet"])(walletId, coin, dispatch);
+    }
+  };
+
   if (Array.isArray(currencies.currencies)) {
     currencyOptions = currencies.currencies.map(function (c, key) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -98490,6 +98522,7 @@ var Wallets = function Wallets(_ref) {
   if (Array.isArray(wallets.wallets)) {
     walletsTableData = wallets.wallets.map(function (w, key) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        key: key,
         className: "hover:bg-blue-lightest"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-6 border-b border-grey-light"
@@ -98497,7 +98530,12 @@ var Wallets = function Wallets(_ref) {
         className: "py-4 px-6 border-b border-grey-light"
       }, w.coin), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-6 border-b border-grey-light text-center"
-      }, "\u274C"));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        "data-coin-id": w.walletId,
+        "data-coin": w.coin,
+        onClick: handleDeleteWallet,
+        style: style
+      }, "\u274C")));
     });
   }
 

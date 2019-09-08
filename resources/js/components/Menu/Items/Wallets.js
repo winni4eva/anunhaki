@@ -1,12 +1,13 @@
 import React, {useEffect} from 'react';
 import { connect } from "react-redux";
 import {getCurrencies} from '../../../actions/common';
-import {postCreateWallet, getWallets} from '../../../actions/wallet';
+import {postCreateWallet, getWallets, removeWallet} from '../../../actions/wallet';
 
 const Wallets = ({...props}) => { 
-    const {authentication, history, dispatch, currencies, notification, wallets} = props;
+    const {dispatch, currencies, notification, wallets} = props;
     let currencyOptions, walletsTableData = [];
-    let selectedCurrency, coinError, errorMessage;
+    let selectedCurrency;
+    const style = {cursor: "pointer"};
 
     useEffect(() => {
         getCurrencies(dispatch);
@@ -30,6 +31,15 @@ const Wallets = ({...props}) => {
         }
     }
 
+    const handleDeleteWallet = e => {
+        const confirmed = confirm(`Do you want to remove the selected wallet!`);
+        if (confirmed) {
+            const walletId = e.target.getAttribute('data-coin-id');
+            const coin = e.target.getAttribute('data-coin');
+            removeWallet(walletId, coin, dispatch);
+        }
+    }
+
     if(Array.isArray(currencies.currencies)) {
         currencyOptions = currencies.currencies.map((c, key) => {
             return <option key={key} value={c.identifier}>{c.currency}</option>
@@ -38,11 +48,13 @@ const Wallets = ({...props}) => {
 
     if(Array.isArray(wallets.wallets)) {
         walletsTableData = wallets.wallets.map((w, key) => {
-            return <tr className="hover:bg-blue-lightest">
-            <td className="py-4 px-6 border-b border-grey-light">{w.currency}</td>
-            <td className="py-4 px-6 border-b border-grey-light">{w.coin}</td>
-            <td className="py-4 px-6 border-b border-grey-light text-center">❌</td>
-        </tr>;
+            return <tr key={key} className="hover:bg-blue-lightest">
+                <td className="py-4 px-6 border-b border-grey-light">{w.currency}</td>
+                <td className="py-4 px-6 border-b border-grey-light">{w.coin}</td>
+                <td className="py-4 px-6 border-b border-grey-light text-center">
+                    <a data-coin-id={w.walletId} data-coin={w.coin} onClick={handleDeleteWallet} style={style}>❌</a>
+                </td>
+            </tr>;
         });
     }
 

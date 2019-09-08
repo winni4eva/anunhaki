@@ -22,7 +22,7 @@ class WalletsController extends Controller
         $key = auth()->user()->email.'-'.app()->env.'-'.'wallets';
     
         if ($wallets = cache($key)) {
-            return response()->json(compact('wallets'));
+            //return response()->json(compact('wallets'));
         }
 
         $bitgo = app()->makeWith(ClientContract::class, compact('accessToken', 'currency', 'appEnvironment'));
@@ -68,5 +68,28 @@ class WalletsController extends Controller
             return response()->json(['message' => 'Error creating wallet'], 422);
         }
         return response()->json(['success' => 'Wallet created successfully']);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $currency = request('coin'); 
+
+        $accessToken = config('crypto.token');
+        $currency = request('coin'); 
+        $appEnvironment = app()->env == 'production' ? true : false;
+
+        $bitgo = app()->makeWith(ClientContract::class, compact('accessToken', 'currency', 'appEnvironment'));
+        $response = $bitgo->deleteWallet($id);
+
+        if(!$response) {
+            return response()->json(['message' => 'Error deleting wallet'], 422);
+        }
+        return response()->json(['message' => 'Wallet deleted successfully']);
     }
 }

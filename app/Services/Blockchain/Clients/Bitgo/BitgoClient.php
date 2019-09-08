@@ -50,20 +50,20 @@ class BitgoClient implements ClientContract
                 'json' => [
                     'label' => $label,
                     'passphrase' => $passphrase,
-                    'enterprise' => '5d74f776d8b63b7603c0de49837f7987'
+                    //'enterprise' => '5d74f776d8b63b7603c0de49837f7987'
                 ]
             ]);
             
-            // if($response->getStatusCode() == 200) {
-            //     $data = $response->getBody()->getContents();
-            //     logger($response->getStatusCode());
-            //     logger($data);
-            //     //cache data
-            //     return true;
-            // }
+            if($response->getStatusCode() == 200) {
+                $data = $response->getBody()->getContents();
+                logger($response->getStatusCode());
+                logger($data);
+                //cache data
+                return true;
+            }
             logger($response->getStatusCode());
             logger($response->getBody()->getContents());
-            // return false;
+            return false;
             //$this->bitGoExpress->accessToken = $this->accessToken;
             
             //$generateWallet = $this->bitGoExpress->generateWallet($label, $passphrase);
@@ -94,9 +94,16 @@ class BitgoClient implements ClientContract
         return $this->bitgo->createWalletAddress();
     }
 
-    public function getCurrentUserProfile()
+    public function deleteWallet(string $walletId) 
     {
-        return $this->bitgo->getCurrentUserProfile();
+        $getWalletsEndpoint = $this->expressServerHost.$this->apiVersion."/{$this->currency}/wallet/{$walletId}";
+
+        $response = $this->httpClient->delete($getWalletsEndpoint);
+
+        if($response->getStatusCode() == 200) {
+            return $response->getBody()->getContents();
+        }
+        return false;
     }
 
 }

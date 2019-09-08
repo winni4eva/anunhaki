@@ -39,6 +39,6 @@ Route::group(
     ['middleware' => 'auth:api'],
     function () {
         Route::get('currencies', 'CurrenciesController@index');
-        Route::resource('wallets', 'WalletsController', ['only' => ['index','store']]);
+        Route::resource('wallets', 'WalletsController', ['only' => ['index','store', 'destroy']]);
     }
 );

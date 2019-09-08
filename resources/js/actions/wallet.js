@@ -25,6 +25,18 @@ export const getWallets = (dispatch) => {
         })
 };
 
+export const removeWallet = (walletId, coin, dispatch) => {
+    makeRequest('DELETE', `${walletsEndpoint}/${walletId}?coin=${coin}`)
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error => {
+            const { response: { data: { message } = {} } = {} } = error;
+            const { response: { data: { errors } = {} } = {} } = error;
+            dispatch(saveNotificationHelper({message,errors}));
+        })
+};
+
 export const postCreateWallet = (data, dispatch) => {
     makeRequest('POST', walletsEndpoint, data)
         .then(response => {
