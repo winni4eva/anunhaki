@@ -49,10 +49,10 @@ const Wallets = ({...props}) => {
     if(Array.isArray(wallets.wallets)) {
         walletsTableData = wallets.wallets.map((w, key) => {
             return <tr key={key} className="hover:bg-blue-lightest">
-                <td className="py-4 px-6 border-b border-grey-light">{w.currency}</td>
-                <td className="py-4 px-6 border-b border-grey-light">{w.coin}</td>
+                <td className="py-4 px-6 border-b border-grey-light">{w.currency.currency}</td>
+                <td className="py-4 px-6 border-b border-grey-light">{w.currency.identifier}</td>
                 <td className="py-4 px-6 border-b border-grey-light text-center">
-                    <a data-coin-id={w.walletId} data-coin={w.coin} onClick={handleDeleteWallet} style={style}>❌</a>
+                    <a data-coin-id={w.wallet_id} data-coin={w.currency.identifier} onClick={handleDeleteWallet} style={style}>❌</a>
                 </td>
             </tr>;
         });

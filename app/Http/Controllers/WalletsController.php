@@ -17,7 +17,7 @@ class WalletsController extends Controller
      */
     public function index()
     {
-        $wallets = WalletModel::authUserWallets()->get();
+        $wallets = WalletModel::authUserWallets()->with('currency')->get();
 
         return response()->json(compact('wallets'));
     }

@@ -129,7 +129,7 @@ const register = ({...props}) => {
                         <Field
                             type="text"
                             name="phone_number"
-                            placeholder="+ 233 223 344 556"
+                            placeholder="0243 344 556"
                             className={`shadow appearance-none border rounded w-6/12 py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ${
                             touched.phone_number && errors.phone_number ? "border-red-500 focus:outline-none" : ""
                             }`}

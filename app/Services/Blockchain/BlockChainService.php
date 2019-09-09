@@ -22,7 +22,7 @@ class BlockChainService
         if($response) {
             $currency = Currency::whereIdentifier($response['coin'])->first();
             Wallet::create([
-                'wallet_id' => $response[''],
+                'wallet_id' => $response['id'],
                 'user_id' => auth()->user()->id,
                 'currency_id' => $currency->id,
                 'label' => $response['label'],

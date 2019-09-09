@@ -97801,7 +97801,7 @@ var removeWallet = function removeWallet(walletId, coin, dispatch) {
 };
 var postCreateWallet = function postCreateWallet(data, dispatch) {
   Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('POST', _endpoints__WEBPACK_IMPORTED_MODULE_1__["walletsEndpoint"], data).then(function (response) {
-    console.log(response);
+    getWallets(dispatch);
     dispatch(saveNotificationHelper(''));
   })["catch"](function (error) {
     var _error$response5 = error.response;
@@ -98265,7 +98265,7 @@ var register = function register(_ref) {
     }, errors.phone_country), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["Field"], {
       type: "text",
       name: "phone_number",
-      placeholder: "+ 233 223 344 556",
+      placeholder: "0243 344 556",
       className: "shadow appearance-none border rounded w-6/12 py-2 px-3 text-grey-darker leading-tight focus:shadow-outline ".concat(touched.phone_number && errors.phone_number ? "border-red-500 focus:outline-none" : ""),
       id: "phone_number"
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["ErrorMessage"], {
@@ -98526,13 +98526,13 @@ var Wallets = function Wallets(_ref) {
         className: "hover:bg-blue-lightest"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-6 border-b border-grey-light"
-      }, w.currency), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      }, w.currency.currency), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-6 border-b border-grey-light"
-      }, w.coin), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      }, w.currency.identifier), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-6 border-b border-grey-light text-center"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        "data-coin-id": w.walletId,
-        "data-coin": w.coin,
+        "data-coin-id": w.wallet_id,
+        "data-coin": w.currency.identifier,
         onClick: handleDeleteWallet,
         style: style
       }, "\u274C")));

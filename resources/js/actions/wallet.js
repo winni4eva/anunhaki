@@ -40,7 +40,7 @@ export const removeWallet = (walletId, coin, dispatch) => {
 export const postCreateWallet = (data, dispatch) => {
     makeRequest('POST', walletsEndpoint, data)
         .then(response => {
-            console.log(response);
+            getWallets(dispatch);
             dispatch(saveNotificationHelper(''));
         })
         .catch(error => {
