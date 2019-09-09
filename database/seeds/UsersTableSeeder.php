@@ -12,6 +12,6 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(User::class)->create(['phone_number' => env('2FA_PHONE_NUBER'), 'option_2fa' => 'email']);
+        factory(User::class)->create(['phone_number' => env('2FA_PHONE_NUBER', '+233554354101'), 'option_2fa' => 'email']);
     }
 }

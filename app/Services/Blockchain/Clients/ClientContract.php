@@ -7,5 +7,7 @@ interface ClientContract
 {
     public function createWallet();
 
-    public function createWalletAddress(string $walletId);
+    public function createWalletAddress();
+
+    public function deleteWallet();
 }
