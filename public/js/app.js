@@ -98500,6 +98500,10 @@ var Wallets = function Wallets(_ref) {
     }
   };
 
+  var handleDisplayAddresses = function handleDisplayAddresses() {
+    alert('Made it to addresses');
+  };
+
   var handleDeleteWallet = function handleDeleteWallet(e) {
     var confirmed = confirm("Do you want to remove the selected wallet!");
 
@@ -98525,10 +98529,17 @@ var Wallets = function Wallets(_ref) {
         key: key,
         className: "hover:bg-blue-lightest"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "py-4 px-6 border-b border-grey-light"
-      }, w.currency.currency), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "py-4 px-6 border-b border-grey-light hover:bg-gray-200"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        onClick: handleDisplayAddresses,
+        style: style
+      }, w.currency.currency)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-6 border-b border-grey-light"
       }, w.currency.identifier), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "py-4 px-6 border-b border-grey-light"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "bg-gray-300 float-left w-1/2 hover:bg-white-700 text-black font-bold rounded"
+      }, "Add")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-6 border-b border-grey-light text-center"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         "data-coin-id": w.wallet_id,
@@ -98575,13 +98586,23 @@ var Wallets = function Wallets(_ref) {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
   }, "Identifier"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
-  }, "Create Address"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+  }, "Add Address"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
   }, "Remove")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
-    className: "text-blue-500 text-xs italic mt-24"
+    className: "text-blue-500 text-xs italic mt-24 text-center"
   }, "Create your first wallet!")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, walletsTableData.length > 0 ? walletsTableData : null)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "w-1/2 bg-white-500 h-64"
-  }));
+    className: "w-1/2 bg-white-500 h-auto p-4"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "inline-block relative w-full"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+    className: "text-center"
+  }, "Addresses"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+    className: "text-left m-4"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, walletsTableData.length < 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
+  }, "Address")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+    className: "text-blue-500 text-xs italic text-center ml-12"
+  }, "No addresses found!")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null)))));
 };
 
 var mapStateToProps = function mapStateToProps(state) {

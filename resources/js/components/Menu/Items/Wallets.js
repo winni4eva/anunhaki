@@ -31,6 +31,10 @@ const Wallets = ({...props}) => {
         }
     }
 
+    const handleDisplayAddresses = () => {
+        alert('Made it to addresses')
+    }
+
     const handleDeleteWallet = e => {
         const confirmed = confirm(`Do you want to remove the selected wallet!`);
         if (confirmed) {
@@ -49,8 +53,11 @@ const Wallets = ({...props}) => {
     if(Array.isArray(wallets.wallets)) {
         walletsTableData = wallets.wallets.map((w, key) => {
             return <tr key={key} className="hover:bg-blue-lightest">
-                <td className="py-4 px-6 border-b border-grey-light">{w.currency.currency}</td>
+                <td className="py-4 px-6 border-b border-grey-light hover:bg-gray-200"><a onClick={handleDisplayAddresses} style={style}>{w.currency.currency}</a></td>
                 <td className="py-4 px-6 border-b border-grey-light">{w.currency.identifier}</td>
+                <td className="py-4 px-6 border-b border-grey-light">
+                    <button className="bg-gray-300 float-left w-1/2 hover:bg-white-700 text-black font-bold rounded">Add</button>
+                </td>
                 <td className="py-4 px-6 border-b border-grey-light text-center">
                     <a data-coin-id={w.wallet_id} data-coin={w.currency.identifier} onClick={handleDeleteWallet} style={style}>❌</a>
                 </td>
@@ -87,10 +94,10 @@ const Wallets = ({...props}) => {
                             <tr>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Currency</th>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Identifier</th>
-                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Create Address</th>
+                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Add Address</th>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Remove</th>
                             </tr>
-                            : <h3 className="text-blue-500 text-xs italic mt-24">Create your first wallet!</h3>
+                            : <h3 className="text-blue-500 text-xs italic mt-24 text-center">Create your first wallet!</h3>
                             }
                     </thead>
                     <tbody>
@@ -102,7 +109,25 @@ const Wallets = ({...props}) => {
                 </table>
             </div>
         </div>
-        <div className="w-1/2 bg-white-500 h-64"></div>
+        <div className="w-1/2 bg-white-500 h-auto p-4">
+            <div className="inline-block relative w-full">
+                <h2 className="text-center">Addresses</h2>
+                <table className="text-left m-4">
+                    <thead>
+                        
+                            {walletsTableData.length < 0 ?
+                            <tr>
+                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Address</th>
+                            </tr>
+                            : <h3 className="text-blue-500 text-xs italic text-center ml-12">No addresses found!</h3>
+                            }
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>                
+        </div>
     </div>
     );
 }
