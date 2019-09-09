@@ -48,18 +48,18 @@ class WalletsController extends Controller
      */
     public function destroy($id)
     {
-        $currency = request('coin'); 
+        // $currency = request('coin'); 
 
-        $accessToken = config('crypto.token');
-        $currency = request('coin'); 
-        $appEnvironment = app()->env == 'production' ? true : false;
+        // $accessToken = config('crypto.token');
+        // $currency = request('coin'); 
+        // $appEnvironment = app()->env == 'production' ? true : false;
 
-        $bitgo = app()->makeWith(ClientContract::class, compact('accessToken', 'currency', 'appEnvironment'));
-        $response = $bitgo->deleteWallet($id);
+        // $bitgo = app()->makeWith(ClientContract::class, compact('accessToken', 'currency', 'appEnvironment'));
+        // $response = $bitgo->deleteWallet($id);
 
-        if(!$response) {
-            return response()->json(['message' => 'Error deleting wallet'], 422);
-        }
+        // if(!$response) {
+        //     return response()->json(['message' => 'Error deleting wallet'], 422);
+        // }
         return response()->json(['message' => 'Wallet deleted successfully']);
     }
 }
