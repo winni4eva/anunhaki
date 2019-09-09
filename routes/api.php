@@ -28,7 +28,10 @@ Route::group(
 );
 
 Route::group(
-    ['namespace' => 'Auth', 'middleware', 'auth:api'], 
+    [
+        'namespace' => 'Auth', 
+        'middleware', 'auth:api'
+    ], 
     function () {
         Route::get('send-two-factor-token', 'LoginController@sendtwoFactorToken');
         Route::post('post-two-factor-token', 'LoginController@postTwoFactorToken');

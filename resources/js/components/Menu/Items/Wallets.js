@@ -82,14 +82,22 @@ const Wallets = ({...props}) => {
 
                 <table className="text-left m-4">
                     <thead>
-                        <tr>
-                            <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Currency</th>
-                            <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Identifier</th>
-                            <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Remove</th>
-                        </tr>
+                        
+                            {walletsTableData.length > 0 ?
+                            <tr>
+                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Currency</th>
+                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Identifier</th>
+                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Create Address</th>
+                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Remove</th>
+                            </tr>
+                            : <h3 className="text-blue-500 text-xs italic mt-24">Create your first wallet!</h3>
+                            }
                     </thead>
                     <tbody>
-                        {walletsTableData}
+                        {walletsTableData.length > 0 ?
+                            walletsTableData
+                            : null
+                        }
                     </tbody>
                 </table>
             </div>

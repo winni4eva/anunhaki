@@ -98569,13 +98569,17 @@ var Wallets = function Wallets(_ref) {
     onClick: handleCreateWallet
   }, "Create Wallet"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "text-left m-4"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, walletsTableData.length > 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
   }, "Currency"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
   }, "Identifier"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
-  }, "Remove"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, walletsTableData)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Create Address"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
+  }, "Remove")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+    className: "text-blue-500 text-xs italic mt-24"
+  }, "Create your first wallet!")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, walletsTableData.length > 0 ? walletsTableData : null)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-1/2 bg-white-500 h-64"
   }));
 };
