@@ -1,11 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-//import FormInput from '../FormInput/FormInput';
 import {postLogin} from '../../actions/auth'
 import {loginSchemaValidator} from '../../utils/validation';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { ACCESS_TOKEN, LOG_IN, JWT_TOKEN } from '../../constants/types';
 
 
 
@@ -23,7 +21,7 @@ const login = ({...props}) => {
               >
                 {({ touched, errors, isSubmitting }) => (
                   <Form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24">
-                    <h3>SignIn {authentication.isAuthenticated || 'Falsy'}</h3> 
+                    <h3>SignIn</h3> 
                     {
                         errors.message 
                             ? <span className="text-red-500 text-xs italic">{errors.message}</span>

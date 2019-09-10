@@ -98062,12 +98062,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/auth */ "./resources/js/actions/auth.js");
 /* harmony import */ var _utils_validation__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/validation */ "./resources/js/utils/validation.js");
 /* harmony import */ var formik__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! formik */ "./node_modules/formik/dist/formik.esm.js");
-/* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../constants/types */ "./resources/js/constants/types.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 
-
- //import FormInput from '../FormInput/FormInput';
 
 
 
@@ -98095,7 +98092,7 @@ var login = function login(_ref) {
         isSubmitting = _ref2.isSubmitting;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_5__["Form"], {
       className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "SignIn ", authentication.isAuthenticated || 'Falsy'), errors.message ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "SignIn"), errors.message ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
       className: "text-red-500 text-xs italic"
     }, errors.message) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mb-4 my-6"
@@ -98477,7 +98474,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/common */ "./resources/js/actions/common.js");
 /* harmony import */ var _actions_wallet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../actions/wallet */ "./resources/js/actions/wallet.js");
-/* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../constants/types */ "./resources/js/constants/types.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 
@@ -98485,25 +98489,36 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 
 
-
-var setAddressHelper = function setAddressHelper(addresses) {
-  return {
-    type: _constants_types__WEBPACK_IMPORTED_MODULE_4__["SAVE_ADDRESSES"],
-    payload: addresses
-  };
-};
-
 var Wallets = function Wallets(_ref) {
   var props = _extends({}, _ref);
 
   var dispatch = props.dispatch,
       currencies = props.currencies,
       notification = props.notification,
-      wallets = props.wallets,
-      addresses = props.addresses;
+      wallets = props.wallets;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      enableSendFunds = _useState2[0],
+      toggleSendFunds = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      addressesTableData = _useState4[0],
+      toggleWalletAddresses = _useState4[1];
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState6 = _slicedToArray(_useState5, 2),
+      selectedSendFundWalletId = _useState6[0],
+      toggleSelectedFundWallet = _useState6[1];
+
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState8 = _slicedToArray(_useState7, 2),
+      selectedSendFundCurrency = _useState8[0],
+      toggleSelectedCurrency = _useState8[1];
+
   var currencyOptions,
-      walletsTableData,
-      addressesTableData = [];
+      walletsTableData = [];
   var selectedCurrency;
   var style = {
     cursor: "pointer"
@@ -98552,18 +98567,40 @@ var Wallets = function Wallets(_ref) {
     var wallet = wallets.wallets.filter(function (wallet) {
       return wallet.wallet_id === walletId;
     });
-    dispatch(setAddressHelper(wallet[0]['addresses']));
+    var walletAddresses = wallet[0]['addresses'];
+    var tableData = walletAddresses.map(function (a, k) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        key: k,
+        className: "hover:bg-blue-lightest"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "py-4 px-6 border-b border-grey-light hover:bg-gray-200"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        style: style
+      }, a.addresss)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "py-4 px-6 border-b border-grey-light"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "bg-gray-300 float-left w-1/2 hover:bg-white-700 text-black font-bold rounded",
+        "data-address-id": a.id,
+        "data-wallet-id": a.wallet_id
+      }, "Receive")));
+    });
+    toggleWalletAddresses(tableData);
   };
 
-  var handleDeleteWallet = function handleDeleteWallet(e) {
-    var confirmed = confirm("Do you want to remove the selected wallet!");
+  var handleSendFundSelect = function handleSendFundSelect(e) {
+    var walletId = e.target.getAttribute('data-coin-id');
+    var currency = e.target.getAttribute('data-coin-currency');
+    toggleSelectedFundWallet(walletId);
+    toggleSelectedCurrency(currency);
+  }; // const handleDeleteWallet = e => {
+  //     const confirmed = confirm(`Do you want to remove the selected wallet!`);
+  //     if (confirmed) {
+  //         const walletId = e.target.getAttribute('data-coin-id');
+  //         const coin = e.target.getAttribute('data-coin');
+  //         removeWallet(walletId, coin, dispatch);
+  //     }
+  // }
 
-    if (confirmed) {
-      var walletId = e.target.getAttribute('data-coin-id');
-      var coin = e.target.getAttribute('data-coin');
-      Object(_actions_wallet__WEBPACK_IMPORTED_MODULE_3__["removeWallet"])(walletId, coin, dispatch);
-    }
-  };
 
   if (Array.isArray(currencies.currencies)) {
     currencyOptions = currencies.currencies.map(function (c, key) {
@@ -98595,31 +98632,16 @@ var Wallets = function Wallets(_ref) {
         "data-coin-id": w.wallet_id,
         "data-coin": w.currency.identifier
       }, "Add")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "py-4 px-6 border-b border-grey-light text-center"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        "data-coin-id": w.wallet_id,
-        "data-coin": w.currency.identifier,
-        onClick: handleDeleteWallet,
-        style: style
-      }, "\u274C")));
-    });
-  }
-
-  if (Array.isArray(addresses.addresses)) {
-    addressesTableData = addresses.addresses.map(function (a, k) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-        key: k,
-        className: "hover:bg-blue-lightest"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "py-4 px-6 border-b border-grey-light hover:bg-gray-200"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        style: style
-      }, a.addresss)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-6 border-b border-grey-light"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "bg-gray-300 float-left w-1/2 hover:bg-white-700 text-black font-bold rounded",
-        "data-address-id": a.id,
-        "data-wallet-id": a.wallet_id
+        onClick: function onClick(e) {
+          toggleSendFunds(true);
+          handleSendFundSelect(e);
+        },
+        "data-coin-currency": w.currency.currency,
+        "data-coin-id": w.wallet_id,
+        "data-coin": w.currency.identifier
       }, "Send")));
     });
   }
@@ -98642,7 +98664,7 @@ var Wallets = function Wallets(_ref) {
     className: "w-1/2 bg-white-400 h-auto p-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "inline-block relative w-full"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
     className: "text-red-500 text-xs italic"
   }, getErrors()[1] || getErrors()[0]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2",
@@ -98652,7 +98674,7 @@ var Wallets = function Wallets(_ref) {
   }, "-- All coins/tokens --"), currencyOptions), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "bg-blue-500 w-1/4 float-left hover:bg-blue-700 text-white font-bold py-2 px-4 pull-right mt-4 rounded",
     onClick: handleCreateWallet
-  }, "Create Wallet"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+  }, "Create Wallet")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "text-left m-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, Array.isArray(walletsTableData) && walletsTableData.length > 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
@@ -98662,27 +98684,36 @@ var Wallets = function Wallets(_ref) {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
   }, "Add Address"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
-  }, "Remove")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+  }, "Send Funds")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-blue-500 text-xs italic mt-24 text-center"
   }, "Create your first wallet!"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Array.isArray(walletsTableData) && walletsTableData.length > 0 ? walletsTableData : null)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-1/2 bg-white-500 h-auto p-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "inline-block relative w-full"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+  }, enableSendFunds ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Send funds from ", selectedSendFundCurrency, " wallet"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    placeholder: "Enter Recepient's Address",
+    className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    placeholder: "Enter Amount",
+    className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "bg-green-500 w-1/4 float-left hover:bg-green-300 text-white font-bold py-2 px-4 pull-right mt-4 rounded"
+  }, "Send"))) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "text-left m-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
   }, "Addresses"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Array.isArray(addressesTableData) && addressesTableData.length > 0 ? addressesTableData : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
     className: "text-blue-500 text-xs italic text-center ml-12"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "No addresses found!"))))))));
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "No addresses found for selected wallet!"))))))));
 };
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
     wallets: state.wallets,
     currencies: state.currencies,
-    notification: state.notification,
-    addresses: state.addresses
+    notification: state.notification
   };
 };
 
@@ -99038,42 +99069,6 @@ var aux = function aux(props) {
 
 /***/ }),
 
-/***/ "./resources/js/reducers/addresses.js":
-/*!********************************************!*\
-  !*** ./resources/js/reducers/addresses.js ***!
-  \********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants/types */ "./resources/js/constants/types.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-var addressesReducerDefaultState = [];
-/* harmony default export */ __webpack_exports__["default"] = (function () {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : addressesReducerDefaultState;
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-
-  switch (action.type) {
-    case _constants_types__WEBPACK_IMPORTED_MODULE_0__["SAVE_ADDRESSES"]:
-      var newState = _objectSpread({}, state);
-
-      newState.addresses = action.payload;
-      return newState;
-
-    default:
-      return state;
-  }
-});
-
-/***/ }),
-
 /***/ "./resources/js/reducers/authentication.js":
 /*!*************************************************!*\
   !*** ./resources/js/reducers/authentication.js ***!
@@ -99293,11 +99288,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _reducers_authentication__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../reducers/authentication */ "./resources/js/reducers/authentication.js");
 /* harmony import */ var _reducers_countries__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../reducers/countries */ "./resources/js/reducers/countries.js");
 /* harmony import */ var _reducers_currencies__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../reducers/currencies */ "./resources/js/reducers/currencies.js");
-/* harmony import */ var _reducers_addresses__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../reducers/addresses */ "./resources/js/reducers/addresses.js");
-/* harmony import */ var _reducers_notification__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../reducers/notification */ "./resources/js/reducers/notification.js");
-/* harmony import */ var connected_react_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! connected-react-router */ "./node_modules/connected-react-router/esm/index.js");
-/* harmony import */ var _actions_history__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../actions/history */ "./resources/js/actions/history.js");
-
+/* harmony import */ var _reducers_notification__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../reducers/notification */ "./resources/js/reducers/notification.js");
+/* harmony import */ var connected_react_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! connected-react-router */ "./node_modules/connected-react-router/esm/index.js");
+/* harmony import */ var _actions_history__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../actions/history */ "./resources/js/actions/history.js");
 
 
 
@@ -99307,16 +99300,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  router: Object(connected_react_router__WEBPACK_IMPORTED_MODULE_7__["connectRouter"])(_actions_history__WEBPACK_IMPORTED_MODULE_8__["default"]),
+  router: Object(connected_react_router__WEBPACK_IMPORTED_MODULE_6__["connectRouter"])(_actions_history__WEBPACK_IMPORTED_MODULE_7__["default"]),
   wallets: _reducers_wallets__WEBPACK_IMPORTED_MODULE_1__["default"],
   authentication: _reducers_authentication__WEBPACK_IMPORTED_MODULE_2__["default"],
   countries: _reducers_countries__WEBPACK_IMPORTED_MODULE_3__["default"],
   currencies: _reducers_currencies__WEBPACK_IMPORTED_MODULE_4__["default"],
-  addresses: _reducers_addresses__WEBPACK_IMPORTED_MODULE_5__["default"],
-  notification: _reducers_notification__WEBPACK_IMPORTED_MODULE_6__["default"]
+  notification: _reducers_notification__WEBPACK_IMPORTED_MODULE_5__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (function () {
-  var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(rootReducer, Object(redux__WEBPACK_IMPORTED_MODULE_0__["compose"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(Object(connected_react_router__WEBPACK_IMPORTED_MODULE_7__["routerMiddleware"])(_actions_history__WEBPACK_IMPORTED_MODULE_8__["default"]))));
+  var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(rootReducer, Object(redux__WEBPACK_IMPORTED_MODULE_0__["compose"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(Object(connected_react_router__WEBPACK_IMPORTED_MODULE_6__["routerMiddleware"])(_actions_history__WEBPACK_IMPORTED_MODULE_7__["default"]))));
   return store;
 });
 

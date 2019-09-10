@@ -5,7 +5,6 @@ namespace App\Services\Blockchain\Clients\Bitgo;
 use neto737\BitGoSDK\BitGoSDK;
 use neto737\BitGoSDK\BitGoExpress;
 use App\Services\Blockchain\Clients\ClientContract;
-use GuzzleHttp\Client;
 
 class BitgoClient implements ClientContract
 {
@@ -13,6 +12,13 @@ class BitgoClient implements ClientContract
 
     protected $bitGoExpress;
 
+     /**
+     * BitgoClient Initialization
+     * 
+     * @param string $accessToken  The developer account token
+     * @param int $currency         The currency or coin identifier
+     * @param string $appEnvironment      The current app environment
+     */
     public function __construct(string $accessToken, string $currency = 'tbtc', bool $appEnvironment = false)
     {
         $this->bitgo = new BitGoSDK($accessToken, $currency, $appEnvironment);
@@ -46,17 +52,5 @@ class BitgoClient implements ClientContract
         }
 
         return $response;
-    }
-
-    public function deleteWallet() 
-    {
-        // $getWalletsEndpoint = $this->expressServerHost.$this->apiVersion."/{$this->currency}/wallet/{$walletId}";
-
-        // $response = $this->httpClient->delete($getWalletsEndpoint);
-
-        // if($response->getStatusCode() == 200) {
-        //     return $response->getBody()->getContents();
-        // }
-        // return false;
     }
 }

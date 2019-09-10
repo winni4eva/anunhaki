@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\Blockchain\Clients\ClientContract;
 use App\Http\Requests\Wallet as WalletRequest;
-use App\Services\Blockchain\BlockChainService;
+use Facades\App\Services\Blockchain\BlockChainService;
 use App\Wallet;
 
 class WalletsController extends Controller
@@ -31,7 +31,7 @@ class WalletsController extends Controller
     {
         config(['crypto.currency' => $request->get('coin')]);
         
-        $response = resolve(BlockChainService::class)->createWallet();
+        $response = BlockChainService::createWallet();
 
         if(!$response) {
             return response()->json(['message' => 'Error creating wallet'], 422);
