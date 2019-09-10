@@ -2,10 +2,16 @@ import React, {useEffect} from 'react';
 import { connect } from "react-redux";
 import {getCurrencies} from '../../../actions/common';
 import {postCreateWallet, getWallets, removeWallet, postCreateWalletAddress} from '../../../actions/wallet';
+import {SAVE_ADDRESSES} from '../../../constants/types';
+
+const setAddressHelper = (addresses) => ({
+    type: SAVE_ADDRESSES,
+    payload: addresses
+});
 
 const Wallets = ({...props}) => { 
-    const {dispatch, currencies, notification, wallets} = props;
-    let currencyOptions, walletsTableData = [];
+    const {dispatch, currencies, notification, wallets, addresses} = props;
+    let currencyOptions, walletsTableData, addressesTableData = [];
     let selectedCurrency;
     const style = {cursor: "pointer"};
 
@@ -40,8 +46,12 @@ const Wallets = ({...props}) => {
         }
     }
 
-    const handleDisplayAddresses = () => {
-        alert('Made it to addresses')
+    const handleDisplayAddresses = (e) => {
+        const walletId = e.target.getAttribute('data-coin-id');
+        const wallet = wallets.wallets.filter(wallet => {
+            return wallet.wallet_id === walletId;
+        })
+        dispatch(setAddressHelper(wallet[0]['addresses']));
     }
 
     const handleDeleteWallet = e => {
@@ -62,7 +72,7 @@ const Wallets = ({...props}) => {
     if(Array.isArray(wallets.wallets)) {
         walletsTableData = wallets.wallets.map((w, key) => {
             return <tr key={key} className="hover:bg-blue-lightest">
-                <td className="py-4 px-6 border-b border-grey-light hover:bg-gray-200"><a onClick={handleDisplayAddresses} style={style}>{w.currency.currency}</a></td>
+                <td className="py-4 px-6 border-b border-grey-light hover:bg-gray-200"><a data-coin-id={w.wallet_id} onClick={handleDisplayAddresses} style={style}>{w.currency.currency}</a></td>
                 <td className="py-4 px-6 border-b border-grey-light">{w.currency.identifier}</td>
                 <td className="py-4 px-6 border-b border-grey-light">
                     <button 
@@ -74,6 +84,21 @@ const Wallets = ({...props}) => {
                 </td>
                 <td className="py-4 px-6 border-b border-grey-light text-center">
                     <a data-coin-id={w.wallet_id} data-coin={w.currency.identifier} onClick={handleDeleteWallet} style={style}>❌</a>
+                </td>
+            </tr>;
+        });
+    }
+
+    if(Array.isArray(addresses.addresses)) {
+        addressesTableData = addresses.addresses.map((a, k) => {
+            return <tr key={k} className="hover:bg-blue-lightest">
+                <td className="py-4 px-6 border-b border-grey-light hover:bg-gray-200"><a style={style}>{a.addresss}</a></td>
+                <td className="py-4 px-6 border-b border-grey-light">
+                    <button 
+                        className="bg-gray-300 float-left w-1/2 hover:bg-white-700 text-black font-bold rounded" 
+                        data-address-id={a.id} 
+                        data-wallet-id={a.wallet_id}>Send
+                    </button>
                 </td>
             </tr>;
         });
@@ -104,7 +129,7 @@ const Wallets = ({...props}) => {
                 <table className="text-left m-4">
                     <thead>
                         
-                            {walletsTableData.length > 0 ?
+                            {Array.isArray(walletsTableData) && walletsTableData.length > 0 ?
                             <tr>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Currency</th>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Identifier</th>
@@ -118,7 +143,7 @@ const Wallets = ({...props}) => {
                             }
                     </thead>
                     <tbody>
-                        {walletsTableData.length > 0 ?
+                        {Array.isArray(walletsTableData) && walletsTableData.length > 0 ?
                             walletsTableData
                             : null
                         }
@@ -134,11 +159,15 @@ const Wallets = ({...props}) => {
                         <tr>
                             <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Addresses</th>
                         </tr>
-                        {/* <h3 className="text-blue-500 text-xs italic text-center ml-12">No addresses found!</h3> */}
                         
                     </thead>
                     <tbody>
-                        
+                        {Array.isArray(addressesTableData) && addressesTableData.length > 0 ?
+                            addressesTableData
+                            : <tr>
+                                <td className="text-blue-500 text-xs italic text-center ml-12"><h3>No addresses found!</h3></td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>                
@@ -151,7 +180,8 @@ const mapStateToProps = state => {
     return { 
         wallets: state.wallets,
         currencies: state.currencies,
-        notification: state.notification 
+        notification: state.notification,
+        addresses: state.addresses, 
     };
 };
 

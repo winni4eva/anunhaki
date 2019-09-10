@@ -38,11 +38,6 @@ class BlockChainService
         return (bool)$response;
     }
 
-    public function getWallets() 
-    {
-        $response = $this->client->getWallets();
-    }
-
     public function createWalletAddress() 
     {
         $response = $this->client->createWalletAddress();
@@ -50,7 +45,7 @@ class BlockChainService
         if(!$response) {
             return $response;
         }
-        
+
         $userId = auth()->user()->id;
         $wallet = Wallet::whereUserId($userId)->where('wallet_id', $response['wallet'])->first();
         Address::create([

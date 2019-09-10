@@ -97825,8 +97825,7 @@ var postCreateWallet = function postCreateWallet(data, dispatch) {
 };
 var postCreateWalletAddress = function postCreateWalletAddress(data, dispatch) {
   Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('POST', "".concat(_endpoints__WEBPACK_IMPORTED_MODULE_1__["walletAddressEndpoint"]).concat(data.walletId, "/address?coin=").concat(data.coin), data).then(function (response) {
-    console.log(response); //getWallets(dispatch);
-    //dispatch(saveNotificationHelper(''));
+    getWallets(dispatch);
   })["catch"](function (error) {
     var _error$response7 = error.response;
     _error$response7 = _error$response7 === void 0 ? {} : _error$response7;
@@ -98478,6 +98477,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/common */ "./resources/js/actions/common.js");
 /* harmony import */ var _actions_wallet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../actions/wallet */ "./resources/js/actions/wallet.js");
+/* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../constants/types */ "./resources/js/constants/types.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 
@@ -98485,15 +98485,25 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 
 
+
+var setAddressHelper = function setAddressHelper(addresses) {
+  return {
+    type: _constants_types__WEBPACK_IMPORTED_MODULE_4__["SAVE_ADDRESSES"],
+    payload: addresses
+  };
+};
+
 var Wallets = function Wallets(_ref) {
   var props = _extends({}, _ref);
 
   var dispatch = props.dispatch,
       currencies = props.currencies,
       notification = props.notification,
-      wallets = props.wallets;
+      wallets = props.wallets,
+      addresses = props.addresses;
   var currencyOptions,
-      walletsTableData = [];
+      walletsTableData,
+      addressesTableData = [];
   var selectedCurrency;
   var style = {
     cursor: "pointer"
@@ -98537,8 +98547,12 @@ var Wallets = function Wallets(_ref) {
     }
   };
 
-  var handleDisplayAddresses = function handleDisplayAddresses() {
-    alert('Made it to addresses');
+  var handleDisplayAddresses = function handleDisplayAddresses(e) {
+    var walletId = e.target.getAttribute('data-coin-id');
+    var wallet = wallets.wallets.filter(function (wallet) {
+      return wallet.wallet_id === walletId;
+    });
+    dispatch(setAddressHelper(wallet[0]['addresses']));
   };
 
   var handleDeleteWallet = function handleDeleteWallet(e) {
@@ -98568,6 +98582,7 @@ var Wallets = function Wallets(_ref) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-6 border-b border-grey-light hover:bg-gray-200"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        "data-coin-id": w.wallet_id,
         onClick: handleDisplayAddresses,
         style: style
       }, w.currency.currency)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
@@ -98587,6 +98602,25 @@ var Wallets = function Wallets(_ref) {
         onClick: handleDeleteWallet,
         style: style
       }, "\u274C")));
+    });
+  }
+
+  if (Array.isArray(addresses.addresses)) {
+    addressesTableData = addresses.addresses.map(function (a, k) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        key: k,
+        className: "hover:bg-blue-lightest"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "py-4 px-6 border-b border-grey-light hover:bg-gray-200"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        style: style
+      }, a.addresss)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "py-4 px-6 border-b border-grey-light"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "bg-gray-300 float-left w-1/2 hover:bg-white-700 text-black font-bold rounded",
+        "data-address-id": a.id,
+        "data-wallet-id": a.wallet_id
+      }, "Send")));
     });
   }
 
@@ -98620,7 +98654,7 @@ var Wallets = function Wallets(_ref) {
     onClick: handleCreateWallet
   }, "Create Wallet"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "text-left m-4"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, walletsTableData.length > 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, Array.isArray(walletsTableData) && walletsTableData.length > 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
   }, "Currency"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
@@ -98630,7 +98664,7 @@ var Wallets = function Wallets(_ref) {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
   }, "Remove")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-blue-500 text-xs italic mt-24 text-center"
-  }, "Create your first wallet!"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, walletsTableData.length > 0 ? walletsTableData : null)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Create your first wallet!"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Array.isArray(walletsTableData) && walletsTableData.length > 0 ? walletsTableData : null)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-1/2 bg-white-500 h-auto p-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "inline-block relative w-full"
@@ -98638,14 +98672,17 @@ var Wallets = function Wallets(_ref) {
     className: "text-left m-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
-  }, "Addresses"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null)))));
+  }, "Addresses"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Array.isArray(addressesTableData) && addressesTableData.length > 0 ? addressesTableData : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    className: "text-blue-500 text-xs italic text-center ml-12"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "No addresses found!"))))))));
 };
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
     wallets: state.wallets,
     currencies: state.currencies,
-    notification: state.notification
+    notification: state.notification,
+    addresses: state.addresses
   };
 };
 
@@ -98946,7 +98983,7 @@ var TwoFactor = Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapS
 /*!*****************************************!*\
   !*** ./resources/js/constants/types.js ***!
   \*****************************************/
-/*! exports provided: ACCESS_TOKEN, JWT_TOKEN, GET_WALLETS, SAVE_WALLETS, REMOVE_WALLET, LOG_IN, LOG_OUT, SAVE_COUNTRIES, SEND_TOKEN_VIA, SAVE_CURRENCIES, SAVE_NOTIFICATION, REMOVE_NOTIFICATION */
+/*! exports provided: ACCESS_TOKEN, JWT_TOKEN, GET_WALLETS, SAVE_WALLETS, SAVE_ADDRESSES, REMOVE_WALLET, LOG_IN, LOG_OUT, SAVE_COUNTRIES, SEND_TOKEN_VIA, SAVE_CURRENCIES, SAVE_NOTIFICATION, REMOVE_NOTIFICATION */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -98955,6 +98992,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "JWT_TOKEN", function() { return JWT_TOKEN; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_WALLETS", function() { return GET_WALLETS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_WALLETS", function() { return SAVE_WALLETS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_ADDRESSES", function() { return SAVE_ADDRESSES; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_WALLET", function() { return REMOVE_WALLET; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOG_IN", function() { return LOG_IN; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOG_OUT", function() { return LOG_OUT; });
@@ -98967,6 +99005,7 @@ var ACCESS_TOKEN = 'qh_access_token';
 var JWT_TOKEN = 'JWT_TOKEN';
 var GET_WALLETS = 'GET_WALLETS';
 var SAVE_WALLETS = 'SAVE_WALLETS';
+var SAVE_ADDRESSES = 'SAVE_ADDRESSES';
 var REMOVE_WALLET = 'REMOVE_WALLET';
 var LOG_IN = 'LOGIN';
 var LOG_OUT = 'LOGOUT';
@@ -98996,6 +99035,42 @@ var aux = function aux(props) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (aux);
+
+/***/ }),
+
+/***/ "./resources/js/reducers/addresses.js":
+/*!********************************************!*\
+  !*** ./resources/js/reducers/addresses.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants/types */ "./resources/js/constants/types.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var addressesReducerDefaultState = [];
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : addressesReducerDefaultState;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _constants_types__WEBPACK_IMPORTED_MODULE_0__["SAVE_ADDRESSES"]:
+      var newState = _objectSpread({}, state);
+
+      newState.addresses = action.payload;
+      return newState;
+
+    default:
+      return state;
+  }
+});
 
 /***/ }),
 
@@ -99218,9 +99293,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _reducers_authentication__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../reducers/authentication */ "./resources/js/reducers/authentication.js");
 /* harmony import */ var _reducers_countries__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../reducers/countries */ "./resources/js/reducers/countries.js");
 /* harmony import */ var _reducers_currencies__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../reducers/currencies */ "./resources/js/reducers/currencies.js");
-/* harmony import */ var _reducers_notification__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../reducers/notification */ "./resources/js/reducers/notification.js");
-/* harmony import */ var connected_react_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! connected-react-router */ "./node_modules/connected-react-router/esm/index.js");
-/* harmony import */ var _actions_history__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../actions/history */ "./resources/js/actions/history.js");
+/* harmony import */ var _reducers_addresses__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../reducers/addresses */ "./resources/js/reducers/addresses.js");
+/* harmony import */ var _reducers_notification__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../reducers/notification */ "./resources/js/reducers/notification.js");
+/* harmony import */ var connected_react_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! connected-react-router */ "./node_modules/connected-react-router/esm/index.js");
+/* harmony import */ var _actions_history__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../actions/history */ "./resources/js/actions/history.js");
+
 
 
 
@@ -99230,15 +99307,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  router: Object(connected_react_router__WEBPACK_IMPORTED_MODULE_6__["connectRouter"])(_actions_history__WEBPACK_IMPORTED_MODULE_7__["default"]),
+  router: Object(connected_react_router__WEBPACK_IMPORTED_MODULE_7__["connectRouter"])(_actions_history__WEBPACK_IMPORTED_MODULE_8__["default"]),
   wallets: _reducers_wallets__WEBPACK_IMPORTED_MODULE_1__["default"],
   authentication: _reducers_authentication__WEBPACK_IMPORTED_MODULE_2__["default"],
   countries: _reducers_countries__WEBPACK_IMPORTED_MODULE_3__["default"],
   currencies: _reducers_currencies__WEBPACK_IMPORTED_MODULE_4__["default"],
-  notification: _reducers_notification__WEBPACK_IMPORTED_MODULE_5__["default"]
+  addresses: _reducers_addresses__WEBPACK_IMPORTED_MODULE_5__["default"],
+  notification: _reducers_notification__WEBPACK_IMPORTED_MODULE_6__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (function () {
-  var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(rootReducer, Object(redux__WEBPACK_IMPORTED_MODULE_0__["compose"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(Object(connected_react_router__WEBPACK_IMPORTED_MODULE_6__["routerMiddleware"])(_actions_history__WEBPACK_IMPORTED_MODULE_7__["default"]))));
+  var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(rootReducer, Object(redux__WEBPACK_IMPORTED_MODULE_0__["compose"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(Object(connected_react_router__WEBPACK_IMPORTED_MODULE_7__["routerMiddleware"])(_actions_history__WEBPACK_IMPORTED_MODULE_8__["default"]))));
   return store;
 });
 

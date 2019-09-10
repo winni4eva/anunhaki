@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Currency;
+use App\Address;
 
 class Wallet extends Model
 {
@@ -25,5 +26,10 @@ class Wallet extends Model
     public function currency()
     {
         return $this->belongsTo(Currency::class, 'currency_id');
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
     }
 }
