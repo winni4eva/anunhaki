@@ -97615,7 +97615,7 @@ var getCurrencies = function getCurrencies(dispatch) {
 /*!*******************************************!*\
   !*** ./resources/js/actions/endpoints.js ***!
   \*******************************************/
-/*! exports provided: getWalletsEndpoint, loginEndpoint, logoutEndpoint, registerEnpoint, twoFactorGetEndpoint, twoFactorPostEndpoint, getCountriesEndpoint, getCurrenciesEndpoint, walletsEndpoint */
+/*! exports provided: getWalletsEndpoint, loginEndpoint, logoutEndpoint, registerEnpoint, twoFactorGetEndpoint, twoFactorPostEndpoint, getCountriesEndpoint, getCurrenciesEndpoint, walletsEndpoint, walletAddressEndpoint */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -97629,6 +97629,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCountriesEndpoint", function() { return getCountriesEndpoint; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrenciesEndpoint", function() { return getCurrenciesEndpoint; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "walletsEndpoint", function() { return walletsEndpoint; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "walletAddressEndpoint", function() { return walletAddressEndpoint; });
 var getWalletsEndpoint = "api/wallets";
 var loginEndpoint = 'api/login';
 var logoutEndpoint = 'api/logout';
@@ -97638,6 +97639,7 @@ var twoFactorPostEndpoint = 'api/post-two-factor-token';
 var getCountriesEndpoint = 'api/countries';
 var getCurrenciesEndpoint = 'api/currencies';
 var walletsEndpoint = 'api/wallets';
+var walletAddressEndpoint = 'api/wallet/';
 
 /***/ }),
 
@@ -97727,7 +97729,7 @@ request.interceptors.response.use(function (config) {
 /*!****************************************!*\
   !*** ./resources/js/actions/wallet.js ***!
   \****************************************/
-/*! exports provided: getWallets, removeWallet, postCreateWallet */
+/*! exports provided: getWallets, removeWallet, postCreateWallet, postCreateWalletAddress */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -97735,6 +97737,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWallets", function() { return getWallets; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeWallet", function() { return removeWallet; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postCreateWallet", function() { return postCreateWallet; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postCreateWalletAddress", function() { return postCreateWalletAddress; });
 /* harmony import */ var _request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./request */ "./resources/js/actions/request.js");
 /* harmony import */ var _endpoints__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./endpoints */ "./resources/js/actions/endpoints.js");
 /* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants/types */ "./resources/js/constants/types.js");
@@ -97814,6 +97817,27 @@ var postCreateWallet = function postCreateWallet(data, dispatch) {
     var _error$response6$data = _error$response6.data;
     _error$response6$data = _error$response6$data === void 0 ? {} : _error$response6$data;
     var errors = _error$response6$data.errors;
+    dispatch(saveNotificationHelper({
+      message: message,
+      errors: errors
+    }));
+  });
+};
+var postCreateWalletAddress = function postCreateWalletAddress(data, dispatch) {
+  Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('POST', "".concat(_endpoints__WEBPACK_IMPORTED_MODULE_1__["walletAddressEndpoint"]).concat(data.walletId, "/address?coin=").concat(data.coin), data).then(function (response) {
+    console.log(response); //getWallets(dispatch);
+    //dispatch(saveNotificationHelper(''));
+  })["catch"](function (error) {
+    var _error$response7 = error.response;
+    _error$response7 = _error$response7 === void 0 ? {} : _error$response7;
+    var _error$response7$data = _error$response7.data;
+    _error$response7$data = _error$response7$data === void 0 ? {} : _error$response7$data;
+    var message = _error$response7$data.message;
+    var _error$response8 = error.response;
+    _error$response8 = _error$response8 === void 0 ? {} : _error$response8;
+    var _error$response8$data = _error$response8.data;
+    _error$response8$data = _error$response8$data === void 0 ? {} : _error$response8$data;
+    var errors = _error$response8$data.errors;
     dispatch(saveNotificationHelper({
       message: message,
       errors: errors
@@ -98500,6 +98524,19 @@ var Wallets = function Wallets(_ref) {
     }
   };
 
+  var handleAddWalletAddress = function handleAddWalletAddress(e) {
+    var confirmed = confirm("Do you want to continue to add address!");
+
+    if (confirmed) {
+      var walletId = e.target.getAttribute('data-coin-id');
+      var coin = e.target.getAttribute('data-coin');
+      Object(_actions_wallet__WEBPACK_IMPORTED_MODULE_3__["postCreateWalletAddress"])({
+        walletId: walletId,
+        coin: coin
+      }, dispatch);
+    }
+  };
+
   var handleDisplayAddresses = function handleDisplayAddresses() {
     alert('Made it to addresses');
   };
@@ -98538,7 +98575,10 @@ var Wallets = function Wallets(_ref) {
       }, w.currency.identifier), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-6 border-b border-grey-light"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "bg-gray-300 float-left w-1/2 hover:bg-white-700 text-black font-bold rounded"
+        className: "bg-gray-300 float-left w-1/2 hover:bg-white-700 text-black font-bold rounded",
+        onClick: handleAddWalletAddress,
+        "data-coin-id": w.wallet_id,
+        "data-coin": w.currency.identifier
       }, "Add")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-6 border-b border-grey-light text-center"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
@@ -98588,21 +98628,17 @@ var Wallets = function Wallets(_ref) {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
   }, "Add Address"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
-  }, "Remove")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+  }, "Remove")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-blue-500 text-xs italic mt-24 text-center"
-  }, "Create your first wallet!")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, walletsTableData.length > 0 ? walletsTableData : null)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Create your first wallet!"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, walletsTableData.length > 0 ? walletsTableData : null)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-1/2 bg-white-500 h-auto p-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "inline-block relative w-full"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
-    className: "text-center"
-  }, "Addresses"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "text-left m-4"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, walletsTableData.length < 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
-  }, "Address")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
-    className: "text-blue-500 text-xs italic text-center ml-12"
-  }, "No addresses found!")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null)))));
+  }, "Addresses"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null)))));
 };
 
 var mapStateToProps = function mapStateToProps(state) {

@@ -5,6 +5,7 @@ namespace App\Services\Blockchain;
 use App\Services\Blockchain\Clients\ClientContract;
 use App\Wallet;
 use App\Currency;
+use App\Address;
 
 class BlockChainService
 {
@@ -19,20 +20,22 @@ class BlockChainService
     {   
         $response = $this->client->createWallet();
 
-        if($response) {
-            $currency = Currency::whereIdentifier($response['coin'])->first();
-            Wallet::create([
-                'wallet_id' => $response['id'],
-                'user_id' => auth()->user()->id,
-                'currency_id' => $currency->id,
-                'label' => $response['label'],
-                'keys' => $response['keys'],
-                'key_signatures' => $response['keySignatures'],
-                'dump' => $response
-            ]);
+        if(!$response) {
+            return $response;
         }
 
-        return $response;
+        $currency = Currency::whereIdentifier($response['coin'])->first();
+        Wallet::create([
+            'wallet_id' => $response['id'],
+            'user_id' => auth()->user()->id,
+            'currency_id' => $currency->id,
+            'label' => $response['label'],
+            'keys' => $response['keys'],
+            'key_signatures' => $response['keySignatures'],
+            'dump' => $response
+        ]);
+
+        return (bool)$response;
     }
 
     public function getWallets() 
@@ -43,6 +46,21 @@ class BlockChainService
     public function createWalletAddress() 
     {
         $response = $this->client->createWalletAddress();
+
+        if(!$response) {
+            return $response;
+        }
+        
+        $userId = auth()->user()->id;
+        $wallet = Wallet::whereUserId($userId)->where('wallet_id', $response['wallet'])->first();
+        Address::create([
+            'wallet_id' => $wallet->id,
+            'address_id' => $response['id'],
+            'addresss' => $response['address'],
+            'dump' => $response
+        ]);
+
+        return (bool)$response;
     }
 
     public function deleteWallet() 

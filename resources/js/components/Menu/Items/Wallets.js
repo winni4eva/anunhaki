@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import { connect } from "react-redux";
 import {getCurrencies} from '../../../actions/common';
-import {postCreateWallet, getWallets, removeWallet} from '../../../actions/wallet';
+import {postCreateWallet, getWallets, removeWallet, postCreateWalletAddress} from '../../../actions/wallet';
 
 const Wallets = ({...props}) => { 
     const {dispatch, currencies, notification, wallets} = props;
@@ -31,6 +31,15 @@ const Wallets = ({...props}) => {
         }
     }
 
+    const handleAddWalletAddress = e => {
+        const confirmed = confirm(`Do you want to continue to add address!`);
+        if (confirmed) {
+            const walletId = e.target.getAttribute('data-coin-id');
+            const coin = e.target.getAttribute('data-coin');
+            postCreateWalletAddress({walletId, coin}, dispatch);
+        }
+    }
+
     const handleDisplayAddresses = () => {
         alert('Made it to addresses')
     }
@@ -56,7 +65,12 @@ const Wallets = ({...props}) => {
                 <td className="py-4 px-6 border-b border-grey-light hover:bg-gray-200"><a onClick={handleDisplayAddresses} style={style}>{w.currency.currency}</a></td>
                 <td className="py-4 px-6 border-b border-grey-light">{w.currency.identifier}</td>
                 <td className="py-4 px-6 border-b border-grey-light">
-                    <button className="bg-gray-300 float-left w-1/2 hover:bg-white-700 text-black font-bold rounded">Add</button>
+                    <button 
+                        className="bg-gray-300 float-left w-1/2 hover:bg-white-700 text-black font-bold rounded" 
+                        onClick={handleAddWalletAddress}
+                        data-coin-id={w.wallet_id} 
+                        data-coin={w.currency.identifier}>Add
+                    </button>
                 </td>
                 <td className="py-4 px-6 border-b border-grey-light text-center">
                     <a data-coin-id={w.wallet_id} data-coin={w.currency.identifier} onClick={handleDeleteWallet} style={style}>❌</a>
@@ -97,7 +111,10 @@ const Wallets = ({...props}) => {
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Add Address</th>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Remove</th>
                             </tr>
-                            : <h3 className="text-blue-500 text-xs italic mt-24 text-center">Create your first wallet!</h3>
+                            : 
+                                <tr>
+                                <th className="text-blue-500 text-xs italic mt-24 text-center">Create your first wallet!</th>
+                                </tr>
                             }
                     </thead>
                     <tbody>
@@ -111,16 +128,14 @@ const Wallets = ({...props}) => {
         </div>
         <div className="w-1/2 bg-white-500 h-auto p-4">
             <div className="inline-block relative w-full">
-                <h2 className="text-center">Addresses</h2>
                 <table className="text-left m-4">
                     <thead>
+
+                        <tr>
+                            <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Addresses</th>
+                        </tr>
+                        {/* <h3 className="text-blue-500 text-xs italic text-center ml-12">No addresses found!</h3> */}
                         
-                            {walletsTableData.length < 0 ?
-                            <tr>
-                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Address</th>
-                            </tr>
-                            : <h3 className="text-blue-500 text-xs italic text-center ml-12">No addresses found!</h3>
-                            }
                     </thead>
                     <tbody>
                         

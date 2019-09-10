@@ -1,5 +1,5 @@
 import makeRequest from './request';
-import {walletsEndpoint} from './endpoints';
+import {walletsEndpoint, walletAddressEndpoint} from './endpoints';
 import {SAVE_NOTIFICATION, REMOVE_NOTIFICATION, SAVE_WALLETS} from '../constants/types';
 
 const saveNotificationHelper = (notice) => ({
@@ -42,6 +42,20 @@ export const postCreateWallet = (data, dispatch) => {
         .then(response => {
             getWallets(dispatch);
             dispatch(saveNotificationHelper(''));
+        })
+        .catch(error => {
+            const { response: { data: { message } = {} } = {} } = error;
+            const { response: { data: { errors } = {} } = {} } = error;
+            dispatch(saveNotificationHelper({message,errors}));
+        })
+};
+
+export const postCreateWalletAddress = (data, dispatch) => {
+    makeRequest('POST', `${walletAddressEndpoint}${data.walletId}/address?coin=${data.coin}`, data)
+        .then(response => {
+            console.log(response)
+            //getWallets(dispatch);
+            //dispatch(saveNotificationHelper(''));
         })
         .catch(error => {
             const { response: { data: { message } = {} } = {} } = error;

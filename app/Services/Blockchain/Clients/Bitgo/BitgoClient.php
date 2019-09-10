@@ -16,6 +16,7 @@ class BitgoClient implements ClientContract
     public function __construct(string $accessToken, string $currency = 'tbtc', bool $appEnvironment = false)
     {
         $this->bitgo = new BitGoSDK($accessToken, $currency, $appEnvironment);
+        $this->bitgo->walletId = config('crypto.walletId');
         $this->bitGoExpress = new BitGoExpress(config('crypto.host'), config('crypto.port'), $currency);
         $this->bitGoExpress->accessToken = $accessToken;
     }
@@ -26,46 +27,36 @@ class BitgoClient implements ClientContract
         $passphrase = auth()->user()->last_name;
 
         $response = $this->bitGoExpress->generateWallet($label, $passphrase);
+
+        if(collect($response)->has('error')) {
+            logger($response);
+            return false;
+        }
         
-        if (collect($response)->has('id')) {
-            return $response;
-        }
-        return false;
-    }
-
-    public function getWallets() 
-    {
-        $getWalletsEndpoint = $this->expressServerHost.$this->apiVersion."/wallets";
-
-        $response = $this->httpClient->request('GET', $getWalletsEndpoint);
-
-        if($response->getStatusCode() == 200) {
-            return $response->getBody()->getContents();
-        }
-        return false;
+        return $response;
     }
 
     public function createWalletAddress() 
     {
-        $this->bitgo->walletId = 'btc';
-        return $this->bitgo->createWalletAddress();
+        $response = $this->bitgo->createWalletAddress();
+        
+        if(collect($response)->has('error')) {
+            logger($response);
+            return false;
+        }
+
+        return $response;
     }
 
     public function deleteWallet() 
     {
-        $getWalletsEndpoint = $this->expressServerHost.$this->apiVersion."/{$this->currency}/wallet/{$walletId}";
+        // $getWalletsEndpoint = $this->expressServerHost.$this->apiVersion."/{$this->currency}/wallet/{$walletId}";
 
-        $response = $this->httpClient->delete($getWalletsEndpoint);
+        // $response = $this->httpClient->delete($getWalletsEndpoint);
 
-        if($response->getStatusCode() == 200) {
-            return $response->getBody()->getContents();
-        }
-        return false;
+        // if($response->getStatusCode() == 200) {
+        //     return $response->getBody()->getContents();
+        // }
+        // return false;
     }
-
-    protected function getClient()
-    {
-        //
-    }
-
 }

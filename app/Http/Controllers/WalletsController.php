@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\Blockchain\Clients\ClientContract;
-use App\Http\Requests\Wallet;
+use App\Http\Requests\Wallet as WalletRequest;
 use App\Services\Blockchain\BlockChainService;
-use App\Wallet as WalletModel;
+use App\Wallet;
 
 class WalletsController extends Controller
 {
@@ -17,7 +17,7 @@ class WalletsController extends Controller
      */
     public function index()
     {
-        $wallets = WalletModel::authUserWallets()->with('currency')->get();
+        $wallets = Wallet::authUserWallets()->with('currency')->get();
 
         return response()->json(compact('wallets'));
     }
@@ -27,9 +27,9 @@ class WalletsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Wallet $wallet)
+    public function store(WalletRequest $request)
     {
-        config(['crypto.currency' => $wallet->get('coin')]);
+        config(['crypto.currency' => $request->get('coin')]);
         
         $response = resolve(BlockChainService::class)->createWallet();
 

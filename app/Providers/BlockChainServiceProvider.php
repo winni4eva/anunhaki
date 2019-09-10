@@ -26,7 +26,7 @@ class BlockChainServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app->bind(ClientContract::class, function(){
-            $isProd = app()->env == 'production' ? true : false;
+            $isProd = app()->env == 'production' ? false : true;
             return new BitgoClient(config('crypto.token'), config('crypto.currency'), $isProd);
         });
     }

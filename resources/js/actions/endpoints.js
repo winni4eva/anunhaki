@@ -15,3 +15,5 @@ export const getCountriesEndpoint = 'api/countries';
 export const getCurrenciesEndpoint = 'api/currencies';
 
 export const walletsEndpoint = 'api/wallets'; 
+
+export const walletAddressEndpoint = 'api/wallet/';

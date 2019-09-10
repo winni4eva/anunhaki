@@ -15,6 +15,15 @@ class CreateAddressesTable extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('wallet_id');
+            $table->foreign('wallet_id', 'addrsses_walletId_fk')
+                ->references('id')
+                ->on('wallets')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->string('address_id');
+            $table->string('addresss');
+            $table->json('dump');
             $table->timestamps();
         });
     }
