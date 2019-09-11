@@ -13,7 +13,7 @@ const menu = ({...props}) => {
           </Link>
         </li>
         <li className="flex-1 mr-2">
-          <Link to={`/transactions`} className="text-center block border border-white-500 rounded py-2 px-4 bg-gray-700 hover:bg-gray-500 text-white">
+          <Link to={`/wallets`} className="text-center block border border-white-500 rounded py-2 px-4 bg-gray-700 hover:bg-gray-500 text-white">
             Transactions
           </Link>
         </li>

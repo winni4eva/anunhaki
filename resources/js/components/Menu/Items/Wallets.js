@@ -132,7 +132,7 @@ const Wallets = ({...props}) => {
                     </button>
                 </td>
                 <td>
-                <Link to={`/transactions?${w.wallet_id}`} className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
+                <Link to={`/transactions?wid=${w.wallet_id}`} className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
                     <span className="font-semibold text-xl tracking-tight hover:text-red-900 cursor-pointer">history</span>
                 </Link>
                 </td>
@@ -177,7 +177,7 @@ const Wallets = ({...props}) => {
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Identifier</th>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Add Address</th>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Send Funds</th>
-                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">View Transaction</th>
+                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Transactions</th>
                                 {/* <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Remove</th> */}
                             </tr>
                             : 
