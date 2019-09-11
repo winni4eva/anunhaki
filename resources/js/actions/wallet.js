@@ -61,3 +61,16 @@ export const postCreateWalletAddress = (data, dispatch) => {
             dispatch(saveNotificationHelper({message,errors}));
         })
 };
+
+export const postSendWalletFunds = (data, dispatch) => {
+    makeRequest('POST', `${walletAddressEndpoint}${data.walletId}/fund`, data)
+        .then(response => {
+            console.log(response)
+            //getWallets(dispatch);
+        })
+        .catch(error => {
+            const { response: { data: { message } = {} } = {} } = error;
+            const { response: { data: { errors } = {} } = {} } = error;
+            dispatch(saveNotificationHelper({message,errors}));
+        })
+};

@@ -97729,7 +97729,7 @@ request.interceptors.response.use(function (config) {
 /*!****************************************!*\
   !*** ./resources/js/actions/wallet.js ***!
   \****************************************/
-/*! exports provided: getWallets, removeWallet, postCreateWallet, postCreateWalletAddress */
+/*! exports provided: getWallets, removeWallet, postCreateWallet, postCreateWalletAddress, postSendWalletFunds */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -97738,6 +97738,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeWallet", function() { return removeWallet; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postCreateWallet", function() { return postCreateWallet; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postCreateWalletAddress", function() { return postCreateWalletAddress; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postSendWalletFunds", function() { return postSendWalletFunds; });
 /* harmony import */ var _request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./request */ "./resources/js/actions/request.js");
 /* harmony import */ var _endpoints__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./endpoints */ "./resources/js/actions/endpoints.js");
 /* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants/types */ "./resources/js/constants/types.js");
@@ -97837,6 +97838,26 @@ var postCreateWalletAddress = function postCreateWalletAddress(data, dispatch) {
     var _error$response8$data = _error$response8.data;
     _error$response8$data = _error$response8$data === void 0 ? {} : _error$response8$data;
     var errors = _error$response8$data.errors;
+    dispatch(saveNotificationHelper({
+      message: message,
+      errors: errors
+    }));
+  });
+};
+var postSendWalletFunds = function postSendWalletFunds(data, dispatch) {
+  Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('POST', "".concat(_endpoints__WEBPACK_IMPORTED_MODULE_1__["walletAddressEndpoint"]).concat(data.walletId, "/fund"), data).then(function (response) {
+    console.log(response); //getWallets(dispatch);
+  })["catch"](function (error) {
+    var _error$response9 = error.response;
+    _error$response9 = _error$response9 === void 0 ? {} : _error$response9;
+    var _error$response9$data = _error$response9.data;
+    _error$response9$data = _error$response9$data === void 0 ? {} : _error$response9$data;
+    var message = _error$response9$data.message;
+    var _error$response10 = error.response;
+    _error$response10 = _error$response10 === void 0 ? {} : _error$response10;
+    var _error$response10$dat = _error$response10.data;
+    _error$response10$dat = _error$response10$dat === void 0 ? {} : _error$response10$dat;
+    var errors = _error$response10$dat.errors;
     dispatch(saveNotificationHelper({
       message: message,
       errors: errors
@@ -98517,6 +98538,11 @@ var Wallets = function Wallets(_ref) {
       selectedSendFundCurrency = _useState8[0],
       toggleSelectedCurrency = _useState8[1];
 
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState10 = _slicedToArray(_useState9, 2),
+      selectedSendFundCoin = _useState10[0],
+      toggleSelectedCoin = _useState10[1];
+
   var currencyOptions,
       walletsTableData = [];
   var selectedCurrency;
@@ -98590,8 +98616,26 @@ var Wallets = function Wallets(_ref) {
   var handleSendFundSelect = function handleSendFundSelect(e) {
     var walletId = e.target.getAttribute('data-coin-id');
     var currency = e.target.getAttribute('data-coin-currency');
+    var coin = e.target.getAttribute('data-coin');
     toggleSelectedFundWallet(walletId);
     toggleSelectedCurrency(currency);
+    toggleSelectedCoin(coin);
+  };
+
+  var handleSendFundSubmit = function handleSendFundSubmit(e) {
+    if (e) e.preventDefault();
+    var address = e.target.children[0].value;
+    var amount = e.target.children[1].value;
+    var walletId = selectedSendFundWalletId;
+    var coin = selectedSendFundCoin;
+    var formData = {
+      address: address,
+      amount: amount,
+      walletId: walletId,
+      coin: coin
+    };
+    console.log(formData);
+    Object(_actions_wallet__WEBPACK_IMPORTED_MODULE_3__["postSendWalletFunds"])(formData, dispatch);
   }; // const handleDeleteWallet = e => {
   //     const confirmed = confirm(`Do you want to remove the selected wallet!`);
   //     if (confirmed) {
@@ -98690,7 +98734,9 @@ var Wallets = function Wallets(_ref) {
     className: "w-1/2 bg-white-500 h-auto p-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "inline-block relative w-full"
-  }, enableSendFunds ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Send funds from ", selectedSendFundCurrency, " wallet"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }, enableSendFunds ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Send funds from ", selectedSendFundCurrency, " wallet"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    onSubmit: handleSendFundSubmit
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
     placeholder: "Enter Recepient's Address",
     className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"

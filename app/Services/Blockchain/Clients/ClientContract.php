@@ -8,4 +8,6 @@ interface ClientContract
     public function createWallet();
 
     public function createWalletAddress();
+
+    public function sendTransaction(string $recepientAddress, int $amount);
 }

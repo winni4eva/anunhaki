@@ -58,9 +58,17 @@ class BlockChainService
         return (bool)$response;
     }
 
-    public function deleteWallet() 
+    public function sendTransaction(string $recepientAddress, integer $amount) 
     {
-        $response = $this->client->deleteWallet();
+        $response = $this->client->sendTransaction($recepientAddress, $amount);
+
+        if(!$response) {
+            return $response;
+        }
+        logger($response);
+        return (bool)$response;
     }
+
+    
 
 }

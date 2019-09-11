@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { connect } from "react-redux";
 import {getCurrencies} from '../../../actions/common';
-import {postCreateWallet, getWallets, removeWallet, postCreateWalletAddress} from '../../../actions/wallet';
+import {postCreateWallet, getWallets, postCreateWalletAddress, postSendWalletFunds} from '../../../actions/wallet';
 
 
 const Wallets = ({...props}) => { 
@@ -10,6 +10,7 @@ const Wallets = ({...props}) => {
     const [addressesTableData, toggleWalletAddresses] = useState([]);
     const [selectedSendFundWalletId, toggleSelectedFundWallet] = useState('');
     const [selectedSendFundCurrency, toggleSelectedCurrency] = useState('');
+    const [selectedSendFundCoin, toggleSelectedCoin] = useState('');
 
     let currencyOptions, walletsTableData = [];
     let selectedCurrency;
@@ -73,8 +74,21 @@ const Wallets = ({...props}) => {
     const handleSendFundSelect = (e) => {
         const walletId = e.target.getAttribute('data-coin-id');
         const currency = e.target.getAttribute('data-coin-currency');
+        const coin = e.target.getAttribute('data-coin');
         toggleSelectedFundWallet(walletId);
         toggleSelectedCurrency(currency);
+        toggleSelectedCoin(coin);
+    }
+
+    const handleSendFundSubmit = e => {
+        if (e) e.preventDefault();
+        const address = e.target.children[0].value;
+        const amount = e.target.children[1].value;
+        const walletId = selectedSendFundWalletId; 
+        const coin = selectedSendFundCoin;
+        const formData = {address, amount, walletId, coin};
+        console.log(formData)
+        postSendWalletFunds(formData, dispatch);
     }
 
     // const handleDeleteWallet = e => {
@@ -177,7 +191,7 @@ const Wallets = ({...props}) => {
                 {enableSendFunds ?
                 <div>
                     <p>Send funds from {selectedSendFundCurrency} wallet</p>
-                    <form>
+                    <form onSubmit={handleSendFundSubmit}>
                         <input
                             type="text"
                             placeholder="Enter Recepient's Address" 
@@ -187,7 +201,7 @@ const Wallets = ({...props}) => {
                             type="text"
                             placeholder="Enter Amount" 
                             className="block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"/>
-                            
+
                         <button className="bg-green-500 w-1/4 float-left hover:bg-green-300 text-white font-bold py-2 px-4 pull-right mt-4 rounded"
                             >
                             Send
@@ -197,7 +211,6 @@ const Wallets = ({...props}) => {
                 : null}
                 <table className="text-left m-4">
                     <thead>
-
                         <tr>
                             <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Addresses</th>
                         </tr>
