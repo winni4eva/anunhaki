@@ -98929,6 +98929,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Transactions = function Transactions(props) {
+  var location = props.location;
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    var parsed = query_string__WEBPACK_IMPORTED_MODULE_2___default.a.parse(location.search);
+    console.log(parsed);
+  }, []);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex mb-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
