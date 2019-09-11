@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { connect } from "react-redux";
 import {getCurrencies} from '../../../actions/common';
 import {postCreateWallet, getWallets, postCreateWalletAddress, postSendWalletFunds} from '../../../actions/wallet';
+import { Link, withRouter } from 'react-router-dom';
 
 
 const Wallets = ({...props}) => { 
@@ -82,12 +83,14 @@ const Wallets = ({...props}) => {
 
     const handleSendFundSubmit = e => {
         if (e) e.preventDefault();
-        const address = e.target.children[0].value;
-        const amount = e.target.children[1].value;
+
+        const {target:{children:[addressInput, amountInput]}} = e;
+
+        const {value: address} = addressInput;
+        const {value: amount} = amountInput
         const walletId = selectedSendFundWalletId; 
         const coin = selectedSendFundCoin;
         const formData = {address, amount, walletId, coin};
-        console.log(formData)
         postSendWalletFunds(formData, dispatch);
     }
 
@@ -127,6 +130,11 @@ const Wallets = ({...props}) => {
                         data-coin-id={w.wallet_id} 
                         data-coin={w.currency.identifier}>Send
                     </button>
+                </td>
+                <td>
+                <Link to={`/transactions?${w.wallet_id}`} className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
+                    <span className="font-semibold text-xl tracking-tight hover:text-red-900 cursor-pointer">history</span>
+                </Link>
                 </td>
                 {/* <td className="py-4 px-6 border-b border-grey-light text-center">
                     <a data-coin-id={w.wallet_id} data-coin={w.currency.identifier} onClick={handleDeleteWallet} style={style}>❌</a>
@@ -169,6 +177,7 @@ const Wallets = ({...props}) => {
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Identifier</th>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Add Address</th>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Send Funds</th>
+                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">View Transaction</th>
                                 {/* <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Remove</th> */}
                             </tr>
                             : 
@@ -241,4 +250,4 @@ const mapStateToProps = state => {
 
 const Wallet = connect(mapStateToProps)(Wallets);
 
-export default Wallet;
+export default withRouter(Wallet);

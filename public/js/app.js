@@ -98495,6 +98495,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/common */ "./resources/js/actions/common.js");
 /* harmony import */ var _actions_wallet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../actions/wallet */ "./resources/js/actions/wallet.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -98504,6 +98505,7 @@ function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 
 
 
@@ -98624,8 +98626,13 @@ var Wallets = function Wallets(_ref) {
 
   var handleSendFundSubmit = function handleSendFundSubmit(e) {
     if (e) e.preventDefault();
-    var address = e.target.children[0].value;
-    var amount = e.target.children[1].value;
+
+    var _e$target$children = _slicedToArray(e.target.children, 2),
+        addressInput = _e$target$children[0],
+        amountInput = _e$target$children[1];
+
+    var address = addressInput.value;
+    var amount = amountInput.value;
     var walletId = selectedSendFundWalletId;
     var coin = selectedSendFundCoin;
     var formData = {
@@ -98634,7 +98641,6 @@ var Wallets = function Wallets(_ref) {
       walletId: walletId,
       coin: coin
     };
-    console.log(formData);
     Object(_actions_wallet__WEBPACK_IMPORTED_MODULE_3__["postSendWalletFunds"])(formData, dispatch);
   }; // const handleDeleteWallet = e => {
   //     const confirmed = confirm(`Do you want to remove the selected wallet!`);
@@ -98686,7 +98692,12 @@ var Wallets = function Wallets(_ref) {
         "data-coin-currency": w.currency.currency,
         "data-coin-id": w.wallet_id,
         "data-coin": w.currency.identifier
-      }, "Send")));
+      }, "Send")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
+        to: "/transactions?".concat(w.wallet_id),
+        className: "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "font-semibold text-xl tracking-tight hover:text-red-900 cursor-pointer"
+      }, "history"))));
     });
   }
 
@@ -98728,7 +98739,9 @@ var Wallets = function Wallets(_ref) {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
   }, "Add Address"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
-  }, "Send Funds")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+  }, "Send Funds"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
+  }, "View Transaction")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-blue-500 text-xs italic mt-24 text-center"
   }, "Create your first wallet!"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Array.isArray(walletsTableData) && walletsTableData.length > 0 ? walletsTableData : null)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-1/2 bg-white-500 h-auto p-4"
@@ -98764,7 +98777,7 @@ var mapStateToProps = function mapStateToProps(state) {
 };
 
 var Wallet = Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps)(Wallets);
-/* harmony default export */ __webpack_exports__["default"] = (Wallet);
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["withRouter"])(Wallet));
 
 /***/ }),
 
