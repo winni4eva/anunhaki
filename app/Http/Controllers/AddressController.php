@@ -5,11 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\Address as AddressRequest;
 use Facades\App\Services\Blockchain\BlockChainService;
+use App\Services\Address\AddressService;
 
 class AddressController extends Controller
 {
+    protected $addressService;
+
+    public function __construct(AddressService $addressService)
+    {
+        $this->addressService = $addressService;
+    }
+
     /**
-     * Create a new wallet.
+     * Create a new address.
      *
      * @return \Illuminate\Http\Response
      */
@@ -18,9 +26,11 @@ class AddressController extends Controller
         config(['crypto.currency' => $request->get('coin')]);
         config(['crypto.walletId' => $request->get('walletId')]);
         
-        $response = BlockChainService::createWalletAddress();
+        $address = BlockChainService::createWalletAddress();
 
-        if(!$response) {
+        $this->addressService->saveAddress($address);
+
+        if(!$address) {
             return response()->json(['message' => 'Error creating address'], 422);
         }
 

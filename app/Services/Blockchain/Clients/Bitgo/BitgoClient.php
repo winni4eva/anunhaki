@@ -21,8 +21,6 @@ class BitgoClient implements ClientContract
      */
     public function __construct(string $accessToken, string $currency = 'tbtc', bool $appEnvironment = false)
     {
-        logger('Wallet Id');
-        logger(config('crypto.walletId'));
         $this->bitgo = new BitGoSDK($accessToken, $currency, $appEnvironment);
         $this->bitgo->walletId = config('crypto.walletId');
         $this->bitGoExpress = new BitGoExpress(config('crypto.host'), config('crypto.port'), $currency);
@@ -31,8 +29,8 @@ class BitgoClient implements ClientContract
 
     public function createWallet() 
     {   
-        $label = auth()->user()->email.'-'.now()->toDateTimeString('Y-m-d H:i:s');
-        $passphrase = auth()->user()->last_name;
+        $label = $this->generateLabel();
+        $passphrase = $this->generatePassPhrase();
 
         $response = $this->bitGoExpress->generateWallet($label, $passphrase);
 
@@ -46,7 +44,7 @@ class BitgoClient implements ClientContract
     public function getWalletAddresses()
     {
         $response = $this->bitgo->getWalletAddresses(); 
-        logger($response);
+        
         if(collect($response)->has('error')) {
             return $this->handleErrorResponse($response);
         }
@@ -98,5 +96,17 @@ class BitgoClient implements ClientContract
     {
         logger($response);
         return false;
+    }
+
+    protected function generateLabel()
+    {
+        $email = explode('@', auth()->user()->email); 
+        $label = $email[0].'-'.now()->toDateTimeString('Y-m-d H:i:s');
+        return $label;
+    }
+
+    protected function generatePassPhrase()
+    {
+        return auth()->user()->last_name;
     }
 }

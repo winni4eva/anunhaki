@@ -99167,37 +99167,16 @@ var Wallets = function Wallets(_ref) {
         key: key,
         className: "hover:bg-blue-lightest"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "py-4 px-6 border-b border-grey-light hover:bg-gray-200"
+        className: "py-4 px-6 border-b border-grey-light"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         "data-coin-id": w.wallet_id,
         onClick: handleDisplayAddresses,
         style: style
-      }, w.currency.currency)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      }, w.label)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "py-4 px-6 border-b border-grey-light hover:bg-gray-200"
+      }, w.currency.currency), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-6 border-b border-grey-light"
-      }, w.currency.identifier), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "py-4 px-6 border-b border-grey-light"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "bg-gray-300 float-left w-1/2 hover:bg-white-700 text-black font-bold rounded",
-        onClick: handleAddWalletAddress,
-        "data-coin-id": w.wallet_id,
-        "data-coin": w.currency.identifier
-      }, "Add")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "py-4 px-6 border-b border-grey-light"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "bg-gray-300 float-left w-1/2 hover:bg-white-700 text-black font-bold rounded",
-        onClick: function onClick(e) {
-          toggleSendFunds(true);
-          handleSendFundSelect(e);
-        },
-        "data-coin-currency": w.currency.currency,
-        "data-coin-id": w.wallet_id,
-        "data-coin": w.currency.identifier
-      }, "Send")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
-        to: "/transactions?wid=".concat(w.id),
-        className: "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        className: "font-semibold text-xl tracking-tight hover:text-red-900 cursor-pointer"
-      }, "history"))));
+      }, w.currency.identifier));
     });
   }
 
@@ -99233,15 +99212,11 @@ var Wallets = function Wallets(_ref) {
     className: "text-left m-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, Array.isArray(walletsTableData) && walletsTableData.length > 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
+  }, "Label"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
   }, "Currency"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
-  }, "Identifier"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
-  }, "Add Address"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
-  }, "Send Funds"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
-  }, "Transactions")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+  }, "Identifier")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-blue-500 text-xs italic mt-24 text-center"
   }, "Create your first wallet!"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Array.isArray(walletsTableData) && walletsTableData.length > 0 ? walletsTableData : null)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-1/2 bg-white-500 h-auto p-4"

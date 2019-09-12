@@ -112,9 +112,10 @@ const Wallets = ({...props}) => {
     if(Array.isArray(wallets.wallets)) {
         walletsTableData = wallets.wallets.map((w, key) => {
             return <tr key={key} className="hover:bg-blue-lightest">
-                <td className="py-4 px-6 border-b border-grey-light hover:bg-gray-200"><a data-coin-id={w.wallet_id} onClick={handleDisplayAddresses} style={style}>{w.currency.currency}</a></td>
+                <td className="py-4 px-6 border-b border-grey-light"><a data-coin-id={w.wallet_id} onClick={handleDisplayAddresses} style={style}>{w.label}</a></td>
+                <td className="py-4 px-6 border-b border-grey-light hover:bg-gray-200">{w.currency.currency}</td>
                 <td className="py-4 px-6 border-b border-grey-light">{w.currency.identifier}</td>
-                <td className="py-4 px-6 border-b border-grey-light">
+                {/* <td className="py-4 px-6 border-b border-grey-light">
                     <button 
                         className="bg-gray-300 float-left w-1/2 hover:bg-white-700 text-black font-bold rounded" 
                         onClick={handleAddWalletAddress}
@@ -135,7 +136,7 @@ const Wallets = ({...props}) => {
                 <Link to={`/transactions?wid=${w.id}`} className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
                     <span className="font-semibold text-xl tracking-tight hover:text-red-900 cursor-pointer">history</span>
                 </Link>
-                </td>
+                </td> */}
                 {/* <td className="py-4 px-6 border-b border-grey-light text-center">
                     <a data-coin-id={w.wallet_id} data-coin={w.currency.identifier} onClick={handleDeleteWallet} style={style}>❌</a>
                 </td> */}
@@ -173,11 +174,12 @@ const Wallets = ({...props}) => {
                         
                             {Array.isArray(walletsTableData) && walletsTableData.length > 0 ?
                             <tr>
+                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Label</th>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Currency</th>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Identifier</th>
-                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Add Address</th>
+                                {/* <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Add Address</th>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Send Funds</th>
-                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Transactions</th>
+                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Transactions</th> */}
                                 {/* <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Remove</th> */}
                             </tr>
                             : 
