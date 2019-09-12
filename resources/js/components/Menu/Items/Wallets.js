@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import { toast } from 'react-toastify';
 import {getCurrencies} from '../../../actions/common';
 import {postCreateWallet, getWallets, postCreateWalletAddress, postSendWalletFunds} from '../../../actions/wallet';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 
 const Wallets = ({...props}) => { 
-    const {dispatch, currencies, notification, wallets} = props;
+    const {dispatch, currencies, wallets, history} = props;
     const [enableSendFunds, toggleSendFunds] = useState(false);
     const [addressesTableData, toggleWalletAddresses] = useState([]);
     const [selectedSendFundWalletId, toggleSelectedFundWallet] = useState('');
@@ -68,15 +68,6 @@ const Wallets = ({...props}) => {
         toggleWalletAddresses(tableData);
     }
 
-    // const handleSendFundSelect = (e) => {
-    //     const walletId = e.target.getAttribute('data-coin-id');
-    //     const currency = e.target.getAttribute('data-coin-currency');
-    //     const coin = e.target.getAttribute('data-coin');
-    //     toggleSelectedFundWallet(walletId);
-    //     toggleSelectedCurrency(currency);
-    //     toggleSelectedCoin(coin);
-    // }
-
     const handleSendFundSubmit = e => {
         if (e) e.preventDefault();
         const {target:{children:[recepientAddressInput, senderAddressInput,  amountInput]}} = e;
@@ -113,22 +104,13 @@ const Wallets = ({...props}) => {
                 toggleSelectedCoin(coinIdentifier);
                 toggleSendFunds(true);
                 break;
-            case 'value':
-                
-                    break;
+            case 'transactions':
+                history.push(`/transactions?wid=${walletId}`);
+                break;
             default:
                 break;
         }
     }
-
-    // const handleDeleteWallet = e => {
-    //     const confirmed = confirm(`Do you want to remove the selected wallet!`);
-    //     if (confirmed) {
-    //         const walletId = e.target.getAttribute('data-coin-id');
-    //         const coin = e.target.getAttribute('data-coin');
-    //         removeWallet(walletId, coin, dispatch);
-    //     }
-    // }
 
     if(Array.isArray(currencies.currencies)) {
         currencyOptions = currencies.currencies.map((c, key) => {
@@ -155,21 +137,6 @@ const Wallets = ({...props}) => {
                         <option value='transactions'>view transactions</option>
                     </select>
                 </td>
-                {/* 
-                <td className="py-4 px-6 border-b border-grey-light">
-                    <button 
-                        className="bg-gray-300 float-left w-1/2 hover:bg-white-700 text-black font-bold rounded"
-                        onClick={(e) => {toggleSendFunds(true);handleSendFundSelect(e)}}
-                        data-coin-currency={w.currency.currency} 
-                        data-coin-id={w.wallet_id} 
-                        data-coin={w.currency.identifier}>Send
-                    </button>
-                </td>
-                <td>
-                <Link to={`/transactions?wid=${w.id}`} className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
-                    <span className="font-semibold text-xl tracking-tight hover:text-red-900 cursor-pointer">history</span>
-                </Link>
-                </td> */}
                 {/* <td className="py-4 px-6 border-b border-grey-light text-center">
                     <a data-coin-id={w.wallet_id} data-coin={w.currency.identifier} onClick={handleDeleteWallet} style={style}>❌</a>
                 </td> */}
@@ -203,10 +170,6 @@ const Wallets = ({...props}) => {
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Label</th>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Currency</th>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Action</th>
-                                {/* <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Add Address</th>
-                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Send Funds</th>
-                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Transactions</th> */}
-                                {/* <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Remove</th> */}
                             </tr>
                             : 
                                 <tr>

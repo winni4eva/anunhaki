@@ -102140,8 +102140,8 @@ var Wallets = function Wallets(_ref) {
 
   var dispatch = props.dispatch,
       currencies = props.currencies,
-      notification = props.notification,
-      wallets = props.wallets;
+      wallets = props.wallets,
+      history = props.history;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
@@ -102237,15 +102237,7 @@ var Wallets = function Wallets(_ref) {
       }, "0.00"));
     });
     toggleWalletAddresses(tableData);
-  }; // const handleSendFundSelect = (e) => {
-  //     const walletId = e.target.getAttribute('data-coin-id');
-  //     const currency = e.target.getAttribute('data-coin-currency');
-  //     const coin = e.target.getAttribute('data-coin');
-  //     toggleSelectedFundWallet(walletId);
-  //     toggleSelectedCurrency(currency);
-  //     toggleSelectedCoin(coin);
-  // }
-
+  };
 
   var handleSendFundSubmit = function handleSendFundSubmit(e) {
     if (e) e.preventDefault();
@@ -102292,21 +102284,14 @@ var Wallets = function Wallets(_ref) {
         toggleSendFunds(true);
         break;
 
-      case 'value':
+      case 'transactions':
+        history.push("/transactions?wid=".concat(walletId));
         break;
 
       default:
         break;
     }
-  }; // const handleDeleteWallet = e => {
-  //     const confirmed = confirm(`Do you want to remove the selected wallet!`);
-  //     if (confirmed) {
-  //         const walletId = e.target.getAttribute('data-coin-id');
-  //         const coin = e.target.getAttribute('data-coin');
-  //         removeWallet(walletId, coin, dispatch);
-  //     }
-  // }
-
+  };
 
   if (Array.isArray(currencies.currencies)) {
     currencyOptions = currencies.currencies.map(function (c, key) {
