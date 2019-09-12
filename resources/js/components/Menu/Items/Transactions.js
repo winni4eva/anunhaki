@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import { connect } from "react-redux";
 import queryString from 'query-string';
+import {getWalletTransactions} from '../../../actions/wallet';
 
 const Transactions = (props) => { 
-  const {location} = props;
+  const {location, dispatch} = props;
 
   useEffect(() => {
-    const parsed = queryString.parse(location.search);
-    console.log(parsed)
+    const parsedQueryString = queryString.parse(location.search);
+    getWalletTransactions(parsedQueryString.wid, dispatch);
   }, []);
 
   return (

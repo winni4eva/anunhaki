@@ -44,6 +44,6 @@ Route::group(
         Route::get('currencies', 'CurrenciesController@index');
         Route::resource('wallets', 'WalletsController', ['only' => ['index', 'store', 'destroy']]);
         Route::resource('wallet.address', 'AddressController', ['only' => ['index','store']]);
-        Route::resource('wallet.fund', 'FundsController', ['only' => ['store']]);
+        Route::resource('wallet.fund', 'FundsController', ['only' => ['index', 'store']]);
     }
 );

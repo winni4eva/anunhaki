@@ -3,9 +3,6 @@
 namespace App\Services\Blockchain;
 
 use App\Services\Blockchain\Clients\ClientContract;
-use App\Wallet;
-use App\Currency;
-use App\Address;
 
 class BlockChainService
 {
@@ -24,18 +21,18 @@ class BlockChainService
             return $response;
         }
 
-        $currency = Currency::whereIdentifier($response['coin'])->first();
-        Wallet::create([
-            'wallet_id' => $response['id'],
-            'user_id' => auth()->user()->id,
-            'currency_id' => $currency->id,
-            'label' => $response['label'],
-            'keys' => $response['keys'],
-            'key_signatures' => $response['keySignatures'],
-            'dump' => $response
-        ]);
+        return $response;
+    }
 
-        return (bool)$response;
+    public function getWalletAddresses()
+    {
+        $response = $this->client->getWalletAddresses();
+
+        if(!$response) {
+            return $response;
+        }
+
+        return $response;
     }
 
     public function createWalletAddress() 
@@ -46,16 +43,7 @@ class BlockChainService
             return $response;
         }
 
-        $userId = auth()->user()->id;
-        $wallet = Wallet::whereUserId($userId)->where('wallet_id', $response['wallet'])->first();
-        Address::create([
-            'wallet_id' => $wallet->id,
-            'address_id' => $response['id'],
-            'addresss' => $response['address'],
-            'dump' => $response
-        ]);
-
-        return (bool)$response;
+        return $response;
     }
 
     public function sendTransaction(string $recepientAddress, integer $amount) 
@@ -69,6 +57,15 @@ class BlockChainService
         return (bool)$response;
     }
 
-    
+    public function getWalletTransactions()
+    {
+        $response = $this->client->getWalletTransactions();
+
+        if(!$response) {
+            return $response;
+        }
+        logger($response);
+        return (bool)$response;
+    }
 
 }

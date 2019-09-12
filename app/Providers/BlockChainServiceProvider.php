@@ -15,7 +15,10 @@ class BlockChainServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(ClientContract::class, function(){
+            $isProd = app()->env == 'production' ? false : true;
+            return new BitgoClient(config('crypto.token'), config('crypto.currency'), $isProd);
+        });
     }
 
     /**
@@ -25,9 +28,18 @@ class BlockChainServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind(ClientContract::class, function(){
-            $isProd = app()->env == 'production' ? false : true;
-            return new BitgoClient(config('crypto.token'), config('crypto.currency'), $isProd);
-        });
+        //
+    }
+
+    /**
+     * Resolve a new instance for the facade
+     *
+     * @return mixed
+     */
+    public static function refresh()
+    {
+        static::clearResolvedInstance(static::getFacadeAccessor());
+
+        return static::getFacadeRoot();
     }
 }

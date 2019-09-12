@@ -98187,7 +98187,7 @@ request.interceptors.response.use(function (config) {
 /*!****************************************!*\
   !*** ./resources/js/actions/wallet.js ***!
   \****************************************/
-/*! exports provided: getWallets, removeWallet, postCreateWallet, postCreateWalletAddress, postSendWalletFunds */
+/*! exports provided: getWallets, removeWallet, postCreateWallet, postCreateWalletAddress, postSendWalletFunds, getWalletTransactions */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -98197,6 +98197,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postCreateWallet", function() { return postCreateWallet; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postCreateWalletAddress", function() { return postCreateWalletAddress; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postSendWalletFunds", function() { return postSendWalletFunds; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWalletTransactions", function() { return getWalletTransactions; });
 /* harmony import */ var _request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./request */ "./resources/js/actions/request.js");
 /* harmony import */ var _endpoints__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./endpoints */ "./resources/js/actions/endpoints.js");
 /* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants/types */ "./resources/js/constants/types.js");
@@ -98316,6 +98317,27 @@ var postSendWalletFunds = function postSendWalletFunds(data, dispatch) {
     var _error$response10$dat = _error$response10.data;
     _error$response10$dat = _error$response10$dat === void 0 ? {} : _error$response10$dat;
     var errors = _error$response10$dat.errors;
+    dispatch(saveNotificationHelper({
+      message: message,
+      errors: errors
+    }));
+  });
+};
+var getWalletTransactions = function getWalletTransactions(walletId, dispatch) {
+  Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('GET', "".concat(_endpoints__WEBPACK_IMPORTED_MODULE_1__["walletAddressEndpoint"]).concat(walletId, "/fund?wid=").concat(walletId)).then(function (response) {
+    console.log(response); //const {data: {wallets} = {} } = response;
+    //dispatch(saveWalletsHelper(wallets));
+  })["catch"](function (error) {
+    var _error$response11 = error.response;
+    _error$response11 = _error$response11 === void 0 ? {} : _error$response11;
+    var _error$response11$dat = _error$response11.data;
+    _error$response11$dat = _error$response11$dat === void 0 ? {} : _error$response11$dat;
+    var message = _error$response11$dat.message;
+    var _error$response12 = error.response;
+    _error$response12 = _error$response12 === void 0 ? {} : _error$response12;
+    var _error$response12$dat = _error$response12.data;
+    _error$response12$dat = _error$response12$dat === void 0 ? {} : _error$response12$dat;
+    var errors = _error$response12$dat.errors;
     dispatch(saveNotificationHelper({
       message: message,
       errors: errors
@@ -98924,15 +98946,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var query_string__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
 /* harmony import */ var query_string__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(query_string__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _actions_wallet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../actions/wallet */ "./resources/js/actions/wallet.js");
+
 
 
 
 
 var Transactions = function Transactions(props) {
-  var location = props.location;
+  var location = props.location,
+      dispatch = props.dispatch;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    var parsed = query_string__WEBPACK_IMPORTED_MODULE_2___default.a.parse(location.search);
-    console.log(parsed);
+    var parsedQueryString = query_string__WEBPACK_IMPORTED_MODULE_2___default.a.parse(location.search);
+    Object(_actions_wallet__WEBPACK_IMPORTED_MODULE_3__["getWalletTransactions"])(parsedQueryString.wid, dispatch);
   }, []);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex mb-4"
@@ -99168,7 +99193,7 @@ var Wallets = function Wallets(_ref) {
         "data-coin-id": w.wallet_id,
         "data-coin": w.currency.identifier
       }, "Send")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
-        to: "/transactions?wid=".concat(w.wallet_id),
+        to: "/transactions?wid=".concat(w.id),
         className: "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "font-semibold text-xl tracking-tight hover:text-red-900 cursor-pointer"

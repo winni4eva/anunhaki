@@ -132,7 +132,7 @@ const Wallets = ({...props}) => {
                     </button>
                 </td>
                 <td>
-                <Link to={`/transactions?wid=${w.wallet_id}`} className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
+                <Link to={`/transactions?wid=${w.id}`} className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
                     <span className="font-semibold text-xl tracking-tight hover:text-red-900 cursor-pointer">history</span>
                 </Link>
                 </td>

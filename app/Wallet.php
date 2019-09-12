@@ -10,13 +10,15 @@ class Wallet extends Model
 {
     protected $fillable = ['wallet_id', 'user_id', 'currency_id', 'label', 'keys', 'key_signatures', 'dump'];
 
+    protected $hidden = ['keys','key_signatures','dump'];
+
     protected $casts = [
         'keys' => 'array', 
         'key_signatures' => 'array', 
         'dump' => 'array'
     ];
 
-    public function scopeAuthUserWallets($query)
+    public function scopeUserWallets($query)
     {
         $userId = auth()->user()->id;
 
