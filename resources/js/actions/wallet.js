@@ -81,11 +81,17 @@ export const getWalletTransactions = (walletId, dispatch) => {
 const handleErrorNotification = (error) => {
     const { response: { data: { message } = {} } = {} } = error;
     const { response: { data: { errors } = {} } = {} } = error;
-    const err = errors[Object.keys(errors)[0]];
     
-    if(err) {
-        toast.error(err[0]);
+    if(errors) {
+        const err = errors[Object.keys(errors)[0]];
+        if(err && Array.isArray(err)) {
+            toast.error(err[0]);
+            return;
+        }
+    }else if(message){
+        toast.error(message);
         return;
+    } else{
+        toast.error('Something unusual happened');
     }
-    toast.error(message);
 }

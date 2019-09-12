@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\Blockchain\Clients\ClientContract;
 use App\Http\Requests\Wallet as WalletRequest;
 use App\Services\Blockchain\BlockChainService;
 use App\Services\Wallet\WalletService;
@@ -50,11 +49,15 @@ class WalletsController extends Controller
         $this->walletService->saveWallet($wallet);
         config(['crypto.walletId' => $wallet['id']]);
         $addresses = resolve(BlockChainService::class)->getWalletAddresses();
-        $this->addressService->saveAddresses($addresses['addresses'], $wallet['id']);
 
         if(!$addresses) {
-            return response()->json(['message' => 'Error creating wallet'], 422);
+            return response()->json(['message' => 'Error fetching wallet address'], 422);
         }
+
+        $this->addressService->saveAddresses($addresses['addresses'], $wallet['id']);
+        
+        $addressId = collect($addresses['addresses'])->first()['id'];
+        resolve(BlockChainService::class)->updateWalletAddress($addressId);
 
         return response()->json(['success' => 'Wallet created successfully']);
     }

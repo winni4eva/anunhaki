@@ -28,11 +28,13 @@ class AddressController extends Controller
         
         $address = BlockChainService::createWalletAddress();
 
-        $this->addressService->saveAddress($address);
-
         if(!$address) {
             return response()->json(['message' => 'Error creating address'], 422);
         }
+
+        $this->addressService->saveAddress($address);
+
+        BlockChainService::updateWalletAddress($address['id']);
 
         return response()->json(['success' => 'Address created successfully']);
     }

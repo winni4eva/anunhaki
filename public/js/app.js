@@ -101449,14 +101449,20 @@ var handleErrorNotification = function handleErrorNotification(error) {
   var _error$response2$data = _error$response2.data;
   _error$response2$data = _error$response2$data === void 0 ? {} : _error$response2$data;
   var errors = _error$response2$data.errors;
-  var err = errors[Object.keys(errors)[0]];
 
-  if (err) {
-    react_toastify__WEBPACK_IMPORTED_MODULE_3__["toast"].error(err[0]);
+  if (errors) {
+    var err = errors[Object.keys(errors)[0]];
+
+    if (err && Array.isArray(err)) {
+      react_toastify__WEBPACK_IMPORTED_MODULE_3__["toast"].error(err[0]);
+      return;
+    }
+  } else if (message) {
+    react_toastify__WEBPACK_IMPORTED_MODULE_3__["toast"].error(message);
     return;
+  } else {
+    react_toastify__WEBPACK_IMPORTED_MODULE_3__["toast"].error('Something unusual happened');
   }
-
-  react_toastify__WEBPACK_IMPORTED_MODULE_3__["toast"].error(message);
 };
 
 /***/ }),

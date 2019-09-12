@@ -46,6 +46,17 @@ class BlockChainService
         return $response;
     }
 
+    public function updateWalletAddress(string $addressId)
+    {
+        $response = $this->client->updateWalletAddress($addressId);
+        
+        if(collect($response)->has('error')) {
+            return $this->handleErrorResponse($response);
+        }
+
+        return $response;
+    }
+
     public function sendTransaction(string $recepientAddress, $amount) 
     {
         $response = $this->client->sendTransaction($recepientAddress, $amount);
