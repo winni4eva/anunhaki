@@ -11,7 +11,7 @@ const login = ({...props}) => {
     const {authentication} = props;
 
     return (
-        <div className="flex justify-end w-full my-9 clearfix">
+        <div className="justify-end m-auto w-1/2 my-9 clearfix">
               <Formik
                 initialValues={{ email: '', password: '' }}
                 validationSchema={loginSchemaValidator}

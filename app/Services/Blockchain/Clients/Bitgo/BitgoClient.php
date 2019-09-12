@@ -65,7 +65,7 @@ class BitgoClient implements ClientContract
 
     public function updateWalletAddress(string $addressId)
     {
-        $response = $this->bitgo->updateWalletAddress($addressId, $this->generateLabel());
+        $response = $this->bitgo->updateWalletAddress($addressId, $this->generatePassPhrase());
         
         if(collect($response)->has('error')) {
             return $this->handleErrorResponse($response);

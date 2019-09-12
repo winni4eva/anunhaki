@@ -9,7 +9,7 @@ const register = ({...props}) => {
     const {countries} = props;
 
     return (
-        <div className="flex justify-end w-full my-9 clearfix">
+        <div className="justify-end m-auto w-1/2 my-9 clearfix">
         
               <Formik
                 initialValues={{ first_name: '', last_name: '', email: '', password: '' , phone_number: '', phone_country: ''}}
@@ -154,7 +154,6 @@ const register = ({...props}) => {
                   </Form>
                 )}
               </Formik>
-            }
         </div>
       );
 }

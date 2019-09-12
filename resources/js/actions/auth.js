@@ -1,6 +1,7 @@
 import makeRequest from './request';
 import {loginEndpoint, logoutEndpoint, registerEnpoint, twoFactorPostEndpoint, twoFactorGetEndpoint} from './endpoints';
 import {LOG_IN, ACCESS_TOKEN, JWT_TOKEN} from '../constants/types';
+import { toast } from 'react-toastify';
 
 const setJwtHelper = (token) => ({
     type: JWT_TOKEN,
@@ -18,6 +19,7 @@ export const getLogout = async () => {
         return data.message;
     } catch (error) {
         console.error(error.response);
+        //handleErrorNotification(error);
         return false;
     }
 };
@@ -37,7 +39,11 @@ export const postLogin = (postData, actions, props) => {
             setErrors({message: ''});
             history.push('/two-factor-auth');  
         })
-        .catch(error => console.error(error))
+        .catch(error => {
+            console.error(error)
+            setSubmitting(false);
+            handleErrorNotification(error);
+        })
 };
 
 export const postTwoFactor = (postData, actions, props) => {
@@ -52,6 +58,7 @@ export const postTwoFactor = (postData, actions, props) => {
         })
         .catch(error => {
             setSubmitting(false);
+            handleErrorNotification(error);
         })
 };
 
@@ -62,6 +69,7 @@ export const getTwoFactor = (option = 'email') => {
         })
         .catch(error => {
             console.error(error);
+            handleErrorNotification(error);
         })
 };
 
@@ -82,8 +90,27 @@ export const postRegister = (data, actions, props) => {
             dispatch(setAuthHelper(false));
             setSubmitting(false);
             setErrors({message});
+            handleErrorNotification(error);
         });
 };
+
+const handleErrorNotification = (error) => {
+    const { response: { data: { message } = {} } = {} } = error;
+    const { response: { data: { errors } = {} } = {} } = error;
+    
+    if(errors) {
+        const err = errors[Object.keys(errors)[0]];
+        if(err && Array.isArray(err)) {
+            toast.error(err[0]);
+            return;
+        }
+    }else if(message){
+        toast.error(message);
+        return;
+    } else{
+        toast.error('Something unusual happened');
+    }
+}
 
 // const execute = (promise) => {
 //     return promise.then(result => [null, result])

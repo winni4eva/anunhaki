@@ -101006,11 +101006,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _request__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./request */ "./resources/js/actions/request.js");
 /* harmony import */ var _endpoints__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./endpoints */ "./resources/js/actions/endpoints.js");
 /* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constants/types */ "./resources/js/constants/types.js");
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/esm/react-toastify.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 
 
@@ -101054,7 +101056,8 @@ function () {
           case 8:
             _context.prev = 8;
             _context.t0 = _context["catch"](0);
-            console.error(_context.t0.response);
+            console.error(_context.t0.response); //handleErrorNotification(error);
+
             return _context.abrupt("return", false);
 
           case 12:
@@ -101086,7 +101089,9 @@ var postLogin = function postLogin(postData, actions, props) {
     });
     history.push('/two-factor-auth');
   })["catch"](function (error) {
-    return console.error(error);
+    console.error(error);
+    setSubmitting(false);
+    handleErrorNotification(error);
   });
 };
 var postTwoFactor = function postTwoFactor(postData, actions, props) {
@@ -101102,6 +101107,7 @@ var postTwoFactor = function postTwoFactor(postData, actions, props) {
     history.push('/wallets');
   })["catch"](function (error) {
     setSubmitting(false);
+    handleErrorNotification(error);
   });
 };
 var getTwoFactor = function getTwoFactor() {
@@ -101110,6 +101116,7 @@ var getTwoFactor = function getTwoFactor() {
     console.log(response);
   })["catch"](function (error) {
     console.error(error);
+    handleErrorNotification(error);
   });
 };
 var postRegister = function postRegister(data, actions, props) {
@@ -101133,7 +101140,35 @@ var postRegister = function postRegister(data, actions, props) {
     setErrors({
       message: message
     });
+    handleErrorNotification(error);
   });
+};
+
+var handleErrorNotification = function handleErrorNotification(error) {
+  var _error$response = error.response;
+  _error$response = _error$response === void 0 ? {} : _error$response;
+  var _error$response$data = _error$response.data;
+  _error$response$data = _error$response$data === void 0 ? {} : _error$response$data;
+  var message = _error$response$data.message;
+  var _error$response2 = error.response;
+  _error$response2 = _error$response2 === void 0 ? {} : _error$response2;
+  var _error$response2$data = _error$response2.data;
+  _error$response2$data = _error$response2$data === void 0 ? {} : _error$response2$data;
+  var errors = _error$response2$data.errors;
+
+  if (errors) {
+    var err = errors[Object.keys(errors)[0]];
+
+    if (err && Array.isArray(err)) {
+      react_toastify__WEBPACK_IMPORTED_MODULE_4__["toast"].error(err[0]);
+      return;
+    }
+  } else if (message) {
+    react_toastify__WEBPACK_IMPORTED_MODULE_4__["toast"].error(message);
+    return;
+  } else {
+    react_toastify__WEBPACK_IMPORTED_MODULE_4__["toast"].error('Something unusual happened');
+  }
 }; // const execute = (promise) => {
 //     return promise.then(result => [null, result])
 //                   .catch(error => [error]);
@@ -101703,7 +101738,7 @@ var login = function login(_ref) {
 
   var authentication = props.authentication;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex justify-end w-full my-9 clearfix"
+    className: "justify-end m-auto w-1/2 my-9 clearfix"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_5__["Formik"], {
     initialValues: {
       email: '',
@@ -101801,7 +101836,7 @@ var register = function register(_ref) {
 
   var countries = props.countries;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "flex justify-end w-full my-9 clearfix"
+    className: "justify-end m-auto w-1/2 my-9 clearfix"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(formik__WEBPACK_IMPORTED_MODULE_4__["Formik"], {
     initialValues: {
       first_name: '',
@@ -101926,7 +101961,7 @@ var register = function register(_ref) {
       className: "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-black-700 rounded",
       disabled: isSubmitting
     }, isSubmitting ? "Please wait..." : "Register")));
-  }), "}");
+  }));
 };
 
 var mapStateToProps = function mapStateToProps(state) {
