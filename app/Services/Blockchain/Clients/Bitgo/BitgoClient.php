@@ -63,7 +63,7 @@ class BitgoClient implements ClientContract
         return $response;
     }
 
-    public function sendTransaction(string $recepientAddress, int $amount)
+    public function sendTransaction(string $recepientAddress, $amount)
     {
         $response = $this->bitGoExpress->verifyAddress($recepientAddress);
 
@@ -71,9 +71,8 @@ class BitgoClient implements ClientContract
             return $this->handleErrorResponse($response);
         }
 
-        $passphrase = auth()->user()->last_name;
-        $response = $this->bitGoExpress->sendTransaction($recepientAddress, $amount, $walletPassphrase);
-
+        $response = $this->bitGoExpress->sendTransaction($recepientAddress, $amount, $this->generatePassPhrase());
+        logger($response);
         if(collect($response)->has('error')) {
             return $this->handleErrorResponse($response);
         }

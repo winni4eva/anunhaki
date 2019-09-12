@@ -46,7 +46,7 @@ class BlockChainService
         return $response;
     }
 
-    public function sendTransaction(string $recepientAddress, integer $amount) 
+    public function sendTransaction(string $recepientAddress, $amount) 
     {
         $response = $this->client->sendTransaction($recepientAddress, $amount);
 

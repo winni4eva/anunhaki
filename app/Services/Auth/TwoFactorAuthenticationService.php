@@ -20,9 +20,8 @@ class TwoFactorAuthenticationService {
         if($user->token_2fa_expiry < now()->toDateTimeString()){
             $this->setTokenExpiry($user);
             $this->setUserToken($user);
-            $user->notify(new TwoFactorVerficationNotification($user));
         }
-
+        $user->notify(new TwoFactorVerficationNotification($user));
         return $this->getUserNotifiableChannel($user);
     }
 
