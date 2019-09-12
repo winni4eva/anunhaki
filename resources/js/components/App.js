@@ -4,6 +4,8 @@ import { Redirect } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import history from '../actions/history';
 import { Provider, connect } from 'react-redux';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Cockpit from './Cockpit/Cockpit';
 import Main from './Main/Main';
 import Routes from './Routes/Routes';
@@ -14,6 +16,7 @@ import {LOG_IN, ACCESS_TOKEN, SAVE_COUNTRIES} from '../constants/types';
 import {isValidString} from '../utils/validation';
 
 const store = configureStore();
+toast.configure();
 
 const setAuthHelper = (auth) => ({
     type: LOG_IN,

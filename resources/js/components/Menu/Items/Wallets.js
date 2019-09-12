@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { connect } from "react-redux";
+import { toast } from 'react-toastify';
 import {getCurrencies} from '../../../actions/common';
 import {postCreateWallet, getWallets, postCreateWalletAddress, postSendWalletFunds} from '../../../actions/wallet';
 import { Link, withRouter } from 'react-router-dom';
@@ -12,6 +13,7 @@ const Wallets = ({...props}) => {
     const [selectedSendFundWalletId, toggleSelectedFundWallet] = useState('');
     const [selectedSendFundCurrency, toggleSelectedCurrency] = useState('');
     const [selectedSendFundCoin, toggleSelectedCoin] = useState('');
+    const notify = () => toast("Wow so easy !");
 
     let currencyOptions, walletsTableData = [];
     let selectedCurrency;
@@ -51,6 +53,7 @@ const Wallets = ({...props}) => {
     }
 
     const handleDisplayAddresses = (e) => {
+        notify();
         const walletId = e.target.getAttribute('data-coin-id');
         const wallet = wallets.wallets.filter(wallet => {
             return wallet.wallet_id === walletId;

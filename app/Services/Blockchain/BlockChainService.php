@@ -54,7 +54,7 @@ class BlockChainService
             return $response;
         }
         logger($response);
-        return (bool)$response;
+        return $response;
     }
 
     public function getWalletTransactions()
@@ -65,7 +65,7 @@ class BlockChainService
             return $response;
         }
         logger($response);
-        return (bool)$response;
+        return $response;
     }
 
 }
