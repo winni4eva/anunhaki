@@ -101369,16 +101369,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./request */ "./resources/js/actions/request.js");
 /* harmony import */ var _endpoints__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./endpoints */ "./resources/js/actions/endpoints.js");
 /* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants/types */ "./resources/js/constants/types.js");
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/esm/react-toastify.js");
 
 
 
 
-var saveNotificationHelper = function saveNotificationHelper(notice) {
-  return {
-    type: _constants_types__WEBPACK_IMPORTED_MODULE_2__["SAVE_NOTIFICATION"],
-    payload: notice
-  };
-};
 
 var saveWalletsHelper = function saveWalletsHelper(wallets) {
   return {
@@ -101393,124 +101388,76 @@ var getWallets = function getWallets(dispatch) {
     _response$data = _response$data === void 0 ? {} : _response$data;
     var wallets = _response$data.wallets;
     dispatch(saveWalletsHelper(wallets));
+    react_toastify__WEBPACK_IMPORTED_MODULE_3__["toast"].success('Wallets fetched successfully');
   })["catch"](function (error) {
-    var _error$response = error.response;
-    _error$response = _error$response === void 0 ? {} : _error$response;
-    var _error$response$data = _error$response.data;
-    _error$response$data = _error$response$data === void 0 ? {} : _error$response$data;
-    var message = _error$response$data.message;
-    var _error$response2 = error.response;
-    _error$response2 = _error$response2 === void 0 ? {} : _error$response2;
-    var _error$response2$data = _error$response2.data;
-    _error$response2$data = _error$response2$data === void 0 ? {} : _error$response2$data;
-    var errors = _error$response2$data.errors;
-    dispatch(saveNotificationHelper({
-      message: message,
-      errors: errors
-    }));
+    handleErrorNotification(error);
   });
 };
 var removeWallet = function removeWallet(walletId, coin, dispatch) {
   Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('DELETE', "".concat(_endpoints__WEBPACK_IMPORTED_MODULE_1__["walletsEndpoint"], "/").concat(walletId, "?coin=").concat(coin)).then(function (response) {
-    console.log(response);
+    react_toastify__WEBPACK_IMPORTED_MODULE_3__["toast"].success('Wallet removed successfully');
   })["catch"](function (error) {
-    var _error$response3 = error.response;
-    _error$response3 = _error$response3 === void 0 ? {} : _error$response3;
-    var _error$response3$data = _error$response3.data;
-    _error$response3$data = _error$response3$data === void 0 ? {} : _error$response3$data;
-    var message = _error$response3$data.message;
-    var _error$response4 = error.response;
-    _error$response4 = _error$response4 === void 0 ? {} : _error$response4;
-    var _error$response4$data = _error$response4.data;
-    _error$response4$data = _error$response4$data === void 0 ? {} : _error$response4$data;
-    var errors = _error$response4$data.errors;
-    dispatch(saveNotificationHelper({
-      message: message,
-      errors: errors
-    }));
+    handleErrorNotification(error);
   });
 };
 var postCreateWallet = function postCreateWallet(data, dispatch) {
   Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('POST', _endpoints__WEBPACK_IMPORTED_MODULE_1__["walletsEndpoint"], data).then(function (response) {
     getWallets(dispatch);
-    dispatch(saveNotificationHelper(''));
+    react_toastify__WEBPACK_IMPORTED_MODULE_3__["toast"].success('Wallet created successfully');
   })["catch"](function (error) {
-    var _error$response5 = error.response;
-    _error$response5 = _error$response5 === void 0 ? {} : _error$response5;
-    var _error$response5$data = _error$response5.data;
-    _error$response5$data = _error$response5$data === void 0 ? {} : _error$response5$data;
-    var message = _error$response5$data.message;
-    var _error$response6 = error.response;
-    _error$response6 = _error$response6 === void 0 ? {} : _error$response6;
-    var _error$response6$data = _error$response6.data;
-    _error$response6$data = _error$response6$data === void 0 ? {} : _error$response6$data;
-    var errors = _error$response6$data.errors;
-    dispatch(saveNotificationHelper({
-      message: message,
-      errors: errors
-    }));
+    handleErrorNotification(error);
   });
 };
 var postCreateWalletAddress = function postCreateWalletAddress(data, dispatch) {
-  Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('POST', "".concat(_endpoints__WEBPACK_IMPORTED_MODULE_1__["walletAddressEndpoint"]).concat(data.walletId, "/address?coin=").concat(data.coin), data).then(function (response) {
+  var postData = {
+    walletId: data.coinId,
+    coin: data.coinIdentifier
+  };
+  Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('POST', "".concat(_endpoints__WEBPACK_IMPORTED_MODULE_1__["walletAddressEndpoint"]).concat(data.coinId, "/address?coin=").concat(data.coinIdentifier), postData).then(function (response) {
     getWallets(dispatch);
+    react_toastify__WEBPACK_IMPORTED_MODULE_3__["toast"].success('Wallet address added successfully');
   })["catch"](function (error) {
-    var _error$response7 = error.response;
-    _error$response7 = _error$response7 === void 0 ? {} : _error$response7;
-    var _error$response7$data = _error$response7.data;
-    _error$response7$data = _error$response7$data === void 0 ? {} : _error$response7$data;
-    var message = _error$response7$data.message;
-    var _error$response8 = error.response;
-    _error$response8 = _error$response8 === void 0 ? {} : _error$response8;
-    var _error$response8$data = _error$response8.data;
-    _error$response8$data = _error$response8$data === void 0 ? {} : _error$response8$data;
-    var errors = _error$response8$data.errors;
-    dispatch(saveNotificationHelper({
-      message: message,
-      errors: errors
-    }));
+    handleErrorNotification(error);
   });
 };
 var postSendWalletFunds = function postSendWalletFunds(data, dispatch) {
   Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('POST', "".concat(_endpoints__WEBPACK_IMPORTED_MODULE_1__["walletAddressEndpoint"]).concat(data.walletId, "/fund"), data).then(function (response) {
     console.log(response); //getWallets(dispatch);
+
+    react_toastify__WEBPACK_IMPORTED_MODULE_3__["toast"].success('Coins sent successfully');
   })["catch"](function (error) {
-    var _error$response9 = error.response;
-    _error$response9 = _error$response9 === void 0 ? {} : _error$response9;
-    var _error$response9$data = _error$response9.data;
-    _error$response9$data = _error$response9$data === void 0 ? {} : _error$response9$data;
-    var message = _error$response9$data.message;
-    var _error$response10 = error.response;
-    _error$response10 = _error$response10 === void 0 ? {} : _error$response10;
-    var _error$response10$dat = _error$response10.data;
-    _error$response10$dat = _error$response10$dat === void 0 ? {} : _error$response10$dat;
-    var errors = _error$response10$dat.errors;
-    dispatch(saveNotificationHelper({
-      message: message,
-      errors: errors
-    }));
+    handleErrorNotification(error);
   });
 };
 var getWalletTransactions = function getWalletTransactions(walletId, dispatch) {
   Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('GET', "".concat(_endpoints__WEBPACK_IMPORTED_MODULE_1__["walletAddressEndpoint"]).concat(walletId, "/fund?wid=").concat(walletId)).then(function (response) {
-    console.log(response); //const {data: {wallets} = {} } = response;
+    console.log(response);
+    react_toastify__WEBPACK_IMPORTED_MODULE_3__["toast"].success('Wallet transactions fetched successfully'); //const {data: {wallets} = {} } = response;
     //dispatch(saveWalletsHelper(wallets));
   })["catch"](function (error) {
-    var _error$response11 = error.response;
-    _error$response11 = _error$response11 === void 0 ? {} : _error$response11;
-    var _error$response11$dat = _error$response11.data;
-    _error$response11$dat = _error$response11$dat === void 0 ? {} : _error$response11$dat;
-    var message = _error$response11$dat.message;
-    var _error$response12 = error.response;
-    _error$response12 = _error$response12 === void 0 ? {} : _error$response12;
-    var _error$response12$dat = _error$response12.data;
-    _error$response12$dat = _error$response12$dat === void 0 ? {} : _error$response12$dat;
-    var errors = _error$response12$dat.errors;
-    dispatch(saveNotificationHelper({
-      message: message,
-      errors: errors
-    }));
+    handleErrorNotification(error);
   });
+};
+
+var handleErrorNotification = function handleErrorNotification(error) {
+  var _error$response = error.response;
+  _error$response = _error$response === void 0 ? {} : _error$response;
+  var _error$response$data = _error$response.data;
+  _error$response$data = _error$response$data === void 0 ? {} : _error$response$data;
+  var message = _error$response$data.message;
+  var _error$response2 = error.response;
+  _error$response2 = _error$response2 === void 0 ? {} : _error$response2;
+  var _error$response2$data = _error$response2.data;
+  _error$response2$data = _error$response2$data === void 0 ? {} : _error$response2$data;
+  var errors = _error$response2$data.errors;
+  var err = errors[Object.keys(errors)[0]];
+
+  if (err) {
+    react_toastify__WEBPACK_IMPORTED_MODULE_3__["toast"].error(err[0]);
+    return;
+  }
+
+  react_toastify__WEBPACK_IMPORTED_MODULE_3__["toast"].error(message);
 };
 
 /***/ }),
@@ -102221,8 +102168,8 @@ var Wallets = function Wallets(_ref) {
       selectedSendFundCoin = _useState10[0],
       toggleSelectedCoin = _useState10[1];
 
-  var notify = function notify() {
-    return Object(react_toastify__WEBPACK_IMPORTED_MODULE_2__["toast"])("Wow so easy !");
+  var notify = function notify(msg) {
+    return react_toastify__WEBPACK_IMPORTED_MODULE_2__["toast"].info(msg);
   };
 
   var currencyOptions,
@@ -102257,21 +102204,21 @@ var Wallets = function Wallets(_ref) {
     }
   };
 
-  var handleAddWalletAddress = function handleAddWalletAddress(e) {
-    var confirmed = confirm("Do you want to continue to add address!");
+  var handleAddWalletAddress = function handleAddWalletAddress(coinId, coinIdentifier, coinCurrency) {
+    var confirmed = confirm("Do you want to add an address to the ".concat(coinCurrency, " wallet!"));
 
     if (confirmed) {
-      var walletId = e.target.getAttribute('data-coin-id');
-      var coin = e.target.getAttribute('data-coin');
       Object(_actions_wallet__WEBPACK_IMPORTED_MODULE_4__["postCreateWalletAddress"])({
-        walletId: walletId,
-        coin: coin
+        coinId: coinId,
+        coinIdentifier: coinIdentifier
       }, dispatch);
+      return;
     }
+
+    notify('Wallet action cancelled successfully');
   };
 
   var handleDisplayAddresses = function handleDisplayAddresses(e) {
-    notify();
     var walletId = e.target.getAttribute('data-coin-id');
     var wallet = wallets.wallets.filter(function (wallet) {
       return wallet.wallet_id === walletId;
@@ -102323,6 +102270,31 @@ var Wallets = function Wallets(_ref) {
       coin: coin
     };
     Object(_actions_wallet__WEBPACK_IMPORTED_MODULE_4__["postSendWalletFunds"])(formData, dispatch);
+  };
+
+  var handleWalletAction = function handleWalletAction(e) {
+    console.log('AM here'); //const {target: {value}} = e;
+
+    var coinId = e.target.getAttribute('data-coin-id');
+    var coinIdentifier = e.target.getAttribute('data-coin');
+    var walletId = e.target.getAttribute('data-wallet-id');
+    var coinCurrency = e.target.getAttribute('data-coin-currency');
+    var selectedAction = e.target.value;
+
+    switch (selectedAction) {
+      case 'add_address':
+        handleAddWalletAddress(coinId, coinIdentifier, coinCurrency);
+        break;
+
+      case 'value':
+        break;
+
+      case 'value':
+        break;
+
+      default:
+        break;
+    }
   }; // const handleDeleteWallet = e => {
   //     const confirmed = confirm(`Do you want to remove the selected wallet!`);
   //     if (confirmed) {
@@ -102348,30 +102320,33 @@ var Wallets = function Wallets(_ref) {
         key: key,
         className: "hover:bg-blue-lightest"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "py-4 px-6 border-b border-grey-light"
+        className: "py-4 px-6 border-b border-grey-light hover:bg-gray-200"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         "data-coin-id": w.wallet_id,
         onClick: handleDisplayAddresses,
         style: style
       }, w.label)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-        className: "py-4 px-6 border-b border-grey-light hover:bg-gray-200"
-      }, w.currency.currency), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-6 border-b border-grey-light"
-      }, w.currency.identifier));
+      }, "".concat(w.currency.currency, " - [").concat(w.currency.identifier, "]")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "py-4 px-9 border-b border-grey-light"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        "data-coin-id": w.wallet_id,
+        "data-coin": w.currency.identifier,
+        "data-coin-currency": w.currency.currency,
+        "data-wallet-id": w.id,
+        className: "block appearance-none w-full float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline",
+        onChange: handleWalletAction
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }, "- pick -"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "add_address"
+      }, "add address"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "send_funds"
+      }, "send funds"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }, "view transactions"))));
     });
   }
-
-  var getErrors = function getErrors() {
-    var _notification$notific = notification.notification;
-    _notification$notific = _notification$notific === void 0 ? {} : _notification$notific;
-    var _notification$notific2 = _notification$notific.errors;
-    _notification$notific2 = _notification$notific2 === void 0 ? {} : _notification$notific2;
-    var coin = _notification$notific2.coin;
-    var _notification$notific3 = notification.notification;
-    _notification$notific3 = _notification$notific3 === void 0 ? '' : _notification$notific3;
-    var message = _notification$notific3.message;
-    return [message, coin];
-  };
 
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex mb-4"
@@ -102379,9 +102354,7 @@ var Wallets = function Wallets(_ref) {
     className: "w-1/2 bg-white-400 h-auto p-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "inline-block relative w-full"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
-    className: "text-red-500 text-xs italic"
-  }, getErrors()[1] || getErrors()[0]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2",
     onChange: handleCurrencyChange
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -102397,7 +102370,7 @@ var Wallets = function Wallets(_ref) {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
   }, "Currency"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
-  }, "Identifier")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+  }, "Action")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-blue-500 text-xs italic mt-24 text-center"
   }, "Create your first wallet!"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Array.isArray(walletsTableData) && walletsTableData.length > 0 ? walletsTableData : null)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-1/2 bg-white-500 h-auto p-4"

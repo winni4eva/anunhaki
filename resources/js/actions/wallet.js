@@ -1,11 +1,8 @@
 import makeRequest from './request';
 import {walletsEndpoint, walletAddressEndpoint} from './endpoints';
-import {SAVE_NOTIFICATION, REMOVE_NOTIFICATION, SAVE_WALLETS} from '../constants/types';
+import {SAVE_WALLETS} from '../constants/types';
+import { toast } from 'react-toastify';
 
-const saveNotificationHelper = (notice) => ({
-    type: SAVE_NOTIFICATION,
-    payload: notice
-});
 
 const saveWalletsHelper = (wallets) => ({
     type: SAVE_WALLETS,
@@ -17,23 +14,20 @@ export const getWallets = (dispatch) => {
         .then(response => {
             const {data: {wallets} = {} } = response;
             dispatch(saveWalletsHelper(wallets));
+            toast.success('Wallets fetched successfully');
         })
         .catch(error => {
-            const { response: { data: { message } = {} } = {} } = error;
-            const { response: { data: { errors } = {} } = {} } = error;
-            dispatch(saveNotificationHelper({message,errors}));
+            handleErrorNotification(error);
         })
 };
 
 export const removeWallet = (walletId, coin, dispatch) => {
     makeRequest('DELETE', `${walletsEndpoint}/${walletId}?coin=${coin}`)
         .then(response => {
-            console.log(response);
+            toast.success('Wallet removed successfully');
         })
         .catch(error => {
-            const { response: { data: { message } = {} } = {} } = error;
-            const { response: { data: { errors } = {} } = {} } = error;
-            dispatch(saveNotificationHelper({message,errors}));
+            handleErrorNotification(error);
         })
 };
 
@@ -41,24 +35,22 @@ export const postCreateWallet = (data, dispatch) => {
     makeRequest('POST', walletsEndpoint, data)
         .then(response => {
             getWallets(dispatch);
-            dispatch(saveNotificationHelper(''));
+            toast.success('Wallet created successfully');
         })
         .catch(error => {
-            const { response: { data: { message } = {} } = {} } = error;
-            const { response: { data: { errors } = {} } = {} } = error;
-            dispatch(saveNotificationHelper({message,errors}));
+            handleErrorNotification(error);
         })
 };
 
 export const postCreateWalletAddress = (data, dispatch) => {
-    makeRequest('POST', `${walletAddressEndpoint}${data.walletId}/address?coin=${data.coin}`, data)
+    const postData = {walletId: data.coinId, coin: data.coinIdentifier};
+    makeRequest('POST', `${walletAddressEndpoint}${data.coinId}/address?coin=${data.coinIdentifier}`, postData)
         .then(response => {
             getWallets(dispatch);
+            toast.success('Wallet address added successfully');
         })
         .catch(error => {
-            const { response: { data: { message } = {} } = {} } = error;
-            const { response: { data: { errors } = {} } = {} } = error;
-            dispatch(saveNotificationHelper({message,errors}));
+            handleErrorNotification(error);
         })
 };
 
@@ -67,11 +59,10 @@ export const postSendWalletFunds = (data, dispatch) => {
         .then(response => {
             console.log(response)
             //getWallets(dispatch);
+            toast.success('Coins sent successfully');
         })
         .catch(error => {
-            const { response: { data: { message } = {} } = {} } = error;
-            const { response: { data: { errors } = {} } = {} } = error;
-            dispatch(saveNotificationHelper({message,errors}));
+            handleErrorNotification(error);
         })
 };
 
@@ -79,12 +70,23 @@ export const getWalletTransactions = (walletId, dispatch) => {
     makeRequest('GET', `${walletAddressEndpoint}${walletId}/fund?wid=${walletId}`)
         .then(response => {
             console.log(response)
+            toast.success('Wallet transactions fetched successfully');
             //const {data: {wallets} = {} } = response;
             //dispatch(saveWalletsHelper(wallets));
         })
         .catch(error => {
-            const { response: { data: { message } = {} } = {} } = error;
-            const { response: { data: { errors } = {} } = {} } = error;
-            dispatch(saveNotificationHelper({message,errors}));
+            handleErrorNotification(error);
         })
 };
+
+const handleErrorNotification = (error) => {
+    const { response: { data: { message } = {} } = {} } = error;
+    const { response: { data: { errors } = {} } = {} } = error;
+    const err = errors[Object.keys(errors)[0]];
+    
+    if(err) {
+        toast.error(err[0]);
+        return;
+    }
+    toast.error(message);
+}

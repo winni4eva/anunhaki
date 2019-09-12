@@ -13,7 +13,7 @@ const Wallets = ({...props}) => {
     const [selectedSendFundWalletId, toggleSelectedFundWallet] = useState('');
     const [selectedSendFundCurrency, toggleSelectedCurrency] = useState('');
     const [selectedSendFundCoin, toggleSelectedCoin] = useState('');
-    const notify = () => toast("Wow so easy !");
+    const notify = (msg) => toast.info(msg);
 
     let currencyOptions, walletsTableData = [];
     let selectedCurrency;
@@ -43,17 +43,16 @@ const Wallets = ({...props}) => {
         }
     }
 
-    const handleAddWalletAddress = e => {
-        const confirmed = confirm(`Do you want to continue to add address!`);
+    const handleAddWalletAddress = (coinId, coinIdentifier, coinCurrency) => {
+        const confirmed = confirm(`Do you want to add an address to the ${coinCurrency} wallet!`);
         if (confirmed) {
-            const walletId = e.target.getAttribute('data-coin-id');
-            const coin = e.target.getAttribute('data-coin');
-            postCreateWalletAddress({walletId, coin}, dispatch);
+            postCreateWalletAddress({coinId, coinIdentifier}, dispatch);
+            return;
         }
+        notify('Wallet action cancelled successfully');
     }
 
     const handleDisplayAddresses = (e) => {
-        notify();
         const walletId = e.target.getAttribute('data-coin-id');
         const wallet = wallets.wallets.filter(wallet => {
             return wallet.wallet_id === walletId;
@@ -97,6 +96,30 @@ const Wallets = ({...props}) => {
         postSendWalletFunds(formData, dispatch);
     }
 
+    const handleWalletAction = e => {
+        console.log('AM here')
+        //const {target: {value}} = e;
+        const coinId = e.target.getAttribute('data-coin-id');
+        const coinIdentifier = e.target.getAttribute('data-coin');
+        const walletId = e.target.getAttribute('data-wallet-id');
+        const coinCurrency = e.target.getAttribute('data-coin-currency');
+
+        const selectedAction = e.target.value;
+        switch (selectedAction) {
+            case 'add_address':
+                handleAddWalletAddress(coinId, coinIdentifier, coinCurrency);
+                break;
+            case 'value':
+            
+                break;
+            case 'value':
+                
+                    break;
+            default:
+                break;
+        }
+    }
+
     // const handleDeleteWallet = e => {
     //     const confirmed = confirm(`Do you want to remove the selected wallet!`);
     //     if (confirmed) {
@@ -115,9 +138,22 @@ const Wallets = ({...props}) => {
     if(Array.isArray(wallets.wallets)) {
         walletsTableData = wallets.wallets.map((w, key) => {
             return <tr key={key} className="hover:bg-blue-lightest">
-                <td className="py-4 px-6 border-b border-grey-light"><a data-coin-id={w.wallet_id} onClick={handleDisplayAddresses} style={style}>{w.label}</a></td>
-                <td className="py-4 px-6 border-b border-grey-light hover:bg-gray-200">{w.currency.currency}</td>
-                <td className="py-4 px-6 border-b border-grey-light">{w.currency.identifier}</td>
+                <td className="py-4 px-6 border-b border-grey-light hover:bg-gray-200"><a data-coin-id={w.wallet_id} onClick={handleDisplayAddresses} style={style}>{w.label}</a></td>
+                <td className="py-4 px-6 border-b border-grey-light">{`${w.currency.currency} - [${w.currency.identifier}]`}</td>
+                <td className="py-4 px-9 border-b border-grey-light">
+                    <select
+                        data-coin-id={w.wallet_id} 
+                        data-coin={w.currency.identifier}
+                        data-coin-currency={w.currency.currency}
+                        data-wallet-id={w.id}
+                        className="block appearance-none w-full float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                        onChange={handleWalletAction}>
+                        <option value=''>- pick -</option>
+                        <option value='add_address'>add address</option>
+                        <option value='send_funds'>send funds</option>
+                        <option value=''>view transactions</option>
+                    </select>
+                </td>
                 {/* <td className="py-4 px-6 border-b border-grey-light">
                     <button 
                         className="bg-gray-300 float-left w-1/2 hover:bg-white-700 text-black font-bold rounded" 
@@ -147,18 +183,11 @@ const Wallets = ({...props}) => {
         });
     }
 
-    const getErrors = () => {
-        const { notification: { errors: { coin } = {} } = {} } = notification;
-        const { notification: { message } = '' } = notification;
-        return [message, coin];
-    }
-
     return (
     <div className="flex mb-4">
         <div className="w-1/2 bg-white-400 h-auto p-4">
             <div className="inline-block relative w-full">
                 <div>
-                    <h4 className="text-red-500 text-xs italic">{getErrors()[1] || getErrors()[0]}</h4>
                     <select className="block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
                         onChange={handleCurrencyChange}>
                         <option value=''>-- All coins/tokens --</option>
@@ -179,7 +208,7 @@ const Wallets = ({...props}) => {
                             <tr>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Label</th>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Currency</th>
-                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Identifier</th>
+                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Action</th>
                                 {/* <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Add Address</th>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Send Funds</th>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Transactions</th> */}

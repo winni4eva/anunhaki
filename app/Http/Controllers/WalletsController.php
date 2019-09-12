@@ -42,11 +42,14 @@ class WalletsController extends Controller
     {
         config(['crypto.currency' => $request->get('coin')]);
         $wallet = resolve(BlockChainService::class)->createWallet();
-        $this->walletService->saveWallet($wallet);
 
+        if(!$wallet) {
+            return response()->json(['message' => 'Error creating wallet'], 422);
+        }
+
+        $this->walletService->saveWallet($wallet);
         config(['crypto.walletId' => $wallet['id']]);
         $addresses = resolve(BlockChainService::class)->getWalletAddresses();
-
         $this->addressService->saveAddresses($addresses['addresses'], $wallet['id']);
 
         if(!$addresses) {
