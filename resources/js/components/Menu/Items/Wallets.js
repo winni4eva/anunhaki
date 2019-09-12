@@ -62,43 +62,41 @@ const Wallets = ({...props}) => {
         const tableData = walletAddresses.map((a, k) => {
             return <tr key={k} className="hover:bg-blue-lightest">
                 <td className="py-4 px-6 border-b border-grey-light hover:bg-gray-200"><a style={style}>{a.addresss}</a></td>
-                <td className="py-4 px-6 border-b border-grey-light">
-                    <button 
-                        className="bg-gray-300 float-left w-1/2 hover:bg-white-700 text-black font-bold rounded" 
-                        data-address-id={a.id} 
-                        data-wallet-id={a.wallet_id}>Receive
-                    </button>
-                </td>
+                <td className="py-4 px-6 border-b border-grey-light">0.00</td>
             </tr>;
         });
         toggleWalletAddresses(tableData);
     }
 
-    const handleSendFundSelect = (e) => {
-        const walletId = e.target.getAttribute('data-coin-id');
-        const currency = e.target.getAttribute('data-coin-currency');
-        const coin = e.target.getAttribute('data-coin');
-        toggleSelectedFundWallet(walletId);
-        toggleSelectedCurrency(currency);
-        toggleSelectedCoin(coin);
-    }
+    // const handleSendFundSelect = (e) => {
+    //     const walletId = e.target.getAttribute('data-coin-id');
+    //     const currency = e.target.getAttribute('data-coin-currency');
+    //     const coin = e.target.getAttribute('data-coin');
+    //     toggleSelectedFundWallet(walletId);
+    //     toggleSelectedCurrency(currency);
+    //     toggleSelectedCoin(coin);
+    // }
 
     const handleSendFundSubmit = e => {
         if (e) e.preventDefault();
-
-        const {target:{children:[addressInput, amountInput]}} = e;
-
-        const {value: address} = addressInput;
+        const {target:{children:[recepientAddressInput, senderAddressInput,  amountInput]}} = e;
+        const {value: recAddress} = recepientAddressInput;
+        const {value: sendAddress} = senderAddressInput
         const {value: amount} = amountInput
         const walletId = selectedSendFundWalletId; 
         const coin = selectedSendFundCoin;
-        const formData = {address, amount, walletId, coin};
+        if(!recAddress)
+            return toast.error('Recepient address is required');
+        if(!sendAddress)
+            return toast.error('Senders address is required');
+        if(!amount)
+            return toast.error('Amount is required');
+        
+        const formData = {recAddress, sendAddress, amount, walletId, coin};
         postSendWalletFunds(formData, dispatch);
     }
 
     const handleWalletAction = e => {
-        console.log('AM here')
-        //const {target: {value}} = e;
         const coinId = e.target.getAttribute('data-coin-id');
         const coinIdentifier = e.target.getAttribute('data-coin');
         const walletId = e.target.getAttribute('data-wallet-id');
@@ -109,8 +107,11 @@ const Wallets = ({...props}) => {
             case 'add_address':
                 handleAddWalletAddress(coinId, coinIdentifier, coinCurrency);
                 break;
-            case 'value':
-            
+            case 'send_funds':
+                toggleSelectedFundWallet(coinId);
+                toggleSelectedCurrency(coinCurrency);
+                toggleSelectedCoin(coinIdentifier);
+                toggleSendFunds(true);
                 break;
             case 'value':
                 
@@ -151,17 +152,10 @@ const Wallets = ({...props}) => {
                         <option value=''>- pick -</option>
                         <option value='add_address'>add address</option>
                         <option value='send_funds'>send funds</option>
-                        <option value=''>view transactions</option>
+                        <option value='transactions'>view transactions</option>
                     </select>
                 </td>
-                {/* <td className="py-4 px-6 border-b border-grey-light">
-                    <button 
-                        className="bg-gray-300 float-left w-1/2 hover:bg-white-700 text-black font-bold rounded" 
-                        onClick={handleAddWalletAddress}
-                        data-coin-id={w.wallet_id} 
-                        data-coin={w.currency.identifier}>Add
-                    </button>
-                </td>
+                {/* 
                 <td className="py-4 px-6 border-b border-grey-light">
                     <button 
                         className="bg-gray-300 float-left w-1/2 hover:bg-white-700 text-black font-bold rounded"
@@ -238,7 +232,11 @@ const Wallets = ({...props}) => {
                         <input
                             type="text"
                             placeholder="Enter Recepient's Address" 
-                            className="block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"/>
+                            className="block appearance-none w-full float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"/>
+                        <input
+                            type="text"
+                            placeholder={`Enter ${selectedSendFundCurrency} Address`} 
+                            className="block appearance-none w-full float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"/>
 
                         <input
                             type="text"
@@ -256,6 +254,7 @@ const Wallets = ({...props}) => {
                     <thead>
                         <tr>
                             <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Addresses</th>
+                            <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Balance</th>
                         </tr>
                         
                     </thead>

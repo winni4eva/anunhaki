@@ -102234,37 +102234,38 @@ var Wallets = function Wallets(_ref) {
         style: style
       }, a.addresss)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-6 border-b border-grey-light"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "bg-gray-300 float-left w-1/2 hover:bg-white-700 text-black font-bold rounded",
-        "data-address-id": a.id,
-        "data-wallet-id": a.wallet_id
-      }, "Receive")));
+      }, "0.00"));
     });
     toggleWalletAddresses(tableData);
-  };
+  }; // const handleSendFundSelect = (e) => {
+  //     const walletId = e.target.getAttribute('data-coin-id');
+  //     const currency = e.target.getAttribute('data-coin-currency');
+  //     const coin = e.target.getAttribute('data-coin');
+  //     toggleSelectedFundWallet(walletId);
+  //     toggleSelectedCurrency(currency);
+  //     toggleSelectedCoin(coin);
+  // }
 
-  var handleSendFundSelect = function handleSendFundSelect(e) {
-    var walletId = e.target.getAttribute('data-coin-id');
-    var currency = e.target.getAttribute('data-coin-currency');
-    var coin = e.target.getAttribute('data-coin');
-    toggleSelectedFundWallet(walletId);
-    toggleSelectedCurrency(currency);
-    toggleSelectedCoin(coin);
-  };
 
   var handleSendFundSubmit = function handleSendFundSubmit(e) {
     if (e) e.preventDefault();
 
-    var _e$target$children = _slicedToArray(e.target.children, 2),
-        addressInput = _e$target$children[0],
-        amountInput = _e$target$children[1];
+    var _e$target$children = _slicedToArray(e.target.children, 3),
+        recepientAddressInput = _e$target$children[0],
+        senderAddressInput = _e$target$children[1],
+        amountInput = _e$target$children[2];
 
-    var address = addressInput.value;
+    var recAddress = recepientAddressInput.value;
+    var sendAddress = senderAddressInput.value;
     var amount = amountInput.value;
     var walletId = selectedSendFundWalletId;
     var coin = selectedSendFundCoin;
+    if (!recAddress) return react_toastify__WEBPACK_IMPORTED_MODULE_2__["toast"].error('Recepient address is required');
+    if (!sendAddress) return react_toastify__WEBPACK_IMPORTED_MODULE_2__["toast"].error('Senders address is required');
+    if (!amount) return react_toastify__WEBPACK_IMPORTED_MODULE_2__["toast"].error('Amount is required');
     var formData = {
-      address: address,
+      recAddress: recAddress,
+      sendAddress: sendAddress,
       amount: amount,
       walletId: walletId,
       coin: coin
@@ -102273,8 +102274,6 @@ var Wallets = function Wallets(_ref) {
   };
 
   var handleWalletAction = function handleWalletAction(e) {
-    console.log('AM here'); //const {target: {value}} = e;
-
     var coinId = e.target.getAttribute('data-coin-id');
     var coinIdentifier = e.target.getAttribute('data-coin');
     var walletId = e.target.getAttribute('data-wallet-id');
@@ -102286,7 +102285,11 @@ var Wallets = function Wallets(_ref) {
         handleAddWalletAddress(coinId, coinIdentifier, coinCurrency);
         break;
 
-      case 'value':
+      case 'send_funds':
+        toggleSelectedFundWallet(coinId);
+        toggleSelectedCurrency(coinCurrency);
+        toggleSelectedCoin(coinIdentifier);
+        toggleSendFunds(true);
         break;
 
       case 'value':
@@ -102343,7 +102346,7 @@ var Wallets = function Wallets(_ref) {
       }, "add address"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "send_funds"
       }, "send funds"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: ""
+        value: "transactions"
       }, "view transactions"))));
     });
   }
@@ -102381,7 +102384,11 @@ var Wallets = function Wallets(_ref) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
     placeholder: "Enter Recepient's Address",
-    className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
+    className: "block appearance-none w-full float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    placeholder: "Enter ".concat(selectedSendFundCurrency, " Address"),
+    className: "block appearance-none w-full float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
     placeholder: "Enter Amount",
@@ -102392,7 +102399,9 @@ var Wallets = function Wallets(_ref) {
     className: "text-left m-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
-  }, "Addresses"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Array.isArray(addressesTableData) && addressesTableData.length > 0 ? addressesTableData : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+  }, "Addresses"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
+  }, "Balance"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Array.isArray(addressesTableData) && addressesTableData.length > 0 ? addressesTableData : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
     className: "text-blue-500 text-xs italic text-center ml-12"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "No addresses found for selected wallet!"))))))));
 };
