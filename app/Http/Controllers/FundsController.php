@@ -35,10 +35,11 @@ class FundsController extends Controller
         config(['crypto.currency' => $request->get('coin')]);
         config(['crypto.walletId' => $request->get('walletId')]);
         
-        $response = BlockChainService::sendTransaction($request->get('address'), $request->get('amount'));
+        $response = BlockChainService::sendTransaction($request->get('address'), $request->get('amount'), $request->get('passphrase'));
         
-        if(collect($response)->has('error')) {
-            return response()->json(['message' => $response['error']], 422);
+        if(collect($response)->has('error') || !$response) {
+            $message = $response['error'] ?? 'Failed sending coins';
+            return response()->json(['message' => $message], 422);
         }
 
         return response()->json(['success' => 'Funds sent successfully']);

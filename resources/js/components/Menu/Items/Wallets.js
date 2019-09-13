@@ -70,9 +70,10 @@ const Wallets = ({...props}) => {
 
     const handleSendFundSubmit = e => {
         if (e) e.preventDefault();
-        const {target:{children:[addressInput,  amountInput]}} = e;
+        const {target:{children:[addressInput,  amountInput, passphraseInput]}} = e;
         const {value: address} = addressInput;
-        const {value: amount} = amountInput
+        const {value: amount} = amountInput;
+        const {value: passphrase} = passphraseInput;
         const walletId = selectedSendFundWalletId; 
         const coin = selectedSendFundCoin;
         if(!address)
@@ -80,7 +81,7 @@ const Wallets = ({...props}) => {
         if(!amount)
             return toast.error('Amount is required');
         
-        const formData = {address, amount, walletId, coin};
+        const formData = {address, amount, walletId, coin, passphrase};
         postSendWalletFunds(formData, dispatch);
     }
 
@@ -199,6 +200,11 @@ const Wallets = ({...props}) => {
                         <input
                             type="text"
                             placeholder="Enter Amount (USD)" 
+                            className="block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"/>
+                        
+                        <input
+                            type="text"
+                            placeholder="Passphrase (optional)" 
                             className="block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"/>
 
                         <button className="bg-green-500 w-1/4 float-left hover:bg-green-300 text-white font-bold py-2 px-4 pull-right mt-4 rounded"

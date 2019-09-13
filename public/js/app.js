@@ -102283,12 +102283,14 @@ var Wallets = function Wallets(_ref) {
   var handleSendFundSubmit = function handleSendFundSubmit(e) {
     if (e) e.preventDefault();
 
-    var _e$target$children = _slicedToArray(e.target.children, 2),
+    var _e$target$children = _slicedToArray(e.target.children, 3),
         addressInput = _e$target$children[0],
-        amountInput = _e$target$children[1];
+        amountInput = _e$target$children[1],
+        passphraseInput = _e$target$children[2];
 
     var address = addressInput.value;
     var amount = amountInput.value;
+    var passphrase = passphraseInput.value;
     var walletId = selectedSendFundWalletId;
     var coin = selectedSendFundCoin;
     if (!address) return react_toastify__WEBPACK_IMPORTED_MODULE_2__["toast"].error('Recepient address is required');
@@ -102297,7 +102299,8 @@ var Wallets = function Wallets(_ref) {
       address: address,
       amount: amount,
       walletId: walletId,
-      coin: coin
+      coin: coin,
+      passphrase: passphrase
     };
     Object(_actions_wallet__WEBPACK_IMPORTED_MODULE_4__["postSendWalletFunds"])(formData, dispatch);
   };
@@ -102414,6 +102417,10 @@ var Wallets = function Wallets(_ref) {
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
     placeholder: "Enter Amount (USD)",
+    className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    placeholder: "Passphrase (optional)",
     className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "bg-green-500 w-1/4 float-left hover:bg-green-300 text-white font-bold py-2 px-4 pull-right mt-4 rounded"
@@ -102562,7 +102569,7 @@ var routes = function routes(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_hoc_Aux__WEBPACK_IMPORTED_MODULE_3__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
     exact: true,
     from: "/",
-    to: "/login"
+    to: "/wallets"
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     name: "login",
     path: "/login",

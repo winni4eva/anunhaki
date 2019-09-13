@@ -10,7 +10,7 @@ const routes = (props) => {
     const {authentication} = props; 
     return (
         <Aux>
-            <Redirect exact={true} from="/" to="/login" />
+            <Redirect exact={true} from="/" to="/wallets" />
             <Route name="login" path="/login" component={Login}/>
             <Route name="register" path="/register" component={Register}/>
             {authentication.isAuthenticated

@@ -68,15 +68,15 @@ class BlockChainService
         return $response;
     }
 
-    public function sendTransaction(string $recepientAddress, $amount) 
+    public function sendTransaction(string $recepientAddress, $amount, $passphrase = '') 
     {
-        //To DO convert usd amount to satoshi
-        $response = $this->client->sendTransaction($recepientAddress, $amount);
 
-        if(!$response) {
+        $response = $this->client->sendTransaction($recepientAddress, $amount, $passphrase);
+
+        if(collect($response)->has('error')) {
             return $response;
         }
-        logger($response);
+        
         return $response;
     }
 
