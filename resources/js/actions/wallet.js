@@ -57,7 +57,7 @@ export const postCreateWalletAddress = (data, dispatch) => {
 export const postSendWalletFunds = (data, dispatch) => {
     makeRequest('POST', `${walletAddressEndpoint}${data.walletId}/fund`, data)
         .then(response => {
-            //getWallets(dispatch);
+            getWallets(dispatch);
             toast.success('Coins sent successfully');
         })
         .catch(error => {

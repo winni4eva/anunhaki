@@ -101457,7 +101457,7 @@ var postCreateWalletAddress = function postCreateWalletAddress(data, dispatch) {
 };
 var postSendWalletFunds = function postSendWalletFunds(data, dispatch) {
   Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('POST', "".concat(_endpoints__WEBPACK_IMPORTED_MODULE_1__["walletAddressEndpoint"]).concat(data.walletId, "/fund"), data).then(function (response) {
-    //getWallets(dispatch);
+    getWallets(dispatch);
     react_toastify__WEBPACK_IMPORTED_MODULE_3__["toast"].success('Coins sent successfully');
   })["catch"](function (error) {
     handleErrorNotification(error);
