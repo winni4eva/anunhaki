@@ -32,14 +32,13 @@ class FundsController extends Controller
      */
     public function store(FundsRequest $request)
     {
-        logger((int)$request->get('amount'));
         config(['crypto.currency' => $request->get('coin')]);
         config(['crypto.walletId' => $request->get('walletId')]);
         
         $response = BlockChainService::sendTransaction($request->get('address'), $request->get('amount'));
-
-        if(!$response) {
-            return response()->json(['message' => 'Error sending funds'], 422);
+        
+        if(collect($response)->has('error')) {
+            return response()->json(['message' => $response['error']], 422);
         }
 
         return response()->json(['success' => 'Funds sent successfully']);

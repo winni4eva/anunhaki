@@ -57,8 +57,20 @@ class BlockChainService
         return $response;
     }
 
+    public function getTotalBalances()
+    {
+        $response = $this->client->getTotalBalances();
+        
+        if(collect($response)->has('error')) {
+            return $this->handleErrorResponse($response);
+        }
+        
+        return $response;
+    }
+
     public function sendTransaction(string $recepientAddress, $amount) 
     {
+        //To DO convert usd amount to satoshi
         $response = $this->client->sendTransaction($recepientAddress, $amount);
 
         if(!$response) {

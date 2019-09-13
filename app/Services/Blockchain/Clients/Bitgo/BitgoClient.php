@@ -12,6 +12,14 @@ class BitgoClient implements ClientContract
 
     protected $bitGoExpress;
 
+    protected $accessToken;
+
+    protected $host;
+
+    protected $port;
+
+    protected $currency;
+
      /**
      * BitgoClient Initialization
      * 
@@ -21,9 +29,14 @@ class BitgoClient implements ClientContract
      */
     public function __construct(string $accessToken, string $currency = 'tbtc', bool $appEnvironment = false)
     {
+        $this->accessToken = $accessToken;
+        $this->host = config('crypto.host');
+        $this->port = config('crypto.port');
+        $this->currency = $currency;
         $this->bitgo = new BitGoSDK($accessToken, $currency, $appEnvironment);
         $this->bitgo->walletId = config('crypto.walletId');
         $this->bitGoExpress = new BitGoExpress(config('crypto.host'), config('crypto.port'), $currency);
+        $this->bitGoExpress->walletId = config('crypto.walletId');
         $this->bitGoExpress->accessToken = $accessToken;
     }
 
@@ -77,15 +90,18 @@ class BitgoClient implements ClientContract
     public function sendTransaction(string $recepientAddress, $amount)
     {
         $response = $this->bitGoExpress->verifyAddress($recepientAddress);
-
-        if(collect($response)->has('error')) {
+        
+        if(!$response['isValid']) {
             return $this->handleErrorResponse($response);
         }
 
-        $response = $this->bitGoExpress->sendTransaction($recepientAddress, $amount, $this->generatePassPhrase());
-        logger($response);
+        $amountInSatoshi = BitGoSDK::toSatoshi($amount);
+
+        $response = $this->__execute();
+        //$this->bitGoExpress->sendTransaction($recepientAddress, $amountInSatoshi, $this->generatePassPhrase());
+        
         if(collect($response)->has('error')) {
-            return $this->handleErrorResponse($response);
+            return $response;
         }
 
         return $response;
@@ -94,6 +110,17 @@ class BitgoClient implements ClientContract
     public function getWalletTransactions() 
     {
         $response = $this->bitgo->getWalletTransactions();
+        
+        if(collect($response)->has('error')) {
+            return $this->handleErrorResponse($response);
+        }
+        
+        return $response;
+    }
+
+    public function getTotalBalances()
+    {
+        $response = $this->bitgo->getTotalBalances();
         
         if(collect($response)->has('error')) {
             return $this->handleErrorResponse($response);
@@ -118,5 +145,32 @@ class BitgoClient implements ClientContract
     protected function generatePassPhrase()
     {
         return auth()->user()->last_name;
+    }
+
+    private function __execute(string $requestType = 'POST', bool $array = true) {
+        $endpoint = 'http://'.$this->host.':'.$this->port.'/api/v2/'.$this->currency.'/wallet/'.config('crypto.walletId').'/sendcoins';
+        $ch = curl_init($endpoint);
+        $params = [
+            'address' => 'winni',
+            'amount' => 1000000,
+            'walletPassphrase' => '2334',
+        ];
+        if ($requestType === 'POST') {
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array_filter($params)));
+        }
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        if (isset($this->accessToken)) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json',
+                'Authorization: Bearer ' . $this->accessToken
+            ]);
+        }
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        return json_decode($response, $array);
     }
 }

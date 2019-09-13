@@ -20,7 +20,7 @@ class WalletService
     public function getWallets(): array
     {
         return $this->wallet->userWallets()
-                    ->with(['currency', 'addresses'])
+                    ->with(['currency', 'addresses','user'])
                     ->get()
                     ->toArray();
     }

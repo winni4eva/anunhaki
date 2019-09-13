@@ -102263,6 +102263,7 @@ var Wallets = function Wallets(_ref) {
     var wallet = wallets.wallets.filter(function (wallet) {
       return wallet.wallet_id === walletId;
     });
+    var label = wallet["0"].user.last_name;
     var walletAddresses = wallet[0]['addresses'];
     var tableData = walletAddresses.map(function (a, k) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
@@ -102274,7 +102275,7 @@ var Wallets = function Wallets(_ref) {
         style: style
       }, a.addresss)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-6 border-b border-grey-light"
-      }, "0.00"));
+      }, label));
     });
     toggleWalletAddresses(tableData);
   };
@@ -102352,6 +102353,8 @@ var Wallets = function Wallets(_ref) {
       }, w.label)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-6 border-b border-grey-light"
       }, "".concat(w.currency.currency, " - [").concat(w.currency.identifier, "]")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "py-4 px-6 border-b border-grey-light"
+      }, w.balance.balance), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-9 border-b border-grey-light"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         "data-coin-id": w.wallet_id,
@@ -102394,6 +102397,8 @@ var Wallets = function Wallets(_ref) {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
   }, "Currency"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
+  }, "Balance"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
   }, "Action")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-blue-500 text-xs italic mt-24 text-center"
   }, "Create your first wallet!"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Array.isArray(walletsTableData) && walletsTableData.length > 0 ? walletsTableData : null)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -102408,7 +102413,7 @@ var Wallets = function Wallets(_ref) {
     className: "block appearance-none w-full float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
-    placeholder: "Enter Amount",
+    placeholder: "Enter Amount (USD)",
     className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "bg-green-500 w-1/4 float-left hover:bg-green-300 text-white font-bold py-2 px-4 pull-right mt-4 rounded"
@@ -102418,7 +102423,7 @@ var Wallets = function Wallets(_ref) {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
   }, "Addresses"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
-  }, "Balance"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Array.isArray(addressesTableData) && addressesTableData.length > 0 ? addressesTableData : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+  }, "Label"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Array.isArray(addressesTableData) && addressesTableData.length > 0 ? addressesTableData : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
     className: "text-blue-500 text-xs italic text-center ml-12"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "No addresses found for selected wallet!"))))))));
 };

@@ -29,6 +29,13 @@ class WalletsController extends Controller
     {
         $wallets = $this->walletService->getWallets();
 
+        $wallets = collect($wallets)->map(function($wallet){
+            $coin = $wallet['currency']['identifier'];
+            config(['crypto.currency' => $coin]);
+            $balance = resolve(BlockChainService::class)->getTotalBalances();
+            return collect($wallet)->prepend($balance, 'balance')->all();
+        });
+
         return response()->json(compact('wallets'));
     }
 

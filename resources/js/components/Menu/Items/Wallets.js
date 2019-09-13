@@ -56,13 +56,13 @@ const Wallets = ({...props}) => {
         const walletId = e.target.getAttribute('data-coin-id');
         const wallet = wallets.wallets.filter(wallet => {
             return wallet.wallet_id === walletId;
-        })
-        
+        });
+        const label = wallet["0"].user.last_name;
         const walletAddresses = wallet[0]['addresses'];
         const tableData = walletAddresses.map((a, k) => {
             return <tr key={k} className="hover:bg-blue-lightest">
                 <td className="py-4 px-6 border-b border-grey-light hover:bg-gray-200"><a style={style}>{a.addresss}</a></td>
-                <td className="py-4 px-6 border-b border-grey-light">0.00</td>
+                <td className="py-4 px-6 border-b border-grey-light">{label}</td>
             </tr>;
         });
         toggleWalletAddresses(tableData);
@@ -120,6 +120,7 @@ const Wallets = ({...props}) => {
             return <tr key={key} className="hover:bg-blue-lightest">
                 <td className="py-4 px-6 border-b border-grey-light hover:bg-gray-200"><a data-coin-id={w.wallet_id} onClick={handleDisplayAddresses} style={style}>{w.label}</a></td>
                 <td className="py-4 px-6 border-b border-grey-light">{`${w.currency.currency} - [${w.currency.identifier}]`}</td>
+                <td className="py-4 px-6 border-b border-grey-light">{w.balance.balance}</td>
                 <td className="py-4 px-9 border-b border-grey-light">
                     <select
                         data-coin-id={w.wallet_id} 
@@ -166,6 +167,7 @@ const Wallets = ({...props}) => {
                             <tr>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Label</th>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Currency</th>
+                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Balance</th>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Action</th>
                             </tr>
                             : 
@@ -196,7 +198,7 @@ const Wallets = ({...props}) => {
 
                         <input
                             type="text"
-                            placeholder="Enter Amount" 
+                            placeholder="Enter Amount (USD)" 
                             className="block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"/>
 
                         <button className="bg-green-500 w-1/4 float-left hover:bg-green-300 text-white font-bold py-2 px-4 pull-right mt-4 rounded"
@@ -210,7 +212,7 @@ const Wallets = ({...props}) => {
                     <thead>
                         <tr>
                             <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Addresses</th>
-                            <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Balance</th>
+                            <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Label</th>
                         </tr>
                         
                     </thead>
