@@ -49,7 +49,7 @@ class WalletsController extends Controller
     public function store(WalletRequest $request)
     {
         config(['crypto.currency' => $request->get('coin')]);
-        $wallet = resolve(BlockChainService::class)->createWallet();
+        $wallet = $this->walletService->createWallet();
 
         if(!$wallet) {
             return response()->json(['message' => 'Error creating wallet'], 422);
@@ -57,7 +57,7 @@ class WalletsController extends Controller
 
         $this->walletService->saveWallet($wallet);
         config(['crypto.walletId' => $wallet['id']]);
-        $addresses = resolve(BlockChainService::class)->getWalletAddresses();
+        $addresses = $this->walletService->getWalletAddresses();
 
         if(!$addresses) {
             return response()->json(['message' => 'Error fetching wallet address'], 422);
@@ -66,7 +66,7 @@ class WalletsController extends Controller
         $this->addressService->saveAddresses($addresses['addresses'], $wallet['id']);
         
         $addressId = collect($addresses['addresses'])->first()['id'];
-        resolve(BlockChainService::class)->updateWalletAddress($addressId);
+        $this->walletService->updateWalletAddress($addressId);
 
         return response()->json(['success' => 'Wallet created successfully']);
     }
@@ -79,7 +79,7 @@ class WalletsController extends Controller
      */
     public function destroy($id)
     {
-        // $currency = request('coin'); 
+        $currency = request('coin'); 
 
         return response()->json(['message' => 'Wallet deleted successfully']);
     }

@@ -41,6 +41,21 @@ class WalletService
         ]);
     }
 
+    public function createWallet()
+    {
+        return resolve(BlockChainService::class)->createWallet();
+    }
+
+    public function getWalletAddresses()
+    {
+        return resolve(BlockChainService::class)->getWalletAddresses();
+    }
+
+    public function updateWalletAddress(string $addressId)
+    {
+        resolve(BlockChainService::class)->updateWalletAddress($addressId);
+    }
+
     public function getWalletBalances(array $wallets)
     {
         $walletBalances = collect($wallets)->map(function($wallet){
@@ -50,8 +65,8 @@ class WalletService
             ];
         })->groupBy('currency')
         ->map(function($data, $currency){
-                config(['crypto.currency' => $currency]);
-                return resolve(BlockChainService::class)->listWallets();
+            config(['crypto.currency' => $currency]);
+            return resolve(BlockChainService::class)->listWallets();
         })->map(function($fetchedWallet){
             return $fetchedWallet['wallets'];
         })->map(function($filteredWallet) use (&$wallets) {
