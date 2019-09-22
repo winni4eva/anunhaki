@@ -28,12 +28,14 @@ class WalletsController extends Controller
     public function index()
     {
         $wallets = $this->walletService->getWallets();
+        
+        $walletBalances = $this->walletService->getWalletBalances($wallets);
 
-        $wallets = collect($wallets)->map(function($wallet){
-            $coin = $wallet['currency']['identifier'];
-            config(['crypto.currency' => $coin]);
-            $balance = resolve(BlockChainService::class)->getTotalBalances();
-            return collect($wallet)->prepend($balance, 'balance')->all();
+        $wallets = collect($wallets)->map(function($wallet) use ($walletBalances) {
+            $walletBalance = collect($walletBalances)->where('wallet_id', $wallet['wallet_id'])->first();
+            if($walletBalance) {
+                return collect($wallet)->prepend($walletBalance['balance'], 'balance')->all();
+            }
         });
 
         return response()->json(compact('wallets'));

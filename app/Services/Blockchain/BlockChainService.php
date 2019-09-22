@@ -57,6 +57,17 @@ class BlockChainService
         return $response;
     }
 
+    public function listWallets()
+    {
+        $response = $this->client->listWallets();
+        
+        if(collect($response)->has('error')) {
+            return $this->handleErrorResponse($response);
+        }
+
+        return $response;
+    }
+
     public function getTotalBalances()
     {
         $response = $this->client->getTotalBalances();

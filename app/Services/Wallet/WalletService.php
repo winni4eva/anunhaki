@@ -4,6 +4,7 @@ namespace App\Services\Wallet;
 
 use App\Wallet;
 use App\Currency;
+use App\Services\Blockchain\BlockChainService;
 
 class WalletService
 {
@@ -38,6 +39,35 @@ class WalletService
             'key_signatures' => $wallet['keySignatures'],
             'dump' => $wallet
         ]);
+    }
+
+    public function getWalletBalances(array $wallets)
+    {
+        $walletBalances = collect($wallets)->map(function($wallet){
+            return [
+                'wallet_id' => $wallet['wallet_id'],
+                'currency' => $wallet['currency']['identifier']
+            ];
+        })->groupBy('currency')
+        ->map(function($data, $currency){
+                config(['crypto.currency' => $currency]);
+                return resolve(BlockChainService::class)->listWallets();
+        })->map(function($fetchedWallet){
+            return $fetchedWallet['wallets'];
+        })->map(function($filteredWallet) use (&$wallets) {
+            return collect($filteredWallet)->map(function($fWallet) use (&$wallets){
+                return [
+                    'wallet_id' => $fWallet['id'],
+                    'balance' => [
+                        'balance' => $fWallet['balance'],
+                        'confirmedBalance' => $fWallet['confirmedBalance'],
+                        'spendableBalance' => $fWallet['spendableBalance'],
+                    ]
+                ];
+            })->all();
+        })->flatten(1);
+
+        return $walletBalances;
     }
 
 }
