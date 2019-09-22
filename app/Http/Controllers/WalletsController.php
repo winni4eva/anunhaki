@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\Wallet as WalletRequest;
-use App\Services\Blockchain\BlockChainService;
 use App\Services\Wallet\WalletService;
 use App\Services\Address\AddressService;
 

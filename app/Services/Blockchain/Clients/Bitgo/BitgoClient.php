@@ -163,6 +163,16 @@ class BitgoClient implements ClientContract
         return auth()->user()->last_name;
     }
 
+    public function convertToBtc(int $amount)
+    {
+        return BitGoSDK::toBTC($amount);
+    }
+
+    public function convertToSatoshi(int $amount)
+    {
+        return BitGoSDK::toSatoshi($amount);
+    }
+
     private function __execute(string $requestType = 'POST', array $params = [],bool $array = true) {
         $endpoint = 'http://'.$this->host.':'.$this->port.'/api/v2/'.$this->currency.'/wallet/'.config('crypto.walletId').'/sendcoins';
         $ch = curl_init($endpoint);

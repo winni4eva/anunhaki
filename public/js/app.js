@@ -102357,7 +102357,7 @@ var Wallets = function Wallets(_ref) {
         className: "py-4 px-6 border-b border-grey-light"
       }, "".concat(w.currency.currency, " - [").concat(w.currency.identifier, "]")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-6 border-b border-grey-light"
-      }, w.balance.balance), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      }, w.balance.balance, " / ", w.balance.confirmedBalance, " / ", w.balance.spendableBalance), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-9 border-b border-grey-light"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         "data-coin-id": w.wallet_id,
@@ -102400,7 +102400,7 @@ var Wallets = function Wallets(_ref) {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
   }, "Currency"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
-  }, "Balance"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+  }, "Bal/CBal/SBal"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
   }, "Action")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "text-blue-500 text-xs italic mt-24 text-center"

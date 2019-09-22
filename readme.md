@@ -50,7 +50,7 @@ A simple application that helps you manage your crypto currency wallets using Bi
 2. Add wallet transactions
 3. Accept passphrase at wallet create
 4. Balance should be on USDand corresponding crypto currency
-5. Add transaction block charges
+5. Add transaction block charges when sending funds
 6. Accept passphrase when sending funds 
 FIX---
 Create Wallet something unusual happened error response

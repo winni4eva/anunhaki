@@ -121,7 +121,7 @@ const Wallets = ({...props}) => {
             return <tr key={key} className="hover:bg-blue-lightest">
                 <td className="py-4 px-6 border-b border-grey-light hover:bg-gray-200"><a data-coin-id={w.wallet_id} onClick={handleDisplayAddresses} style={style}>{w.label}</a></td>
                 <td className="py-4 px-6 border-b border-grey-light">{`${w.currency.currency} - [${w.currency.identifier}]`}</td>
-                <td className="py-4 px-6 border-b border-grey-light">{w.balance.balance}</td>
+                <td className="py-4 px-6 border-b border-grey-light">{w.balance.balance} / {w.balance.confirmedBalance} / {w.balance.spendableBalance}</td>
                 <td className="py-4 px-9 border-b border-grey-light">
                     <select
                         data-coin-id={w.wallet_id} 
@@ -168,7 +168,7 @@ const Wallets = ({...props}) => {
                             <tr>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Label</th>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Currency</th>
-                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Balance</th>
+                                <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Bal/CBal/SBal</th>
                                 <th className="py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light">Action</th>
                             </tr>
                             : 

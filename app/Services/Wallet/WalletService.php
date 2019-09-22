@@ -69,14 +69,15 @@ class WalletService
             return resolve(BlockChainService::class)->listWallets();
         })->map(function($fetchedWallet){
             return $fetchedWallet['wallets'];
-        })->map(function($filteredWallet) use (&$wallets) {
-            return collect($filteredWallet)->map(function($fWallet) use (&$wallets){
+        })->map(function($filteredWallet) {
+            return collect($filteredWallet)->map(function($wallet){
                 return [
-                    'wallet_id' => $fWallet['id'],
+                    'wallet_id' => $wallet['id'],
                     'balance' => [
-                        'balance' => $fWallet['balance'],
-                        'confirmedBalance' => $fWallet['confirmedBalance'],
-                        'spendableBalance' => $fWallet['spendableBalance'],
+                        'balance' => $wallet['balance'],
+                        'confirmedBalance' => $wallet['confirmedBalance'],
+                        'spendableBalance' => $wallet['spendableBalance'],
+                        'balanceUSD' => 0
                     ]
                 ];
             })->all();
