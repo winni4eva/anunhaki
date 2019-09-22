@@ -9,7 +9,7 @@ use App\User;
 
 class Wallet extends Model
 {
-    protected $fillable = ['wallet_id', 'user_id', 'currency_id', 'label', 'keys', 'key_signatures', 'dump'];
+    protected $fillable = ['wallet_id', 'user_id', 'currency_id', 'label', 'keys', 'key_signatures', 'dump', 'passphrase'];
 
     protected $hidden = ['keys','key_signatures','dump'];
 

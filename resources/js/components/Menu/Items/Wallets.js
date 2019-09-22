@@ -9,14 +9,16 @@ import { withRouter } from 'react-router-dom';
 const Wallets = ({...props}) => { 
     const {dispatch, currencies, wallets, history} = props;
     const [enableSendFunds, toggleSendFunds] = useState(false);
+    const [enableWalletPassphrase, toggleWalletPassphrase] = useState(false);
     const [addressesTableData, toggleWalletAddresses] = useState([]);
     const [selectedSendFundWalletId, toggleSelectedFundWallet] = useState('');
     const [selectedSendFundCurrency, toggleSelectedCurrency] = useState('');
     const [selectedSendFundCoin, toggleSelectedCoin] = useState('');
+    const [selectedWalletPassphrase, toggleselectedWalletPassphrase] = useState('');
+    const [selectedWalletCurrency, toggleSelectedWalletCurrency] = useState('');
     const notify = (msg) => toast.info(msg);
 
     let currencyOptions, walletsTableData = [];
-    let selectedCurrency;
     const style = {cursor: "pointer"};
 
     useEffect(() => {
@@ -27,19 +29,36 @@ const Wallets = ({...props}) => {
 
 
     const handleCurrencyChange = e => {
-        selectedCurrency = e.target.value;
+        const selectedCurrency = e.target.value;
+        toggleSelectedWalletCurrency(selectedCurrency);
+        if(selectedCurrency){
+            toggleWalletPassphrase(true);
+        } else {
+            toggleWalletPassphrase(false);
+        }
+    }
+
+    const handlePassphraseChange = e => {
+        const selectedPassphrase = e.target.value;
+        toggleselectedWalletPassphrase(selectedPassphrase);
     }
 
     const handleCreateWallet = () => {
-        if (!selectedCurrency) {
+        if (!selectedWalletCurrency) {
             alert('Select a coin to create a wallet');
+            return;
+        }
+        
+        if (!selectedWalletPassphrase) {
+            alert('Enter a passphrase to create a wallet');
             return;
         }
         const confirmed = confirm(`Do you want to proceed!`);
         if (confirmed) {
-            const data = {coin: selectedCurrency};
+            const data = {coin: selectedWalletCurrency, passphrase: selectedWalletPassphrase};
             postCreateWallet(data, dispatch);
-            selectedCurrency='';
+            toggleSelectedWalletCurrency('');
+            toggleselectedWalletPassphrase('');
         }
     }
 
@@ -158,6 +177,14 @@ const Wallets = ({...props}) => {
                         onClick={handleCreateWallet}>
                         Create Wallet
                     </button>
+
+                    {enableWalletPassphrase ?
+                        <input
+                            type="text"
+                            placeholder="Passphrase" 
+                            onChange={handlePassphraseChange}
+                            className="block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"/>
+                            : null}
                 </div>
                 
                 <table className="text-left m-4">

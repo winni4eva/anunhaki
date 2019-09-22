@@ -46,9 +46,9 @@ class BlockChainService
         return $response;
     }
 
-    public function updateWalletAddress(string $addressId)
+    public function updateWalletAddress(string $addressId, string $passphrase)
     {
-        $response = $this->client->updateWalletAddress($addressId);
+        $response = $this->client->updateWalletAddress($addressId, $passphrase);
         
         if(collect($response)->has('error')) {
             return $this->handleErrorResponse($response);
@@ -98,7 +98,7 @@ class BlockChainService
         if(!$response) {
             return $response;
         }
-        logger($response);
+
         return $response;
     }
 

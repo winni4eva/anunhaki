@@ -43,7 +43,7 @@ class BitgoClient implements ClientContract
     public function createWallet() 
     {   
         $label = $this->generateLabel();
-        $passphrase = $this->generatePassPhrase();
+        $passphrase = request('passphrase');
 
         $response = $this->bitGoExpress->generateWallet($label, $passphrase);
 
@@ -76,9 +76,9 @@ class BitgoClient implements ClientContract
         return $response;
     }
 
-    public function updateWalletAddress(string $addressId)
+    public function updateWalletAddress(string $addressId, string $passphrase)
     {
-        $response = $this->bitgo->updateWalletAddress($addressId, $this->generatePassPhrase());
+        $response = $this->bitgo->updateWalletAddress($addressId, $passphrase);
         
         if(collect($response)->has('error')) {
             return $this->handleErrorResponse($response);
@@ -111,7 +111,7 @@ class BitgoClient implements ClientContract
         $params = [
             'address' => $recepientAddress,
             'amount' => $amountInSatoshi,
-            'walletPassphrase' => $passphrase ?? $this->generatePassPhrase()
+            'walletPassphrase' => $passphrase
         ];
 
         $response = $this->__execute('POST', $params);
@@ -156,11 +156,6 @@ class BitgoClient implements ClientContract
         $email = explode('@', auth()->user()->email); 
         $label = $email[0].'-'.now()->toDateTimeString('Y-m-d H:i:s');
         return $label;
-    }
-
-    protected function generatePassPhrase()
-    {
-        return auth()->user()->last_name;
     }
 
     public function convertToBtc(int $amount)

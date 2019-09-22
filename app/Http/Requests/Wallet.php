@@ -27,7 +27,8 @@ class Wallet extends FormRequest
     public function rules()
     {
         return [
-            'coin' => 'required|string'
+            'coin' => 'required|string',
+            'passphrase' => 'required|string'
         ];
     }
 }

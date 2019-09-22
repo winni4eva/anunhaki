@@ -48,13 +48,15 @@ class WalletsController extends Controller
     public function store(WalletRequest $request)
     {
         config(['crypto.currency' => $request->get('coin')]);
+        $passphrase = $request->get('passphrase');
+
         $wallet = $this->walletService->createWallet();
 
         if(!$wallet) {
             return response()->json(['message' => 'Error creating wallet'], 422);
         }
 
-        $this->walletService->saveWallet($wallet);
+        $this->walletService->saveWallet($wallet, $passphrase);
         config(['crypto.walletId' => $wallet['id']]);
         $addresses = $this->walletService->getWalletAddresses();
 
@@ -65,7 +67,7 @@ class WalletsController extends Controller
         $this->addressService->saveAddresses($addresses['addresses'], $wallet['id']);
         
         $addressId = collect($addresses['addresses'])->first()['id'];
-        $this->walletService->updateWalletAddress($addressId);
+        $this->walletService->updateWalletAddress($addressId, $passphrase);
 
         return response()->json(['success' => 'Wallet created successfully']);
     }

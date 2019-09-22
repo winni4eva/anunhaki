@@ -26,7 +26,7 @@ class WalletService
                     ->toArray();
     }
 
-    public function saveWallet(array $wallet): void 
+    public function saveWallet(array $wallet, string $passphrase): void 
     {   
         $currency = $this->currency->whereIdentifier($wallet['coin'])->first();
 
@@ -36,6 +36,7 @@ class WalletService
             'currency_id' => $currency->id,
             'label' => $wallet['label'],
             'keys' => $wallet['keys'],
+            'passphrase' => $passphrase,
             'key_signatures' => $wallet['keySignatures'],
             'dump' => $wallet
         ]);
@@ -51,9 +52,9 @@ class WalletService
         return resolve(BlockChainService::class)->getWalletAddresses();
     }
 
-    public function updateWalletAddress(string $addressId)
+    public function updateWalletAddress(string $addressId, string $passphrase)
     {
-        resolve(BlockChainService::class)->updateWalletAddress($addressId);
+        resolve(BlockChainService::class)->updateWalletAddress($addressId, $passphrase);
     }
 
     public function getWalletBalances(array $wallets)

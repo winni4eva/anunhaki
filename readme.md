@@ -46,7 +46,7 @@ A simple application that helps you manage your crypto currency wallets using Bi
         Example: docker run -p 3080:3080 bitgo/express
     ```
 
-1. Each wallet should have their own wallet balance
+1. Each wallet should have their own wallet balance -> Done
 2. Add wallet transactions
 3. Accept passphrase at wallet create
 4. Balance should be on USDand corresponding crypto currency

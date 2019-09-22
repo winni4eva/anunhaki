@@ -102188,25 +102188,40 @@ var Wallets = function Wallets(_ref) {
       enableSendFunds = _useState2[0],
       toggleSendFunds = _useState2[1];
 
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState4 = _slicedToArray(_useState3, 2),
-      addressesTableData = _useState4[0],
-      toggleWalletAddresses = _useState4[1];
+      enableWalletPassphrase = _useState4[0],
+      toggleWalletPassphrase = _useState4[1];
 
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
       _useState6 = _slicedToArray(_useState5, 2),
-      selectedSendFundWalletId = _useState6[0],
-      toggleSelectedFundWallet = _useState6[1];
+      addressesTableData = _useState6[0],
+      toggleWalletAddresses = _useState6[1];
 
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
       _useState8 = _slicedToArray(_useState7, 2),
-      selectedSendFundCurrency = _useState8[0],
-      toggleSelectedCurrency = _useState8[1];
+      selectedSendFundWalletId = _useState8[0],
+      toggleSelectedFundWallet = _useState8[1];
 
   var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
       _useState10 = _slicedToArray(_useState9, 2),
-      selectedSendFundCoin = _useState10[0],
-      toggleSelectedCoin = _useState10[1];
+      selectedSendFundCurrency = _useState10[0],
+      toggleSelectedCurrency = _useState10[1];
+
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState12 = _slicedToArray(_useState11, 2),
+      selectedSendFundCoin = _useState12[0],
+      toggleSelectedCoin = _useState12[1];
+
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState14 = _slicedToArray(_useState13, 2),
+      selectedWalletPassphrase = _useState14[0],
+      toggleselectedWalletPassphrase = _useState14[1];
+
+  var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''),
+      _useState16 = _slicedToArray(_useState15, 2),
+      selectedWalletCurrency = _useState16[0],
+      toggleSelectedWalletCurrency = _useState16[1];
 
   var notify = function notify(msg) {
     return react_toastify__WEBPACK_IMPORTED_MODULE_2__["toast"].info(msg);
@@ -102214,7 +102229,6 @@ var Wallets = function Wallets(_ref) {
 
   var currencyOptions,
       walletsTableData = [];
-  var selectedCurrency;
   var style = {
     cursor: "pointer"
   };
@@ -102224,12 +102238,29 @@ var Wallets = function Wallets(_ref) {
   }, []);
 
   var handleCurrencyChange = function handleCurrencyChange(e) {
-    selectedCurrency = e.target.value;
+    var selectedCurrency = e.target.value;
+    toggleSelectedWalletCurrency(selectedCurrency);
+
+    if (selectedCurrency) {
+      toggleWalletPassphrase(true);
+    } else {
+      toggleWalletPassphrase(false);
+    }
+  };
+
+  var handlePassphraseChange = function handlePassphraseChange(e) {
+    var selectedPassphrase = e.target.value;
+    toggleselectedWalletPassphrase(selectedPassphrase);
   };
 
   var handleCreateWallet = function handleCreateWallet() {
-    if (!selectedCurrency) {
+    if (!selectedWalletCurrency) {
       alert('Select a coin to create a wallet');
+      return;
+    }
+
+    if (!selectedWalletPassphrase) {
+      alert('Enter a passphrase to create a wallet');
       return;
     }
 
@@ -102237,10 +102268,12 @@ var Wallets = function Wallets(_ref) {
 
     if (confirmed) {
       var data = {
-        coin: selectedCurrency
+        coin: selectedWalletCurrency,
+        passphrase: selectedWalletPassphrase
       };
       Object(_actions_wallet__WEBPACK_IMPORTED_MODULE_4__["postCreateWallet"])(data, dispatch);
-      selectedCurrency = '';
+      toggleSelectedWalletCurrency('');
+      toggleselectedWalletPassphrase('');
     }
   };
 
@@ -102392,7 +102425,12 @@ var Wallets = function Wallets(_ref) {
   }, "-- All coins/tokens --"), currencyOptions), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "bg-blue-500 w-1/4 float-left hover:bg-blue-700 text-white font-bold py-2 px-4 pull-right mt-4 rounded",
     onClick: handleCreateWallet
-  }, "Create Wallet")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+  }, "Create Wallet"), enableWalletPassphrase ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    placeholder: "Passphrase",
+    onChange: handlePassphraseChange,
+    className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
+  }) : null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "text-left m-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, Array.isArray(walletsTableData) && walletsTableData.length > 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
     className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
