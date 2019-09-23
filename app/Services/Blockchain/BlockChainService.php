@@ -15,91 +15,42 @@ class BlockChainService
 
     public function createWallet() 
     {   
-        $response = $this->client->createWallet();
-
-        if(!$response) {
-            return $response;
-        }
-
-        return $response;
+        return $this->client->createWallet();
     }
 
     public function getWalletAddresses()
     {
-        $response = $this->client->getWalletAddresses();
-
-        if(!$response) {
-            return $response;
-        }
-
-        return $response;
+        return $this->client->getWalletAddresses();
     }
 
     public function createWalletAddress() 
     {
-        $response = $this->client->createWalletAddress();
-
-        if(!$response) {
-            return $response;
-        }
-
-        return $response;
+        return $this->client->createWalletAddress();
     }
 
     public function updateWalletAddress(string $addressId, string $passphrase)
     {
-        $response = $this->client->updateWalletAddress($addressId, $passphrase);
-        
-        if(collect($response)->has('error')) {
-            return $this->handleErrorResponse($response);
-        }
-
-        return $response;
+        return $this->client->updateWalletAddress($addressId, $passphrase);
     }
 
     public function listWallets()
     {
-        $response = $this->client->listWallets();
-        
-        if(collect($response)->has('error')) {
-            return $this->handleErrorResponse($response);
-        }
-
-        return $response;
+        return $this->client->listWallets();
     }
 
     public function getTotalBalances()
     {
-        $response = $this->client->getTotalBalances();
-        
-        if(collect($response)->has('error')) {
-            return $this->handleErrorResponse($response);
-        }
-        
-        return $response;
+        return $this->client->getTotalBalances();
     }
 
     public function sendTransaction(string $recepientAddress, $amount, $passphrase = '') 
     {
-
-        $response = $this->client->sendTransaction($recepientAddress, $amount, $passphrase);
-
-        if(collect($response)->has('error')) {
-            return $response;
-        }
-        
-        return $response;
+        return $this->client->sendTransaction($recepientAddress, $amount, $passphrase);
     }
 
     public function getWalletTransactions()
     {
-        $response = $this->client->getWalletTransactions();
-
-        if(!$response) {
-            return $response;
-        }
-
-        return $response;
+        return $this->client->getWalletTransactions();
     }
 
 }

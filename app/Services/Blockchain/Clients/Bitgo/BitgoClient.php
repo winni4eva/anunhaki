@@ -106,7 +106,7 @@ class BitgoClient implements ClientContract
             return $response;
         }
 
-        $amountInSatoshi = BitGoSDK::toSatoshi($amount);
+        $amountInSatoshi = $this->convertToSatoshi($amount);
 
         $params = [
             'address' => $recepientAddress,
@@ -117,7 +117,7 @@ class BitgoClient implements ClientContract
         $response = $this->__execute('POST', $params);
         
         if(collect($response)->has('error')) {
-            return $response;
+            return $this->handleErrorResponse($response);
         }
 
         return $response;
@@ -148,7 +148,7 @@ class BitgoClient implements ClientContract
     protected function handleErrorResponse($response)
     {
         logger($response);
-        return false;
+        return $response;
     }
 
     protected function generateLabel()
