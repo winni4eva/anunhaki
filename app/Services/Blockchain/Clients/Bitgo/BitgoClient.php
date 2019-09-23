@@ -98,7 +98,7 @@ class BitgoClient implements ClientContract
         return $response;
     }
 
-    public function sendTransaction(string $recepientAddress, $amount, $passphrase = '')
+    public function sendTransaction(string $recepientAddress, int $amount, string $passphrase)
     {
         $response = $this->bitGoExpress->verifyAddress($recepientAddress);
         
@@ -106,14 +106,17 @@ class BitgoClient implements ClientContract
             return $response;
         }
 
-        $amountInSatoshi = $this->convertToSatoshi($amount);
+        //$response = $this->bitgo->listWalletUnspents();
+        //$response = $this->bitGoExpress->funoutWalletUnspents($passphrase);
 
         $params = [
             'address' => $recepientAddress,
-            'amount' => $amountInSatoshi,
-            'walletPassphrase' => $passphrase
+            'amount' => $this->convertToSatoshi($amount),
+            'walletPassphrase' => $passphrase,
+            'minConfirms' => 1,
+            'enforceMinConfirmsForChange' => true,
         ];
-
+        
         $response = $this->__execute('POST', $params);
         
         if(collect($response)->has('error')) {
@@ -168,8 +171,9 @@ class BitgoClient implements ClientContract
         return BitGoSDK::toSatoshi($amount);
     }
 
-    private function __execute(string $requestType = 'POST', array $params = [],bool $array = true) {
-        $endpoint = 'http://'.$this->host.':'.$this->port.'/api/v2/'.$this->currency.'/wallet/'.config('crypto.walletId').'/sendcoins';
+    private function __execute(string $requestType = 'POST', array $params = [],bool $array = true) 
+    {
+        $endpoint = 'http://'.$this->host.':'.$this->port.'/api/v2/'.$this->currency.'/wallet/'.config('crypto.walletId').'/sendcoin';
         $ch = curl_init($endpoint);
         
         if ($requestType === 'POST') {

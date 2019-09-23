@@ -1,12 +1,17 @@
 import makeRequest from './request';
 import {walletsEndpoint, walletAddressEndpoint} from './endpoints';
-import {SAVE_WALLETS} from '../constants/types';
+import {SAVE_WALLETS,SAVE_TRANSACTIONS} from '../constants/types';
 import { toast } from 'react-toastify';
 
 
 const saveWalletsHelper = (wallets) => ({
     type: SAVE_WALLETS,
     payload: wallets
+});
+
+const saveTransactionsHelper = (tx) => ({
+    type: SAVE_TRANSACTIONS,
+    payload: tx
 });
 
 export const getWallets = (dispatch) => {
@@ -65,13 +70,12 @@ export const postSendWalletFunds = (data, dispatch) => {
         })
 };
 
-export const getWalletTransactions = (walletId, dispatch) => {
-    makeRequest('GET', `${walletAddressEndpoint}${walletId}/fund?wid=${walletId}`)
+export const getWalletTransactions = (walletId, coin,dispatch) => {
+    makeRequest('GET', `${walletsEndpoint}/${walletId}/transactions?coin=${coin}`)
         .then(response => {
-            console.log(response)
+            const {data: {transactions} = {} } = response;
+            dispatch(saveTransactionsHelper(transactions));
             toast.success('Wallet transactions fetched successfully');
-            //const {data: {wallets} = {} } = response;
-            //dispatch(saveWalletsHelper(wallets));
         })
         .catch(error => {
             handleErrorNotification(error);

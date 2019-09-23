@@ -42,6 +42,7 @@ Route::group(
     ['middleware' => 'auth:api'],
     function () {
         Route::get('currencies', 'CurrenciesController@index');
+        Route::get('wallets/{wallet}/transactions', 'WalletsController@getTransactions');
         Route::resource('wallets', 'WalletsController', ['only' => ['index', 'store', 'destroy']]);
         Route::resource('wallet.address', 'AddressController', ['only' => ['index','store']]);
         Route::resource('wallet.fund', 'FundsController', ['only' => ['index', 'store']]);

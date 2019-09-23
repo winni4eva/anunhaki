@@ -124,7 +124,7 @@ const Wallets = ({...props}) => {
                 toggleSendFunds(true);
                 break;
             case 'transactions':
-                history.push(`/transactions?wid=${walletId}`);
+                history.push(`/transactions?wid=${walletId}&coin=${coinIdentifier}`);
                 break;
             default:
                 break;

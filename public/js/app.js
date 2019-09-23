@@ -101417,6 +101417,13 @@ var saveWalletsHelper = function saveWalletsHelper(wallets) {
   };
 };
 
+var saveTransactionsHelper = function saveTransactionsHelper(tx) {
+  return {
+    type: _constants_types__WEBPACK_IMPORTED_MODULE_2__["SAVE_TRANSACTIONS"],
+    payload: tx
+  };
+};
+
 var getWallets = function getWallets(dispatch) {
   Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('GET', _endpoints__WEBPACK_IMPORTED_MODULE_1__["walletsEndpoint"]).then(function (response) {
     var _response$data = response.data;
@@ -101463,11 +101470,13 @@ var postSendWalletFunds = function postSendWalletFunds(data, dispatch) {
     handleErrorNotification(error);
   });
 };
-var getWalletTransactions = function getWalletTransactions(walletId, dispatch) {
-  Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('GET', "".concat(_endpoints__WEBPACK_IMPORTED_MODULE_1__["walletAddressEndpoint"]).concat(walletId, "/fund?wid=").concat(walletId)).then(function (response) {
-    console.log(response);
-    react_toastify__WEBPACK_IMPORTED_MODULE_3__["toast"].success('Wallet transactions fetched successfully'); //const {data: {wallets} = {} } = response;
-    //dispatch(saveWalletsHelper(wallets));
+var getWalletTransactions = function getWalletTransactions(walletId, coin, dispatch) {
+  Object(_request__WEBPACK_IMPORTED_MODULE_0__["default"])('GET', "".concat(_endpoints__WEBPACK_IMPORTED_MODULE_1__["walletsEndpoint"], "/").concat(walletId, "/transactions?coin=").concat(coin)).then(function (response) {
+    var _response$data2 = response.data;
+    _response$data2 = _response$data2 === void 0 ? {} : _response$data2;
+    var transactions = _response$data2.transactions;
+    dispatch(saveTransactionsHelper(transactions));
+    react_toastify__WEBPACK_IMPORTED_MODULE_3__["toast"].success('Wallet transactions fetched successfully');
   })["catch"](function (error) {
     handleErrorNotification(error);
   });
@@ -102108,32 +102117,73 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var query_string__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
 /* harmony import */ var query_string__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(query_string__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _actions_wallet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../actions/wallet */ "./resources/js/actions/wallet.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 
 
 
 
-var Transactions = function Transactions(props) {
+
+var Transactions = function Transactions(_ref) {
+  var props = _extends({}, _ref);
+
   var location = props.location,
-      dispatch = props.dispatch;
+      dispatch = props.dispatch,
+      tx = props.tx;
+  var style = {
+    cursor: "pointer"
+  };
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    var parsedQueryString = query_string__WEBPACK_IMPORTED_MODULE_2___default.a.parse(location.search);
-    Object(_actions_wallet__WEBPACK_IMPORTED_MODULE_3__["getWalletTransactions"])(parsedQueryString.wid, dispatch);
+    var _queryString$parse = query_string__WEBPACK_IMPORTED_MODULE_2___default.a.parse(location.search),
+        wid = _queryString$parse.wid,
+        coin = _queryString$parse.coin;
+
+    Object(_actions_wallet__WEBPACK_IMPORTED_MODULE_3__["getWalletTransactions"])(wid, coin, dispatch);
   }, []);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "flex mb-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "w-1/3 bg-gray-400 h-12"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "w-1/3 bg-gray-500 h-12"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "w-1/3 bg-gray-400 h-12"
-  }));
+    className: "w-full bg-white-500 h-auto p-4"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "inline-block relative w-full"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+    className: "text-left m-4"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
+  }, "Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
+  }, "ID"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
+  }, "Confirmations"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
+  }, "Address"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    className: "py-4 px-6 bg-grey-lighter font-sans font-medium uppercase text-sm text-grey border-b border-grey-light"
+  }, "Amount"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Array.isArray(tx.tx) ? tx.tx.map(function (tran, k) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      key: k,
+      className: "hover:bg-blue-lightest"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "py-4 px-6 border-b border-grey-light hover:bg-gray-200"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      style: style
+    }, tran.date)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "py-4 px-6 border-b border-grey-light"
+    }, tran.id.substring(0, 12), " ..."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "py-4 px-6 border-b border-grey-light"
+    }, tran.confirmations), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "py-4 px-6 border-b border-grey-light"
+    }, tran.address), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      className: "py-4 px-6 border-b border-grey-light"
+    }, tran.value));
+  }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    className: "text-blue-500 text-xs italic text-center ml-12"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Fetching transactions found for selected wallet!"))))))));
 };
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    wallets: state.wallets
+    wallets: state.wallets,
+    tx: state.transactions
   };
 };
 
@@ -102359,7 +102409,7 @@ var Wallets = function Wallets(_ref) {
         break;
 
       case 'transactions':
-        history.push("/transactions?wid=".concat(walletId));
+        history.push("/transactions?wid=".concat(walletId, "&coin=").concat(coinIdentifier));
         break;
 
       default:
@@ -102779,7 +102829,7 @@ var TwoFactor = Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapS
 /*!*****************************************!*\
   !*** ./resources/js/constants/types.js ***!
   \*****************************************/
-/*! exports provided: ACCESS_TOKEN, JWT_TOKEN, GET_WALLETS, SAVE_WALLETS, SAVE_ADDRESSES, REMOVE_WALLET, LOG_IN, LOG_OUT, SAVE_COUNTRIES, SEND_TOKEN_VIA, SAVE_CURRENCIES, SAVE_NOTIFICATION, REMOVE_NOTIFICATION */
+/*! exports provided: ACCESS_TOKEN, JWT_TOKEN, GET_WALLETS, SAVE_WALLETS, SAVE_ADDRESSES, REMOVE_WALLET, LOG_IN, LOG_OUT, SAVE_COUNTRIES, SEND_TOKEN_VIA, SAVE_CURRENCIES, SAVE_NOTIFICATION, REMOVE_NOTIFICATION, SAVE_TRANSACTIONS */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -102797,6 +102847,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_CURRENCIES", function() { return SAVE_CURRENCIES; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_NOTIFICATION", function() { return SAVE_NOTIFICATION; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_NOTIFICATION", function() { return REMOVE_NOTIFICATION; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_TRANSACTIONS", function() { return SAVE_TRANSACTIONS; });
 var ACCESS_TOKEN = 'qh_access_token';
 var JWT_TOKEN = 'JWT_TOKEN';
 var GET_WALLETS = 'GET_WALLETS';
@@ -102810,6 +102861,7 @@ var SEND_TOKEN_VIA = 'SEND_TOKEN_VIA';
 var SAVE_CURRENCIES = 'SAVE_CURRENCIES';
 var SAVE_NOTIFICATION = 'SAVE_NOTIFICATION';
 var REMOVE_NOTIFICATION = 'REMOVE_NOTIFICATION';
+var SAVE_TRANSACTIONS = 'SAVE_TRANSACTIONS';
 
 /***/ }),
 
@@ -103000,6 +103052,42 @@ var notificationsReducerDefaultState = [];
 
 /***/ }),
 
+/***/ "./resources/js/reducers/transactions.js":
+/*!***********************************************!*\
+  !*** ./resources/js/reducers/transactions.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _constants_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants/types */ "./resources/js/constants/types.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var txReducerDefaultState = [];
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : txReducerDefaultState;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _constants_types__WEBPACK_IMPORTED_MODULE_0__["SAVE_TRANSACTIONS"]:
+      var newState = _objectSpread({}, state);
+
+      newState.tx = action.payload;
+      return newState;
+
+    default:
+      return state;
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/reducers/wallets.js":
 /*!******************************************!*\
   !*** ./resources/js/reducers/wallets.js ***!
@@ -103054,8 +103142,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _reducers_countries__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../reducers/countries */ "./resources/js/reducers/countries.js");
 /* harmony import */ var _reducers_currencies__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../reducers/currencies */ "./resources/js/reducers/currencies.js");
 /* harmony import */ var _reducers_notification__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../reducers/notification */ "./resources/js/reducers/notification.js");
-/* harmony import */ var connected_react_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! connected-react-router */ "./node_modules/connected-react-router/esm/index.js");
-/* harmony import */ var _actions_history__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../actions/history */ "./resources/js/actions/history.js");
+/* harmony import */ var _reducers_transactions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../reducers/transactions */ "./resources/js/reducers/transactions.js");
+/* harmony import */ var connected_react_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! connected-react-router */ "./node_modules/connected-react-router/esm/index.js");
+/* harmony import */ var _actions_history__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../actions/history */ "./resources/js/actions/history.js");
+
 
 
 
@@ -103065,15 +103155,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  router: Object(connected_react_router__WEBPACK_IMPORTED_MODULE_6__["connectRouter"])(_actions_history__WEBPACK_IMPORTED_MODULE_7__["default"]),
+  router: Object(connected_react_router__WEBPACK_IMPORTED_MODULE_7__["connectRouter"])(_actions_history__WEBPACK_IMPORTED_MODULE_8__["default"]),
   wallets: _reducers_wallets__WEBPACK_IMPORTED_MODULE_1__["default"],
   authentication: _reducers_authentication__WEBPACK_IMPORTED_MODULE_2__["default"],
   countries: _reducers_countries__WEBPACK_IMPORTED_MODULE_3__["default"],
   currencies: _reducers_currencies__WEBPACK_IMPORTED_MODULE_4__["default"],
-  notification: _reducers_notification__WEBPACK_IMPORTED_MODULE_5__["default"]
+  notification: _reducers_notification__WEBPACK_IMPORTED_MODULE_5__["default"],
+  transactions: _reducers_transactions__WEBPACK_IMPORTED_MODULE_6__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (function () {
-  var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(rootReducer, Object(redux__WEBPACK_IMPORTED_MODULE_0__["compose"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(Object(connected_react_router__WEBPACK_IMPORTED_MODULE_6__["routerMiddleware"])(_actions_history__WEBPACK_IMPORTED_MODULE_7__["default"]))));
+  var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(rootReducer, Object(redux__WEBPACK_IMPORTED_MODULE_0__["compose"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(Object(connected_react_router__WEBPACK_IMPORTED_MODULE_7__["routerMiddleware"])(_actions_history__WEBPACK_IMPORTED_MODULE_8__["default"]))));
   return store;
 });
 

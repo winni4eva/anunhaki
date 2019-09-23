@@ -4,6 +4,7 @@ import authenticationReducer from '../reducers/authentication';
 import countriesReducer from '../reducers/countries';
 import currenciesReducer from '../reducers/currencies';
 import notificationReducer from '../reducers/notification';
+import txReducer from '../reducers/transactions';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import history from '../actions/history';
 
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
     countries: countriesReducer,
     currencies: currenciesReducer,
     notification: notificationReducer,
+    transactions: txReducer,
 });
 
 export default () => {

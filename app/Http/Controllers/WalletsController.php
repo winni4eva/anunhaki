@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Wallet as WalletRequest;
 use App\Services\Wallet\WalletService;
 use App\Services\Address\AddressService;
+use App\Wallet;
 
 class WalletsController extends Controller
 {
@@ -83,5 +84,20 @@ class WalletsController extends Controller
         $currency = request('coin'); 
 
         return response()->json(['message' => 'Wallet deleted successfully']);
+    }
+
+    public function getTransactions(Wallet $wallet)
+    {
+        config(['crypto.currency' => request('coin')]);
+        config(['crypto.walletId' => $wallet->wallet_id]);
+
+        $response = $this->walletService->getWalletTransactions();
+
+        if(collect($response)->has('error') || !$response) {
+            $message = $response['error'] ?? 'Failed fetching transactions';
+            return response()->json(['message' => $message], 422);
+        }
+
+        return response()->json(['transactions'=> $response]);
     }
 }

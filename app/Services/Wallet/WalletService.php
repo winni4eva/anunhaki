@@ -57,6 +57,25 @@ class WalletService
         resolve(BlockChainService::class)->updateWalletAddress($addressId, $passphrase);
     }
 
+    public function getWalletTransactions()
+    {
+        $response = resolve(BlockChainService::class)->getWalletTransactions();
+
+        if (collect($response)->has('transactions')) {
+            $response = collect($response['transactions'])->map(function($transaction){
+                return [
+                    'id' => $transaction['id'],
+                    'date' => $transaction['date'],
+                    'confirmations' => $transaction['confirmations'],
+                    'address' => $transaction['inputs'][0]['address'] ?? '',
+                    'value' => $transaction['inputs'][0]['value'] ?? 0,
+                ];
+            })->values();
+        }
+        
+        return $response;
+    }
+
     public function getWalletBalances(array $wallets)
     {
         $walletBalances = collect($wallets)->map(function($wallet){
