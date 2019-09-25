@@ -102057,7 +102057,7 @@ var cockpit = function cockpit(_ref) {
     className: "w-full block flex-grow lg:flex lg:items-center lg:w-auto"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "text-sm lg:flex-grow"
-  }), authentication.isAuthenticated === false ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+  }), authentication.isAuthenticated === false || localStorage.getItem(_constants_types__WEBPACK_IMPORTED_MODULE_4__["ACCESS_TOKEN"]) === '' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/register",
     className: "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer"
   }, "REGISTER"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {

@@ -41,7 +41,7 @@ const cockpit = ({...props}) => {
             <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
                 <div className="text-sm lg:flex-grow">
                 </div>
-                {authentication.isAuthenticated === false 
+                {authentication.isAuthenticated === false || localStorage.getItem(ACCESS_TOKEN) === ''
                     ?
                     (<div>
                         <Link to={`/register`} className="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-red-900 mr-4 cursor-pointer">
