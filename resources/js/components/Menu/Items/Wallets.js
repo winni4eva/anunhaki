@@ -16,6 +16,7 @@ const Wallets = ({...props}) => {
     const [selectedSendFundCoin, toggleSelectedCoin] = useState('');
     const [selectedWalletPassphrase, toggleselectedWalletPassphrase] = useState('');
     const [selectedWalletCurrency, toggleSelectedWalletCurrency] = useState('');
+    const [selectedSendFundAmtCurrency, toggleSelectedSendFundAmtCurrency] = useState('usd');
     const notify = (msg) => toast.info(msg);
 
     let currencyOptions, walletsTableData = [];
@@ -27,7 +28,9 @@ const Wallets = ({...props}) => {
     }, []);
 
 
-
+    const handleSendFundCurrencyClick = e => {
+        toggleSelectedSendFundAmtCurrency(e.target.value);
+    }
     const handleCurrencyChange = e => {
         const selectedCurrency = e.target.value;
         toggleSelectedWalletCurrency(selectedCurrency);
@@ -89,23 +92,28 @@ const Wallets = ({...props}) => {
 
     const handleSendFundSubmit = e => {
         if (e) e.preventDefault();
-        const {target:{children:[addressInput,  amountInput, txBlockInput, passphraseInput]}} = e;
+        const {target:{children:[addressInput,  amountInput, amtCurrencyInput, txBlockInput, passphraseInput]}} = e;
         const {value: address} = addressInput;
         const {value: amount} = amountInput;
         const {value: block} = txBlockInput;
         const {value: passphrase} = passphraseInput;
         const walletId = selectedSendFundWalletId; 
         const coin = selectedSendFundCoin;
+        const amountCurrency = selectedSendFundAmtCurrency;
+        //document.querySelector('input[name="amount_currency"]:checked').value;
+
         if(!address)
             return toast.error('Recepient address is required');
         if(!amount)
             return toast.error('Amount is required');
+        if(!amountCurrency)
+            return toast.error('Currency of amount specified is required');
         if(!block)
             return toast.error('Transaction block is required');
         if(!passphrase)
             return toast.error('Passphrase is required');
         
-        const formData = {address, amount, walletId, coin, passphrase, block};
+        const formData = {address, amount, walletId, coin, passphrase, block, amountCurrency};
         postSendWalletFunds(formData, dispatch);
     }
 
@@ -234,8 +242,25 @@ const Wallets = ({...props}) => {
 
                         <input
                             type="text"
-                            placeholder="Enter Amount (USD)" 
+                            placeholder={`Enter amount in ${selectedSendFundAmtCurrency}`} 
                             className="block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"/>
+
+                        <div className="inline-block relative w-full">
+                            <div className="mt-2">
+                                <div className="inline">
+                                    <label className="inline-flex items-center">
+                                        <input type="radio" className="form-radio text-indigo-600" name="amount_currency" value="usd" defaultChecked onClick={handleSendFundCurrencyClick}/>
+                                        <span className="ml-2">usd</span>
+                                    </label>
+                                </div>
+                                <div className="inline">
+                                    <label className="inline-flex items-center">
+                                        <input type="radio" className="form-radio text-green-500" name="amount_currency" value={selectedSendFundCoin} onClick={handleSendFundCurrencyClick}/>
+                                        <span className="ml-2">{selectedSendFundCoin}</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
 
                         <select className="block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
                             >

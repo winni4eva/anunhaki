@@ -32,6 +32,7 @@ class Funds extends FormRequest
             'walletId' => 'required|string',
             'coin' => 'required|string',
             'block' => 'required|string',
+            'amountCurrency' => 'required|string',
         ];
     }
 }

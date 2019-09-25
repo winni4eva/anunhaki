@@ -102271,6 +102271,11 @@ var Wallets = function Wallets(_ref) {
       selectedWalletCurrency = _useState16[0],
       toggleSelectedWalletCurrency = _useState16[1];
 
+  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('usd'),
+      _useState18 = _slicedToArray(_useState17, 2),
+      selectedSendFundAmtCurrency = _useState18[0],
+      toggleSelectedSendFundAmtCurrency = _useState18[1];
+
   var notify = function notify(msg) {
     return react_toastify__WEBPACK_IMPORTED_MODULE_2__["toast"].info(msg);
   };
@@ -102284,6 +102289,10 @@ var Wallets = function Wallets(_ref) {
     Object(_actions_common__WEBPACK_IMPORTED_MODULE_3__["getCurrencies"])(dispatch);
     Object(_actions_wallet__WEBPACK_IMPORTED_MODULE_4__["getWallets"])(dispatch);
   }, []);
+
+  var handleSendFundCurrencyClick = function handleSendFundCurrencyClick(e) {
+    toggleSelectedSendFundAmtCurrency(e.target.value);
+  };
 
   var handleCurrencyChange = function handleCurrencyChange(e) {
     var selectedCurrency = e.target.value;
@@ -102364,11 +102373,12 @@ var Wallets = function Wallets(_ref) {
   var handleSendFundSubmit = function handleSendFundSubmit(e) {
     if (e) e.preventDefault();
 
-    var _e$target$children = _slicedToArray(e.target.children, 4),
+    var _e$target$children = _slicedToArray(e.target.children, 5),
         addressInput = _e$target$children[0],
         amountInput = _e$target$children[1],
-        txBlockInput = _e$target$children[2],
-        passphraseInput = _e$target$children[3];
+        amtCurrencyInput = _e$target$children[2],
+        txBlockInput = _e$target$children[3],
+        passphraseInput = _e$target$children[4];
 
     var address = addressInput.value;
     var amount = amountInput.value;
@@ -102376,8 +102386,11 @@ var Wallets = function Wallets(_ref) {
     var passphrase = passphraseInput.value;
     var walletId = selectedSendFundWalletId;
     var coin = selectedSendFundCoin;
+    var amountCurrency = selectedSendFundAmtCurrency; //document.querySelector('input[name="amount_currency"]:checked').value;
+
     if (!address) return react_toastify__WEBPACK_IMPORTED_MODULE_2__["toast"].error('Recepient address is required');
     if (!amount) return react_toastify__WEBPACK_IMPORTED_MODULE_2__["toast"].error('Amount is required');
+    if (!amountCurrency) return react_toastify__WEBPACK_IMPORTED_MODULE_2__["toast"].error('Currency of amount specified is required');
     if (!block) return react_toastify__WEBPACK_IMPORTED_MODULE_2__["toast"].error('Transaction block is required');
     if (!passphrase) return react_toastify__WEBPACK_IMPORTED_MODULE_2__["toast"].error('Passphrase is required');
     var formData = {
@@ -102386,7 +102399,8 @@ var Wallets = function Wallets(_ref) {
       walletId: walletId,
       coin: coin,
       passphrase: passphrase,
-      block: block
+      block: block,
+      amountCurrency: amountCurrency
     };
     Object(_actions_wallet__WEBPACK_IMPORTED_MODULE_4__["postSendWalletFunds"])(formData, dispatch);
   };
@@ -102509,9 +102523,38 @@ var Wallets = function Wallets(_ref) {
     className: "block appearance-none w-full float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
-    placeholder: "Enter Amount (USD)",
+    placeholder: "Enter amount in ".concat(selectedSendFundAmtCurrency),
     className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "inline-block relative w-full"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "mt-2"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "inline"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    className: "inline-flex items-center"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "radio",
+    className: "form-radio text-indigo-600",
+    name: "amount_currency",
+    value: "usd",
+    defaultChecked: true,
+    onClick: handleSendFundCurrencyClick
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "ml-2"
+  }, "usd"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "inline"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    className: "inline-flex items-center"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "radio",
+    className: "form-radio text-green-500",
+    name: "amount_currency",
+    value: selectedSendFundCoin,
+    onClick: handleSendFundCurrencyClick
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "ml-2"
+  }, selectedSendFundCoin))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: ""

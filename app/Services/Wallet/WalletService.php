@@ -70,7 +70,7 @@ class WalletService
                     'confirmations' => $transaction['confirmations'],
                     'address' => $transaction['inputs'][0]['address'] ?? '',
                     'value' => CurrencyConverterService::convert(
-                        $this->getBtcValue($transaction['inputs'][0]['value']), config('crypto.currency'), 'usd'),
+                        $this->getBtcValue($transaction['inputs'][0]['value'] ?? 0), config('crypto.currency'), 'usd'),
                 ];
             })->values();
         }

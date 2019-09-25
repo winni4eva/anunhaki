@@ -111,7 +111,9 @@ class BitgoClient implements ClientContract
 
         $params = [
             'address' => $recepientAddress,
-            'amount' => $this->convertToSatoshi($amount),
+            'amount' => request('amountCurrency') == 'usd'
+                ? $this->convertToSatoshi($amount)
+                : $amount,
             'walletPassphrase' => $passphrase,
             'minConfirms' => 1,
             'enforceMinConfirmsForChange' => true,

@@ -21,10 +21,9 @@ class Wallet extends Model
 
     public function scopeUserWallets($query)
     {
-        return $query;
-        //$userId = auth()->user()->id;
+        $userId = auth()->user()->id;
 
-        // /return $query->whereUserId($userId);
+        return $query->whereUserId($userId);
     }
 
     public function currency()

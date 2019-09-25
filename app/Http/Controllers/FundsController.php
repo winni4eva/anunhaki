@@ -36,9 +36,8 @@ class FundsController extends Controller
         config(['crypto.walletId' => $request->get('walletId')]);
         
         $response = BlockChainService::sendTransaction(request('address'), request('amount'), request('passphrase'), request('block'));
-        logger($response);
+        
         if(collect($response)->has('error') || !$response) {
-            logger($response);
             $message = $response['error'] ?? 'Failed sending coins';
             return response()->json(['message' => $message], 422);
         }
