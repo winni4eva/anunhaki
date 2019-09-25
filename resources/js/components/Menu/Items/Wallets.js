@@ -142,7 +142,10 @@ const Wallets = ({...props}) => {
             return <tr key={key} className="hover:bg-blue-lightest">
                 <td className="py-4 px-6 border-b border-grey-light hover:bg-gray-200"><a data-coin-id={w.wallet_id} onClick={handleDisplayAddresses} style={style}>{w.label}</a></td>
                 <td className="py-4 px-6 border-b border-grey-light">{`${w.currency.currency} - [${w.currency.identifier}]`}</td>
-                <td className="py-4 px-6 border-b border-grey-light">{w.balance.balance} / {w.balance.confirmedBalance} / {w.balance.spendableBalance}</td>
+                <td className="py-4 px-6 border-b border-grey-light">
+                {w.balance.balance} ({w.balance.balanceBtc}) / 
+                {w.balance.confirmedBalance} ({w.balance.confirmedBalanceBtc}) / 
+                {w.balance.spendableBalance} ({w.balance.spendableBalanceBtc})</td>
                 <td className="py-4 px-9 border-b border-grey-light">
                     <select
                         data-coin-id={w.wallet_id} 
@@ -218,7 +221,7 @@ const Wallets = ({...props}) => {
         <div className="w-1/2 bg-white-500 h-auto p-4">
             <div className="inline-block relative w-full">
                 {enableSendFunds ?
-                <div>
+                <div className="inline-block relative w-full">
                     <p>Send funds from {selectedSendFundCurrency} wallet</p>
                     <form onSubmit={handleSendFundSubmit}>
                         <input
@@ -230,6 +233,15 @@ const Wallets = ({...props}) => {
                             type="text"
                             placeholder="Enter Amount (USD)" 
                             className="block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"/>
+
+                        <select className="block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
+                            >
+                            <option value=''>-- priority --</option>
+                            <option>High (2 Blocks)</option>
+                            <option>Medium (12 Blocks)</option>
+                            <option>Low (60 Blocks)</option>
+                            <option>Very Low (300 Blocks)</option>
+                        </select>
                         
                         <input
                             type="text"

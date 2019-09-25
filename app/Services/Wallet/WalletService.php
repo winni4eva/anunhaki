@@ -101,7 +101,9 @@ class WalletService
                             $this->getBtcValue($wallet['confirmedBalance']), $wallet['coin'], 'usd'),
                         'spendableBalance' => CurrencyConverterService::convert(
                             $this->getBtcValue($wallet['spendableBalance']), $wallet['coin'], 'usd'),
-                        'balanceUSD' => 0
+                        'balanceBtc' => $this->getBtcValue($wallet['balance']),
+                        'confirmedBalanceBtc' => $this->getBtcValue($wallet['confirmedBalance']),
+                        'spendableBalanceBtc' => $this->getBtcValue($wallet['spendableBalance']),
                     ]
                 ];
             })->all();

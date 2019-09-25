@@ -87518,7 +87518,7 @@ function warning(message) {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
+/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -102441,7 +102441,7 @@ var Wallets = function Wallets(_ref) {
         className: "py-4 px-6 border-b border-grey-light"
       }, "".concat(w.currency.currency, " - [").concat(w.currency.identifier, "]")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-6 border-b border-grey-light"
-      }, w.balance.balance, " / ", w.balance.confirmedBalance, " / ", w.balance.spendableBalance), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+      }, w.balance.balance, " (", w.balance.balanceBtc, ") /", w.balance.confirmedBalance, " (", w.balance.confirmedBalanceBtc, ") /", w.balance.spendableBalance, " (", w.balance.spendableBalanceBtc, ")"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "py-4 px-9 border-b border-grey-light"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         "data-coin-id": w.wallet_id,
@@ -102497,7 +102497,9 @@ var Wallets = function Wallets(_ref) {
     className: "w-1/2 bg-white-500 h-auto p-4"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "inline-block relative w-full"
-  }, enableSendFunds ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Send funds from ", selectedSendFundCurrency, " wallet"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+  }, enableSendFunds ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "inline-block relative w-full"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Send funds from ", selectedSendFundCurrency, " wallet"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     onSubmit: handleSendFundSubmit
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
@@ -102507,7 +102509,11 @@ var Wallets = function Wallets(_ref) {
     type: "text",
     placeholder: "Enter Amount (USD)",
     className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: ""
+  }, "-- priority --"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "High (2 Blocks)"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Medium (12 Blocks)"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Low (60 Blocks)"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Very Low (300 Blocks)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "text",
     placeholder: "Passphrase",
     className: "block appearance-none w-1/2 float-left bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mt-4 mr-2"
