@@ -61,7 +61,7 @@ class WalletService
     public function getWalletTransactions()
     {
         $response = resolve(BlockChainService::class)->getWalletTransactions();
-
+        
         if (collect($response)->has('transactions')) {
             $response = collect($response['transactions'])->map(function($transaction){
                 return [
@@ -69,7 +69,8 @@ class WalletService
                     'date' => $transaction['date'],
                     'confirmations' => $transaction['confirmations'],
                     'address' => $transaction['inputs'][0]['address'] ?? '',
-                    'value' => $transaction['inputs'][0]['value'] ?? 0,
+                    'value' => CurrencyConverterService::convert(
+                        $this->getBtcValue($transaction['inputs'][0]['value']), config('crypto.currency'), 'usd'),
                 ];
             })->values();
         }
