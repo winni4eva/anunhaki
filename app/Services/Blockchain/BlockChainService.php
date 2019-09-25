@@ -53,4 +53,9 @@ class BlockChainService
         return $this->client->getWalletTransactions();
     }
 
+    public function convertToBtc($amount)
+    {
+        return $this->client->convertToBtc($amount);
+    }
+
 }

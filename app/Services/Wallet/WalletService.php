@@ -5,6 +5,7 @@ namespace App\Services\Wallet;
 use App\Wallet;
 use App\Currency;
 use App\Services\Blockchain\BlockChainService;
+use Facades\App\Services\CurrencyConverter\CurrencyConverterService;
 
 class WalletService
 {
@@ -94,9 +95,12 @@ class WalletService
                 return [
                     'wallet_id' => $wallet['id'],
                     'balance' => [
-                        'balance' => $wallet['balance'],
-                        'confirmedBalance' => $wallet['confirmedBalance'],
-                        'spendableBalance' => $wallet['spendableBalance'],
+                        'balance' => CurrencyConverterService::convert(
+                            $this->getBtcValue($wallet['balance']), $wallet['coin'], 'usd'),
+                        'confirmedBalance' => CurrencyConverterService::convert(
+                            $this->getBtcValue($wallet['confirmedBalance']), $wallet['coin'], 'usd'),
+                        'spendableBalance' => CurrencyConverterService::convert(
+                            $this->getBtcValue($wallet['spendableBalance']), $wallet['coin'], 'usd'),
                         'balanceUSD' => 0
                     ]
                 ];
@@ -104,6 +108,11 @@ class WalletService
         })->flatten(1);
 
         return $walletBalances;
+    }
+
+    public function getBtcValue($amount)
+    {
+        return resolve(BlockChainService::class)->convertToBtc($amount);
     }
 
 }
