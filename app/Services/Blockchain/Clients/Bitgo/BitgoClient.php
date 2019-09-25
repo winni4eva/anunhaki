@@ -98,14 +98,14 @@ class BitgoClient implements ClientContract
         return $response;
     }
 
-    public function sendTransaction(string $recepientAddress, int $amount, string $passphrase)
+    public function sendTransaction(string $recepientAddress, int $amount, string $passphrase, int $blocks)
     {
         $response = $this->bitGoExpress->verifyAddress($recepientAddress);
         
         if(!$response['isValid']) {
             return $response;
         }
-
+        
         //$response = $this->bitgo->listWalletUnspents();
         //$response = $this->bitGoExpress->funoutWalletUnspents($passphrase);
 
@@ -115,10 +115,11 @@ class BitgoClient implements ClientContract
             'walletPassphrase' => $passphrase,
             'minConfirms' => 1,
             'enforceMinConfirmsForChange' => true,
+            'numBlocks' => $blocks,
         ];
         
         $response = $this->__execute('POST', $params);
-        
+
         if(collect($response)->has('error')) {
             return $this->handleErrorResponse($response);
         }
@@ -173,7 +174,8 @@ class BitgoClient implements ClientContract
 
     private function __execute(string $requestType = 'POST', array $params = [],bool $array = true) 
     {
-        $endpoint = 'http://'.$this->host.':'.$this->port.'/api/v2/'.$this->currency.'/wallet/'.config('crypto.walletId').'/sendcoin';
+        $endpoint = 'http://'.$this->host.':'.$this->port.'/api/v2/'.$this->currency.'/wallet/'.config('crypto.walletId').'/sendcoins';
+    
         $ch = curl_init($endpoint);
         
         if ($requestType === 'POST') {

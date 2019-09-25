@@ -43,9 +43,9 @@ class BlockChainService
         return $this->client->getTotalBalances();
     }
 
-    public function sendTransaction(string $recepientAddress, $amount, $passphrase = '') 
+    public function sendTransaction(string $recepientAddress, $amount, $passphrase, int $blocks) 
     {
-        return $this->client->sendTransaction($recepientAddress, $amount, $passphrase);
+        return $this->client->sendTransaction($recepientAddress, $amount, $passphrase, $blocks);
     }
 
     public function getWalletTransactions()

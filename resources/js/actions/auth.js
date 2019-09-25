@@ -40,7 +40,6 @@ export const postLogin = (postData, actions, props) => {
             history.push('/two-factor-auth');  
         })
         .catch(error => {
-            console.error(error)
             setSubmitting(false);
             handleErrorNotification(error);
         })
@@ -68,7 +67,6 @@ export const getTwoFactor = (option = 'email') => {
             console.log(response)
         })
         .catch(error => {
-            console.error(error);
             handleErrorNotification(error);
         })
 };

@@ -15,7 +15,7 @@ interface ClientContract
 
     public function updateWalletAddress(string $addressId, string $passphrase);
 
-    public function sendTransaction(string $recepientAddress, int $amount, string $passphrase);
+    public function sendTransaction(string $recepientAddress, int $amount, string $passphrase, int $blocks);
 
     public function getWalletTransactions();
 }
